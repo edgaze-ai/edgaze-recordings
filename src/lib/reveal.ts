@@ -12,7 +12,8 @@ export function prepare(root: ParentNode): void {
     const html = el.innerHTML.trim();
     if (mode === 'whole') {
       const grad = el.classList.contains('grad');
-      el.innerHTML = `<span class="m"><i${grad ? ' class="grad"' : ''}>${html}</i></span>`;
+      const body = grad ? `<span class="grad">${html}</span>` : html;
+      el.innerHTML = `<span class="m"><i>${body}</i></span>`;
       el.classList.remove('grad');
     } else {
       const words = html.split(/\s+/).filter(Boolean);
@@ -46,7 +47,7 @@ export function reveal(
       duration,
       delay: at + i * step,
       easing,
-      fill: 'both',
+      fill: 'forwards',
     });
   });
 }
@@ -75,7 +76,7 @@ export function conceal(
       duration,
       delay: at + i * step,
       easing,
-      fill: 'both',
+      fill: 'forwards',
     });
   });
 }
@@ -123,4 +124,23 @@ export function popIn(
       },
     );
   });
+}
+
+/**
+ * Why: a clip-up title reads as a slide. The line starts a touch large
+ * and eases down to size — in only; the cut takes it off.
+ */
+export function land(
+  tl: Timeline,
+  el: HTMLElement,
+  { at, duration = 780, from = 1.12 }: { at: number; duration?: number; from?: number },
+): void {
+  tl.add(
+    el,
+    [
+      { transform: `scale(${from})`, opacity: 0 },
+      { transform: 'scale(1)', opacity: 1 },
+    ],
+    { delay: at, duration, easing: ease.expo, fill: 'forwards' },
+  );
 }

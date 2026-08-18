@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f3f3f0" />
+    <title>002 — Model layer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+  </head>
+  <body>
+    <div class="stage" data-scene="002">
+      <div class="camera">
+        <div class="screen" data-screen="card-1">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="The best model changes every few weeks.">
+                The best model changes every few weeks.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="field">
+          <div class="field">
+            <div class="sweep-trail"></div>
+            <div class="sweep">
+              <i class="sweep-glow"></i>
+              <i class="sweep-core"></i>
+            </div>
+            <div class="sweep-burst"></div>
+            <div class="field-row">
+              <div class="mark" data-mark="openai" data-asset="photos/chatgpt-white">
+                <i></i>
+                <div class="mark-burst"></div>
+              </div>
+              <div class="mark" data-mark="claude" data-ink data-asset="photos/claude">
+                <i></i>
+                <div class="mark-burst"></div>
+              </div>
+              <div class="mark" data-mark="gemini" data-ink data-asset="photos/gemini">
+                <i></i>
+                <div class="mark-burst"></div>
+              </div>
+              <div class="mark" data-mark="deepseek" data-ink data-asset="photos/deepseek">
+                <i></i>
+                <div class="mark-burst"></div>
+              </div>
+              <div class="mark" data-mark="kimi" data-asset="photos/kimi-mark">
+                <i></i>
+                <div class="mark-burst"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-2">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="Pick any model. For any step.">
+                Pick <span class="grad">any</span> model. For any step.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="assign">
+          <div class="canvas">
+            <div class="wf-row">
+              <div class="wf-node" data-step="0">
+                <i class="aura"></i>
+                <div class="face">
+                  <div class="brand" data-asset="photos/chatgpt-white"><i></i></div>
+                  <div class="hint">gpt-5.6-terra</div>
+                  <b class="port" data-side="out"></b>
+                </div>
+                <div class="wf-name">Research</div>
+              </div>
+              <i class="wire"></i>
+              <div class="wf-node" data-step="1">
+                <i class="aura"></i>
+                <div class="face">
+                  <div class="brand" data-asset="photos/claude"><i></i></div>
+                  <div class="hint">claude-sonnet-5</div>
+                  <b class="port" data-side="in"></b>
+                  <b class="port" data-side="out"></b>
+                </div>
+                <div class="wf-name">Draft</div>
+              </div>
+              <i class="wire"></i>
+              <div class="wf-node" data-step="2">
+                <i class="aura"></i>
+                <div class="face">
+                  <div class="brand" data-asset="photos/gemini"><i></i></div>
+                  <div class="hint">gemini-3.7-flash</div>
+                  <b class="port" data-side="in"></b>
+                  <b class="port" data-side="out"></b>
+                </div>
+                <div class="wf-name">Review</div>
+              </div>
+              <i class="wire"></i>
+              <div class="wf-node" data-step="3">
+                <i class="aura"></i>
+                <div class="face">
+                  <div class="brand" data-asset="photos/kimi"><i></i></div>
+                  <div class="hint">Kimi-K2.6</div>
+                  <b class="port" data-side="in"></b>
+                </div>
+                <div class="wf-name">Ship</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-3">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="Deprecated? It just keeps running.">
+                Deprecated? It just keeps <span class="grad">running</span>.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="migrate">
+          <div class="canvas">
+            <div class="wf-node" data-solo>
+              <div class="face is-run">
+                <i class="dot"></i>
+                <div class="brand" data-asset="photos/chatgpt-white"><i></i></div>
+                <div class="hint-stack">
+                  <i class="flare"></i>
+                  <div class="burst"></div>
+                  <div class="hint" data-was>
+                    <span class="m"><i>gpt-4o</i></span>
+                  </div>
+                  <div class="hint" data-now>
+                    <span class="m"
+                      ><i><span class="grad">gpt-5.6-terra</span></i></span
+                    >
+                  </div>
+                </div>
+                <b class="port" data-side="in"></b>
+                <b class="port" data-side="out"></b>
+              </div>
+              <div class="wf-name">
+                LLM Chat
+                <div class="wf-status">Running…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-4">
+          <div class="lockup">
+            <div class="sigil" data-asset="photos/edgaze-mark"><i></i></div>
+            <h1>Edgaze</h1>
+          </div>
+        </div>
+      </div>
+      <div class="grain"></div>
+    </div>
+    <div class="chrome">
+      <a href="/">Clips</a>
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <span id="status" class="status"></span>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

@@ -35,3 +35,40 @@ export function drift(
     },
   );
 }
+
+/**
+ * Why: a locked graph is a diagram. Punch in, then travel — expo so
+ * the move snaps off the mark and settles on the last node.
+ */
+export function track(
+  tl: Timeline,
+  el: Element,
+  {
+    at,
+    duration,
+    fromX,
+    toX,
+    fromY = 0,
+    toY = 0,
+    from = 1,
+    to = 1,
+  }: {
+    at: number;
+    duration: number;
+    fromX: number;
+    toX: number;
+    fromY?: number;
+    toY?: number;
+    from?: number;
+    to?: number;
+  },
+): void {
+  tl.add(
+    el,
+    [
+      { transform: `scale(${from}) translate(${fromX}px, ${fromY}px)` },
+      { transform: `scale(${to}) translate(${toX}px, ${toY}px)` },
+    ],
+    { delay: at, duration, easing: ease.expo, fill: 'forwards' },
+  );
+}

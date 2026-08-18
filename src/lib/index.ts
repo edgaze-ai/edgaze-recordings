@@ -1,6 +1,12 @@
-export { cameraPush, drift } from './camera';
+export { asset, fillAssets, listAssets, listSlots } from './assets';
+export { aura, bloom, emit } from './burst';
+export { cameraPush, drift, track } from './camera';
 export { countUp } from './counter';
-export { prepare, units, reveal, conceal, wipeX, popIn } from './reveal';
+export { hardCut, crossfade } from './cut';
+export { suspendMarks, resolveHint } from './field';
+export { sweepAcross } from './sweep';
+export { plateIn, plateOut } from './plate';
+export { prepare, units, reveal, conceal, wipeX, popIn, land } from './reveal';
 export { mountStage } from './stage';
 export { Timeline, ease } from './timeline';
 export { ghostTrail, drawPath } from './trail';
