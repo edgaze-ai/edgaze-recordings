@@ -10,3 +10,6 @@ dist/
 recordings/*
 !recordings/.gitkeep
 !recordings/INDEX.md
+
+# Dropped footage. Photos and SVG slots stay in git.
+src/assets/**/*.{mp4,mov,webm,gif}

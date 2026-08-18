@@ -12,6 +12,7 @@ at true pixel size, previewed in a browser, and screen-recorded.
 ## Architecture
 - `src/styles/tokens.css` - every colour and curve. Single source of truth.
 - `src/lib/*` - motion primitives. Small, documented, composed by scenes.
+- `src/assets/{photos,videos,gifs}/` - drop-in plates. Scenes use data-asset.
 - `src/scenes/<nnn>-<slug>/` - one clip each. index.html + scene.ts.
 - `vite.config.ts` reads scene folders at config time. Adding a scene needs no
   config change.

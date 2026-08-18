@@ -26,6 +26,16 @@ explaining why it exists, then use it. Never inline a one-off animation.
 A gradient phrase uses data-split="whole". Plain lines that must stay one
 unit do the same.
 
+Photos, videos, and GIFs live in src/assets. A plate names a slot; do not
+import a file path in the scene.
+
+  <div class="plate" data-asset="photos/01"><i></i></div>
+
+  plateIn(tl, stage.querySelector('[data-asset="photos/01"]')!, { at: 1200 });
+
+Drop 01.jpg next to the SVG placeholder. Sizes: default, data-size="full",
+square, portrait.
+
 Typical timings for a 10s scene: title 280, conceal 2800, graph screen 3600,
 nodes 4000 with step 140, travelling pulse 5200 over 2800.
 
