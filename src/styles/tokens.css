@@ -12,10 +12,36 @@
   --paper: #f3f3f0;
   --ink: #111110;
   --quiet: #6f6f69;
+  --hair: color-mix(in srgb, var(--ink) 8%, transparent);
+  --wash: color-mix(in srgb, var(--ink) 3.5%, var(--paper));
 
-  /* type */
-  --ui: 'Inter', -apple-system, ui-sans-serif, system-ui, sans-serif;
+  /* type — match the Edgaze app stack */
+  --ui:
+    'Inter', 'SF Pro Display', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+    Arial, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* app accent — three-stop, as used on edgaze.ai */
+  --accent: linear-gradient(90deg, #78e9ff 0%, #b68cff 54%, #ff6db2 100%);
+
+  /* premium node face — copied from the builder */
+  --node-face: #191919;
+  --node-line: rgba(255, 255, 255, 0.11);
+  --node-line-hot: rgba(255, 255, 255, 0.18);
+  --node-label: #eeeeee;
+  --node-hint: #8a8a8a;
+  --node-run: #5b8fd4;
+  --node-dot-ring: #303036;
+  --node-port: #0e0e10;
+  --node-port-line: #38383e;
+  --node-port-ai: #9484b8;
+  --node-wire: rgba(255, 255, 255, 0.32);
+  --node-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --node-radius: 10px;
+  --node-shadow:
+    0 4px 10px color-mix(in srgb, var(--black) 20%, transparent),
+    0 10px 28px color-mix(in srgb, var(--black) 35%, transparent),
+    0 22px 50px color-mix(in srgb, var(--black) 22%, transparent);
 
   /* motion */
   --expo: cubic-bezier(0.16, 1, 0.3, 1);

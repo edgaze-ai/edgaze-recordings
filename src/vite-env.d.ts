@@ -4,6 +4,8 @@ interface Window {
   __edgazeExport?: { width: number; height: number; duration: number };
   __edgazeDone?: boolean;
   __edgazeStart?: () => Promise<void>;
+  __edgazeArm?: () => void;
+  __edgazeSeek?: (ms: number) => void;
 }
 
 interface CaptureController {

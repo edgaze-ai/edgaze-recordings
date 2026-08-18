@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#f3f3f0" />
-    <title>Edgaze recordings</title>
+    <title>Edgaze Animator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,17 +14,106 @@
     />
     <link rel="stylesheet" href="./styles/tokens.css" />
     <link rel="stylesheet" href="./styles/stage.css" />
+    <link rel="stylesheet" href="./styles/dashboard.css" />
   </head>
   <body class="dash">
-    <main>
-      <div id="scenes"></div>
-      <div id="clips"></div>
-    </main>
-    <p id="status" class="status"></p>
+    <div class="shell">
+      <header class="mast">
+        <div>
+          <h1 class="wordmark">Edgaze Animator</h1>
+          <p class="lede">
+            Product clips at true size. Preview a scene, export 4K H.264, review the file here.
+          </p>
+        </div>
+        <p id="summary" class="summary"></p>
+      </header>
+
+      <div class="workspace">
+        <section class="board" aria-labelledby="scenes-label">
+          <div class="board-head">
+            <h2 id="scenes-label">Scenes</h2>
+            <p>npm run new 00X slug</p>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Scene</th>
+                <th class="hide-narrow">Frame</th>
+                <th>Length</th>
+                <th class="hide-narrow">Last export</th>
+                <th>Export</th>
+              </tr>
+            </thead>
+            <tbody id="scenes"></tbody>
+          </table>
+        </section>
+
+        <section id="review" class="review" hidden>
+          <div class="board-head">
+            <h2 id="review-label">Last export</h2>
+          </div>
+          <div class="review-stage">
+            <video id="review-film" muted playsinline preload="auto"></video>
+          </div>
+          <div class="review-meta">
+            <p id="review-name"></p>
+            <p id="review-info" class="quiet"></p>
+          </div>
+        </section>
+      </div>
+
+      <section class="board" aria-labelledby="assets-label">
+        <div class="board-head">
+          <h2 id="assets-label">Assets</h2>
+          <p>src/assets/photos · videos · gifs</p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Slot</th>
+              <th>Kind</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody id="assets"></tbody>
+        </table>
+      </section>
+
+      <section class="board" aria-labelledby="clips-label">
+        <div class="board-head">
+          <h2 id="clips-label">Recordings</h2>
+          <button type="button" id="clip-filter" hidden>Show all</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th class="hide-narrow">Scene</th>
+              <th>Size</th>
+              <th class="hide-narrow">Written</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clips"></tbody>
+        </table>
+      </section>
+
+      <p class="note">
+        Drop plates in src/assets. Recordings write to recordings/ and stay gitignored. Escape
+        closes the viewer.
+      </p>
+    </div>
+
+    <p id="status" class="status" role="status"></p>
+
     <div id="viewer" hidden>
       <video id="player" controls playsinline></video>
-      <button type="button" id="viewer-close">Close</button>
+      <div id="viewer-bar">
+        <p id="viewer-name"></p>
+        <button type="button" id="viewer-close">Close</button>
+      </div>
     </div>
+
     <script type="module" src="./dashboard.ts"></script>
   </body>
 </html>

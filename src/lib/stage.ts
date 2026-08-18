@@ -1,3 +1,4 @@
+import { fillAssets } from './assets';
 import { requestExport } from './export';
 import { prepare } from './reveal';
 import { type ClipFormat } from './scene-meta';
@@ -41,6 +42,7 @@ export function mountStage(config: {
   stage.style.width = `${config.width}px`;
   stage.style.height = `${config.height}px`;
   prepare(document);
+  fillAssets(stage);
   if (recording) document.body.classList.add('rec');
 
   const statusText = (message: string) => {
@@ -55,6 +57,12 @@ export function mountStage(config: {
   };
 
   const fit = () => {
+    if (autoExport === '1') {
+      document.documentElement.style.setProperty('--zoom', '1');
+      stage.style.marginLeft = '0px';
+      stage.style.marginTop = '0px';
+      return;
+    }
     const dpr = window.devicePixelRatio || 1;
     const pad = recording ? 0 : 96;
     const fitScale = Math.min(
@@ -72,6 +80,10 @@ export function mountStage(config: {
   const reset = () => {
     stage.querySelectorAll('.on').forEach((el) => el.classList.remove('on'));
     stage.querySelector('.trail-host')?.replaceChildren();
+    stage.querySelectorAll('video').forEach((video) => {
+      video.pause();
+      video.currentTime = 0;
+    });
   };
 
   const play = () => {
@@ -156,6 +168,17 @@ export function mountStage(config: {
     width: config.width,
     height: config.height,
     duration: config.duration,
+  };
+  window.__edgazeArm = () => {
+    window.clearTimeout(loopId);
+    tl?.clear();
+    reset();
+    tl = new Timeline(1, true);
+    config.build(tl, stage);
+    tl.seek(0);
+  };
+  window.__edgazeSeek = (ms: number) => {
+    tl?.seek(ms);
   };
   window.__edgazeStart = () =>
     playOnce().then(() => {

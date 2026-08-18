@@ -1,0 +1,387 @@
+/* Edgaze Animator — platform chrome only. Scenes never import this file. */
+
+body.dash {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body.dash .shell {
+  width: min(1180px, calc(100% - 80px));
+  margin: 0 auto;
+  padding: 56px 0 120px;
+}
+
+body.dash .mast {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--hair);
+}
+
+body.dash .wordmark {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.038em;
+  line-height: 1;
+}
+
+body.dash .lede {
+  max-width: 42ch;
+  margin: 10px 0 0;
+  color: var(--quiet);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.011em;
+  line-height: 1.45;
+}
+
+body.dash .summary {
+  margin: 0;
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+body.dash .workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
+  align-items: start;
+  gap: 56px;
+  margin-top: 48px;
+}
+
+body.dash .workspace:not(:has(.review:not([hidden]))) {
+  grid-template-columns: 1fr;
+}
+
+body.dash .workspace .board {
+  margin-top: 0;
+}
+
+body.dash .review {
+  min-width: 0;
+  cursor: pointer;
+}
+
+body.dash .review[hidden] {
+  display: none;
+}
+
+body.dash .review-stage {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--black);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--ink) 6%, transparent),
+    0 16px 36px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 40px 72px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+body.dash .review video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--black);
+}
+
+body.dash .review-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+body.dash .review-meta p {
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.011em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash .review:hover #review-name {
+  color: transparent;
+  background: var(--brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.dash .review-meta .quiet {
+  flex-shrink: 0;
+  color: var(--quiet);
+}
+
+body.dash .board {
+  margin-top: 56px;
+}
+
+body.dash .board-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+body.dash .board-head h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+
+body.dash .board-head p,
+body.dash .board-head button {
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+body.dash .board-head button:hover {
+  color: var(--ink);
+}
+
+body.dash table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body.dash th,
+body.dash td {
+  padding: 14px 20px 14px 0;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+body.dash th {
+  color: var(--quiet);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+body.dash tbody tr {
+  border-top: 1px solid var(--hair);
+}
+
+body.dash tbody tr:hover {
+  background: var(--wash);
+}
+
+body.dash tbody tr.is-on {
+  background: var(--wash);
+  box-shadow: inset 2px 0 0 var(--ink);
+}
+
+body.dash th:last-child,
+body.dash td:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+body.dash .name {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash a.name:hover,
+body.dash button.name:hover {
+  color: transparent;
+  background: var(--brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.dash .num {
+  margin-right: 12px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+body.dash .meta {
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+body.dash .acts {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+body.dash .acts a,
+body.dash .acts button {
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+body.dash .acts a:hover,
+body.dash .acts button:hover {
+  color: var(--ink);
+}
+
+body.dash .acts button.is-warn:hover {
+  color: var(--pink);
+}
+
+body.dash .empty td {
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+body.dash .empty:hover {
+  background: none;
+}
+
+body.dash .note {
+  margin: 64px 0 0;
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+body.dash .status {
+  position: fixed;
+  right: 0;
+  bottom: 28px;
+  left: 0;
+  z-index: 10;
+  margin: 0;
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+body.dash .status:empty {
+  display: none;
+}
+
+#viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 48px;
+  background: var(--paper);
+}
+
+#viewer[hidden] {
+  display: none;
+}
+
+#player {
+  width: min(calc(100vw - 96px), calc((100vh - 148px) * 16 / 9));
+  height: auto;
+  background: var(--black);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--ink) 6%, transparent),
+    0 16px 36px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 40px 72px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+#viewer-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: min(calc(100vw - 96px), calc((100vh - 148px) * 16 / 9));
+  gap: 24px;
+}
+
+#viewer-name {
+  overflow: hidden;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.011em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewer-close {
+  flex-shrink: 0;
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+#viewer-close:hover {
+  color: var(--ink);
+}
+
+body.dash.busy .acts button {
+  pointer-events: none;
+  color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
+}
+
+@media (max-width: 1100px) {
+  body.dash .workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+    gap: 40px;
+  }
+
+  body.dash .hide-narrow {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  body.dash .shell {
+    width: calc(100% - 40px);
+    padding-top: 36px;
+  }
+
+  body.dash .mast {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  body.dash .summary {
+    text-align: left;
+    white-space: normal;
+  }
+
+  body.dash .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  body.dash .review-stage {
+    max-width: 400px;
+  }
+}

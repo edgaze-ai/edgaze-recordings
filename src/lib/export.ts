@@ -11,7 +11,8 @@ export type ExportHandle = {
 
 /**
  * Why: the operator needs a file on disk, not a reminder to screen-record.
- * The Vite server captures a 1:1 Chrome viewport and encodes with ffmpeg.
+ * The Vite server steps the scene at 60fps, captures the 1080p stage at 2×,
+ * and encodes 4K H.264 with ffmpeg.
  * Tab capture is only the fallback when that API is not running.
  */
 export async function requestExport(format: ClipFormat, handle: ExportHandle): Promise<string> {

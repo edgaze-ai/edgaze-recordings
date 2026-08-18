@@ -1,9 +1,11 @@
 import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pipeline } from 'node:stream/promises';
+
+const EXPORT_FPS = 60;
+const EXPORT_SCALE = 2;
 
 /**
  * Local recordings API + Chrome/ffmpeg export. Dev and preview only.
@@ -52,6 +54,7 @@ export function recordingsPlugin(root) {
               scene,
               format,
               recordingsDir,
+              scenesDir,
               url: `http://localhost:${port}/scenes/${scene}/index.html?export=1`,
             });
             return sendJson(res, file);
@@ -182,7 +185,7 @@ function parseSceneSource(id, source) {
   };
 }
 
-async function exportScene({ scene, format, recordingsDir, url }) {
+async function exportScene({ scene, format, recordingsDir, url, scenesDir }) {
   const { chromium } = await import('playwright');
   const stamp = new Date()
     .toISOString()
@@ -191,44 +194,65 @@ async function exportScene({ scene, format, recordingsDir, url }) {
     .replaceAll(':', '')
     .replace('T', '-');
   const name = `${scene}-${stamp}.${format}`;
-  const tmp = join(tmpdir(), `edgaze-${stamp}`);
-  await mkdir(tmp, { recursive: true });
+  const source = await readFile(join(scenesDir, scene, 'scene.ts'), 'utf8');
+  const meta = parseSceneSource(scene, source);
+  const width = meta.width || 1920;
+  const height = meta.height || 1080;
+  const duration = meta.duration || 10_000;
+  const dest = join(recordingsDir, name);
 
   const browser = await launchChrome(chromium);
-  let webm = '';
-  let preroll = 0;
-  let duration = 10_000;
   try {
     const context = await browser.newContext({
-      viewport: { width: 1920, height: 1080 },
-      deviceScaleFactor: 1,
+      viewport: { width, height },
+      deviceScaleFactor: EXPORT_SCALE,
       reducedMotion: 'no-preference',
-      recordVideo: { dir: tmp, size: { width: 1920, height: 1080 } },
     });
     const page = await context.newPage();
-    const gotoAt = Date.now();
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 60_000 });
-    await page.evaluate(() => document.fonts.ready);
-    await page.waitForFunction(() => Boolean(window.__edgazeStart), { timeout: 15_000 });
-    const meta = await page.evaluate(() => window.__edgazeExport);
-    if (meta?.duration) duration = meta.duration;
-    preroll = (Date.now() - gotoAt) / 1000;
-    await page.evaluate(() => window.__edgazeStart?.());
-    await page.waitForFunction(() => Boolean(window.__edgazeDone), {
-      timeout: duration + 8_000,
+    page.setDefaultTimeout(60_000);
+    await page.addInitScript(() => {
+      Location.prototype.reload = function reload() {};
     });
-    await new Promise((resolve) => setTimeout(resolve, 320));
-    await page.close();
-    const video = page.video();
-    if (!video) throw new Error('Chrome did not produce a video');
-    webm = await video.path();
+    await page.route('**/@vite/client**', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/javascript',
+        body: VITE_CLIENT_STUB,
+      }),
+    );
+    const live = await armPage(page, url);
+    const ms = live?.duration || duration;
+
+    const stage = page.locator('.stage');
+    const frames = Math.max(1, Math.round((ms / 1000) * EXPORT_FPS));
+    const outWidth = width * EXPORT_SCALE;
+    const outHeight = height * EXPORT_SCALE;
+    const encode = startEncode(dest, format);
+    try {
+      for (let i = 0; i < frames; i += 1) {
+        const time = (i * 1000) / EXPORT_FPS;
+        try {
+          await seekPage(page, time);
+        } catch (error) {
+          if (!isContextLost(error)) throw error;
+          await armPage(page, url);
+          await seekPage(page, time);
+        }
+        const frame = await captureFrame(page, stage, width, height, outWidth, outHeight);
+        await writeFrame(encode.child, frame);
+      }
+      encode.child.stdin.end();
+      await encode.done;
+    } catch (error) {
+      encode.child.kill();
+      await unlink(dest).catch(() => undefined);
+      throw error;
+    }
     await context.close();
   } finally {
     await browser.close();
   }
 
-  const dest = join(recordingsDir, name);
-  await transcode(webm, dest, format, Math.max(0, preroll - 0.05));
   await writeIndex(recordingsDir);
   const info = await stat(dest);
   return { name, bytes: info.size };
@@ -239,42 +263,166 @@ async function launchChrome(chromium) {
     return await chromium.launch({
       channel: 'chrome',
       headless: true,
-      args: ['--autoplay-policy=no-user-gesture-required'],
+      args: [
+        '--autoplay-policy=no-user-gesture-required',
+        '--hide-scrollbars',
+        '--force-color-profile=srgb',
+      ],
     });
   } catch {
     throw new Error('Google Chrome is required to export clips');
   }
 }
 
-async function transcode(input, output, format, ss) {
+const VITE_CLIENT_STUB = `
+const hot = {
+  data: {},
+  accept() {},
+  acceptExports() {},
+  decline() {},
+  dispose() {},
+  prune() {},
+  invalidate() {},
+  on() {},
+  off() {},
+  send() {},
+};
+export const createHotContext = () => hot;
+export const injectQuery = (url) => url;
+export const updateStyle = () => {};
+export const removeStyle = () => {};
+`;
+
+async function armPage(page, url) {
+  let lastError;
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+      lastError = undefined;
+      break;
+    } catch (error) {
+      lastError = error;
+      if (!/interrupted|destroyed|closed/i.test(String(error))) throw error;
+    }
+  }
+  if (lastError) throw lastError;
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForFunction(() => Boolean(window.__edgazeArm), { timeout: 15_000 });
+  const live = await page.evaluate(() => window.__edgazeExport);
+  await page.evaluate(() => window.__edgazeArm?.());
+  return live;
+}
+
+async function seekPage(page, time) {
+  await page.evaluate((ms) => {
+    window.__edgazeSeek?.(ms);
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
+  }, time);
+}
+
+function isContextLost(error) {
+  return /context was destroyed|Target closed|has been closed/i.test(String(error));
+}
+
+async function captureFrame(page, stage, width, height, outWidth, outHeight) {
+  const shot = {
+    type: 'jpeg',
+    quality: 92,
+    scale: 'device',
+    caret: 'hide',
+    animations: 'allow',
+  };
+  const frame = await stage.screenshot(shot);
+  const size = imageSize(frame);
+  if (size.width === outWidth && size.height === outHeight) return frame;
+  const clipped = await page.screenshot({ ...shot, clip: { x: 0, y: 0, width, height } });
+  assertCaptureSize(clipped, outWidth, outHeight);
+  return clipped;
+}
+
+function assertCaptureSize(frame, width, height) {
+  const size = imageSize(frame);
+  if (size.width !== width || size.height !== height) {
+    throw new Error(
+      `Export captured ${size.width}×${size.height}, expected ${width}×${height}`,
+    );
+  }
+}
+
+function imageSize(buf) {
+  if (buf.length >= 24 && buf.toString('ascii', 1, 4) === 'PNG') {
+    return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+  }
+  if (buf[0] === 0xff && buf[1] === 0xd8) {
+    let offset = 2;
+    while (offset < buf.length - 8) {
+      if (buf[offset] !== 0xff) {
+        offset += 1;
+        continue;
+      }
+      const marker = buf[offset + 1];
+      if (marker === 0xc0 || marker === 0xc1 || marker === 0xc2) {
+        return { height: buf.readUInt16BE(offset + 5), width: buf.readUInt16BE(offset + 7) };
+      }
+      const length = buf.readUInt16BE(offset + 2);
+      offset += 2 + length;
+    }
+  }
+  throw new Error('Chrome did not return a still frame');
+}
+
+/**
+ * Why: 4K 60 has ~10× the samples of the old 1080p ~25fps capture. CRF plus a
+ * VBV cap keeps the file near the old size; dark UI compresses well under it.
+ */
+function startEncode(output, format) {
   const args = [
     '-y',
-    '-ss',
-    ss.toFixed(3),
+    '-f',
+    'image2pipe',
+    '-framerate',
+    String(EXPORT_FPS),
+    '-c:v',
+    'mjpeg',
     '-i',
-    input,
+    'pipe:0',
     '-c:v',
     'libx264',
     '-preset',
-    'fast',
+    'medium',
+    '-profile:v',
+    'high',
+    '-level',
+    '5.2',
     '-crf',
-    '18',
-    '-pix_fmt',
-    'yuv420p',
+    '22',
+    '-maxrate',
+    '2.5M',
+    '-bufsize',
+    '5M',
+    '-vf',
+    'scale=in_range=jpeg:out_range=mpeg,format=yuv420p',
+    '-color_range',
+    'tv',
+    '-r',
+    String(EXPORT_FPS),
+    '-g',
+    String(EXPORT_FPS),
+    '-x264-params',
+    'aq-mode=3',
     '-an',
   ];
   if (format === 'mp4') args.push('-movflags', '+faststart');
   args.push(output);
-  await run('ffmpeg', args);
-}
 
-function run(cmd, args) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(cmd, args, { stdio: ['ignore', 'pipe', 'pipe'] });
-    let stderr = '';
-    child.stderr.on('data', (chunk) => {
-      stderr += chunk;
-    });
+  const child = spawn('ffmpeg', args, { stdio: ['pipe', 'ignore', 'pipe'] });
+  let stderr = '';
+  child.stderr.on('data', (chunk) => {
+    stderr += chunk;
+  });
+  const done = new Promise((resolve, reject) => {
     child.on('error', (error) => {
       if (error.code === 'ENOENT') {
         reject(new Error('ffmpeg is required to export MP4 / MOV'));
@@ -284,8 +432,33 @@ function run(cmd, args) {
     });
     child.on('exit', (code) => {
       if (code === 0) resolve();
-      else reject(new Error(stderr.trim() || `${cmd} failed`));
+      else reject(new Error(stderr.trim() || 'ffmpeg failed'));
     });
+  });
+  return { child, done };
+}
+
+function writeFrame(child, chunk) {
+  return new Promise((resolve, reject) => {
+    if (child.stdin.destroyed) {
+      reject(new Error('ffmpeg closed before the clip finished'));
+      return;
+    }
+    const onError = (error) => {
+      child.stdin.off('drain', onDrain);
+      reject(error);
+    };
+    const onDrain = () => {
+      child.stdin.off('error', onError);
+      resolve();
+    };
+    child.stdin.once('error', onError);
+    if (child.stdin.write(chunk)) {
+      child.stdin.off('error', onError);
+      resolve();
+    } else {
+      child.stdin.once('drain', onDrain);
+    }
   });
 }
 

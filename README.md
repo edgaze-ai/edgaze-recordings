@@ -22,7 +22,7 @@ npm run ci
 
 `npm run dev` opens the recordings dashboard. Scenes first, finished clips under them.
 
-Export uses local Google Chrome at 1920×1080 and ffmpeg to write H.264. The file is saved to `recordings/` and downloaded to the machine. Play a clip from the list. Escape closes the viewer.
+Export steps the scene in Chrome at 60fps, captures the 1920×1080 stage at 2× (3840×2160), and writes H.264. The file is saved to `recordings/` and downloaded to the machine. Play a clip from the list. Escape closes the viewer.
 
 Needs Google Chrome plus system `ffmpeg`. `npm install` also fetches Playwright's small ffmpeg helper used for the capture.
 
@@ -40,5 +40,7 @@ Do not commit video. `recordings/` is gitignored so clone stays fast. See `SPEC.
 ## Author a scene
 
 A scene folder is only `index.html` and `scene.ts`. Markup and a storyboard of absolute millisecond timings. Compose primitives from `src/lib`. If you need a new behaviour, add it there with a comment that explains why it exists.
+
+Drop photos, videos, and GIFs in `src/assets/photos`, `videos`, and `gifs`. Name the file after the slot (`01.jpg`, `loop.mp4`). In markup, `<div class="plate" data-asset="photos/01"><i></i></div>`, then `plateIn` in the storyboard. See `src/assets/README.md`.
 
 Colours and curves come from `src/styles/tokens.css` via `var()`. Nothing else.
