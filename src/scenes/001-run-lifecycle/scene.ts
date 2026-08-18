@@ -55,7 +55,11 @@ mountStage({
     if (rule) rule.style.transform = 'scaleX(1)';
     const camera = stage.querySelector<HTMLElement>('.camera');
     if (camera) camera.style.transform = 'scale(1.032)';
-    stage.querySelectorAll('.node').forEach((node) => node.classList.add('on'));
+    stage.querySelectorAll<HTMLElement>('.node').forEach((node) => {
+      node.classList.add('on');
+      node.style.opacity = '1';
+      node.style.transform = 'scale(1)';
+    });
     stage.querySelectorAll<HTMLElement>('.glow').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'scale(1)';

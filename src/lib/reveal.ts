@@ -46,7 +46,7 @@ export function reveal(
       duration,
       delay: at + i * step,
       easing,
-      fill: 'forwards',
+      fill: 'both',
     });
   });
 }
@@ -60,7 +60,7 @@ export function wipeX(
     duration,
     delay: at,
     easing: ease.expo,
-    fill: 'forwards',
+    fill: 'both',
   });
 }
 
@@ -90,7 +90,7 @@ export function popIn(
         duration,
         delay: at + i * step,
         easing: ease.expo,
-        fill: 'forwards',
+        fill: 'both',
       },
     );
   });

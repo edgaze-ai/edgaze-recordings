@@ -52,14 +52,14 @@ export function ghostTrail(
         delay: at + i * gap,
         duration,
         easing: ease.travel,
-        fill: 'forwards',
+        fill: 'both',
       },
     );
     tl.add(inner, [{ opacity: 0 }, { opacity: 1 }], {
       delay: at + i * gap,
       duration,
       easing: ease.linear,
-      fill: 'forwards',
+      fill: 'both',
     });
   }
 }
@@ -81,6 +81,6 @@ export function drawPath(
     delay: at,
     duration,
     easing: ease.travel,
-    fill: 'forwards',
+    fill: 'both',
   });
 }

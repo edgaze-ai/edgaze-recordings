@@ -287,6 +287,7 @@ h1 {
   align-items: center;
   gap: 14px;
   translate: -50% -50%;
+  opacity: 0;
 }
 
 .node[data-node='trigger'] {
@@ -425,6 +426,10 @@ body.gallery #list a:hover span {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .node {
+    opacity: 1;
+  }
+
   .m > i {
     transform: translateY(0);
   }

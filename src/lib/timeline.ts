@@ -3,12 +3,22 @@
  * when the operator drops to 0.25×. WAAPI durations are wall-clock; we scale
  * them so the millisecond numbers in a scene stay readable.
  */
-export const ease = {
-  expo: 'var(--expo)',
-  quint: 'var(--quint)',
-  travel: 'var(--travel)',
+function token(name: '--expo' | '--quint' | '--travel'): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+export const ease: { expo: string; quint: string; travel: string; linear: string } = {
+  get expo() {
+    return token('--expo');
+  },
+  get quint() {
+    return token('--quint');
+  },
+  get travel() {
+    return token('--travel');
+  },
   linear: 'linear',
-} as const;
+};
 
 export class Timeline {
   rate: number;
@@ -28,7 +38,7 @@ export class Timeline {
       ...opts,
       duration,
       delay,
-      fill: opts.fill ?? 'forwards',
+      fill: opts.fill ?? 'both',
     });
     this.animations.push(animation);
     return animation;

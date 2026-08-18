@@ -12,7 +12,7 @@ export function cameraPush(
   tl.add(el, [{ transform: `scale(${from})` }, { transform: `scale(${to})` }], {
     duration,
     easing: ease.linear,
-    fill: 'forwards',
+    fill: 'both',
   });
 }
 
@@ -31,7 +31,7 @@ export function drift(
     {
       duration,
       easing: ease.travel,
-      fill: 'forwards',
+      fill: 'both',
     },
   );
 }
