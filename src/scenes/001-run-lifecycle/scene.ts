@@ -1,14 +1,12 @@
 import {
   cameraPush,
-  countUp,
+  conceal,
   drawPath,
-  drift,
   ghostTrail,
   mountStage,
   popIn,
   reveal,
   units,
-  wipeX,
 } from '../../lib/index';
 
 const DURATION = 10000;
@@ -19,40 +17,39 @@ mountStage({
   duration: DURATION,
   build(tl, stage) {
     cameraPush(tl, stage.querySelector('.camera')!, { duration: DURATION });
-    drift(tl, stage.querySelector('.bloom.c')!, { duration: DURATION, dx: 80, dy: 50 });
-    drift(tl, stage.querySelector('.bloom.p')!, { duration: DURATION, dx: -70, dy: -45 });
 
-    reveal(tl, units(stage.querySelector('.eyebrow')!), { at: 200 });
-    reveal(tl, units(stage.querySelector('h1')!), { at: 400, step: 60 });
-    wipeX(tl, stage.querySelector('.rule')!, { at: 1050 });
+    const title = stage.querySelector<HTMLElement>('[data-screen="title"]')!;
+    const graph = stage.querySelector<HTMLElement>('[data-screen="graph"]')!;
+    reveal(tl, units(title), { at: 280, step: 0 });
+    conceal(tl, units(title), { at: 2800, step: 0 });
+
+    popIn(tl, [graph], { at: 3600, duration: 720, step: 0 });
 
     const nodes = [...stage.querySelectorAll<HTMLElement>('.node')];
     const glows = [...stage.querySelectorAll<HTMLElement>('.glow')];
-    popIn(tl, nodes, { at: 1300, step: 140, duration: 640 });
+    popIn(tl, nodes, { at: 4000, step: 140, duration: 640 });
 
     const path = stage.querySelector<SVGPathElement>('#wire')!;
     const host = stage.querySelector<HTMLElement>('.trail-host')!;
     const d = path.getAttribute('d') ?? '';
-    ghostTrail(tl, { host, d, at: 2500, duration: 2800 });
-    drawPath(tl, path, { at: 2500, duration: 2800 });
+    ghostTrail(tl, { host, d, at: 5200, duration: 2800 });
+    drawPath(tl, path, { at: 5200, duration: 2800 });
 
-    popIn(tl, [glows[0]!], { at: 2500, duration: 420, step: 0 });
-    popIn(tl, [glows[1]!], { at: 3900, duration: 420, step: 0 });
-    popIn(tl, [glows[2]!], { at: 5300, duration: 420, step: 0 });
-    tl.at(2500, () => nodes[0]?.classList.add('on'));
-    tl.at(3900, () => nodes[1]?.classList.add('on'));
-    tl.at(5300, () => nodes[2]?.classList.add('on'));
-
-    countUp(tl, stage.querySelector('#c1')!, { to: 184, at: 3800, suffix: ' ms' });
-    countUp(tl, stage.querySelector('#c2')!, { to: 1280, at: 3960 });
-    reveal(tl, units(stage.querySelector('.foot')!), { at: 4200, step: 55 });
+    popIn(tl, [glows[0]!], { at: 5200, duration: 420, step: 0 });
+    popIn(tl, [glows[1]!], { at: 6600, duration: 420, step: 0 });
+    popIn(tl, [glows[2]!], { at: 8000, duration: 420, step: 0 });
+    tl.at(5200, () => nodes[0]?.classList.add('on'));
+    tl.at(6600, () => nodes[1]?.classList.add('on'));
+    tl.at(8000, () => nodes[2]?.classList.add('on'));
   },
   still(stage) {
-    stage.querySelectorAll<HTMLElement>('.m > i').forEach((el) => {
-      el.style.transform = 'translateY(0)';
-    });
-    const rule = stage.querySelector<HTMLElement>('.rule');
-    if (rule) rule.style.transform = 'scaleX(1)';
+    const title = stage.querySelector<HTMLElement>('[data-screen="title"]');
+    const graph = stage.querySelector<HTMLElement>('[data-screen="graph"]');
+    if (title) title.style.opacity = '0';
+    if (graph) {
+      graph.style.opacity = '1';
+      graph.style.transform = 'scale(1)';
+    }
     const camera = stage.querySelector<HTMLElement>('.camera');
     if (camera) camera.style.transform = 'scale(1.032)';
     stage.querySelectorAll<HTMLElement>('.node').forEach((node) => {
@@ -64,10 +61,6 @@ mountStage({
       el.style.opacity = '1';
       el.style.transform = 'scale(1)';
     });
-    const c1 = stage.querySelector('#c1');
-    const c2 = stage.querySelector('#c2');
-    if (c1) c1.textContent = '184 ms';
-    if (c2) c2.textContent = '1,280';
     const path = stage.querySelector<SVGPathElement>('#wire');
     if (path) {
       const len = path.getTotalLength();

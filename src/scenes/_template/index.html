@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f3f3f0" />
     <title>Template</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,24 +17,21 @@
   </head>
   <body>
     <div class="stage">
-      <div class="bloom c"></div>
-      <div class="bloom p"></div>
       <div class="camera">
-        <div class="template-copy">
-          <p class="eyebrow" data-split>New scene</p>
-          <h1>
-            <span data-split>Write the beat</span>
-            <br />
-            <span class="grad" data-split="whole">then record it.</span>
-          </h1>
+        <div class="screen" data-screen="title">
+          <h1 class="grad" data-split="whole">Write the beat.</h1>
         </div>
       </div>
       <div class="grain"></div>
     </div>
     <div class="chrome">
+      <a href="/">Clips</a>
       <button id="replay" type="button">Replay</button>
       <button id="slow" type="button">0.25×</button>
       <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <span id="status" class="status"></span>
     </div>
     <script type="module" src="./scene.ts"></script>
   </body>

@@ -4,7 +4,10 @@ globs: src/styles/**
 alwaysApply: false
 ---
 
-Brand is pure black ground with cyan and pink gradients, Inter throughout.
+Scenes stay on --black. The recording platform (dashboard, viewer, chrome)
+is light: --paper, --ink, --quiet. Cyan and pink stay in tokens; the
+gradient is a hover accent only.
+
 --cyan #22D9F0, --pink #F653C8, --brand is a 100deg linear-gradient between them.
 
 Highlighted text uses .grad: background var(--brand), background-clip text,

@@ -51,6 +51,35 @@ export function reveal(
   });
 }
 
+/**
+ * Why: a title that stays on while the graph arrives is two ideas in one
+ * frame. Clip it out the same way it came in so the next screen is empty.
+ */
+export function conceal(
+  tl: Timeline,
+  els: HTMLElement[],
+  {
+    at,
+    step = 60,
+    duration = 700,
+    easing = ease.expo,
+  }: {
+    at: number;
+    step?: number;
+    duration?: number;
+    easing?: string;
+  },
+): void {
+  els.forEach((el, i) => {
+    tl.add(el, [{ transform: 'translateY(0)' }, { transform: 'translateY(-115%)' }], {
+      duration,
+      delay: at + i * step,
+      easing,
+      fill: 'both',
+    });
+  });
+}
+
 export function wipeX(
   tl: Timeline,
   el: Element,

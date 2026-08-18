@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f3f3f0" />
     <title>001 — Run lifecycle</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,30 +17,11 @@
   </head>
   <body>
     <div class="stage" data-scene="001">
-      <div class="bloom c"></div>
-      <div class="bloom p"></div>
       <div class="camera">
-        <div class="frame">
-          <div class="copy">
-            <p class="eyebrow" data-split>Run lifecycle</p>
-            <h1>
-              <span data-split>Every run has</span>
-              <br />
-              <span class="grad" data-split="whole">one arc.</span>
-            </h1>
-            <div class="rule"></div>
-            <div class="stats">
-              <div class="stat">
-                <b id="c1">0</b>
-                <span>p50 settle</span>
-              </div>
-              <div class="stat">
-                <b id="c2">0</b>
-                <span>runs / min</span>
-              </div>
-            </div>
-            <p class="foot" data-split>Trigger · execute · settle</p>
-          </div>
+        <div class="screen" data-screen="title">
+          <h1 class="grad" data-split="whole">Every run has one arc.</h1>
+        </div>
+        <div class="screen" data-screen="graph">
           <div class="graph">
             <svg viewBox="0 0 640 820" fill="none" aria-hidden="true">
               <defs>
@@ -65,17 +48,14 @@
               <div class="node" data-node="trigger" data-tone="cyan">
                 <i class="glow"></i>
                 <b></b>
-                <span>Trigger</span>
               </div>
               <div class="node" data-node="execute" data-tone="cyan">
                 <i class="glow"></i>
                 <b></b>
-                <span>Execute</span>
               </div>
               <div class="node" data-node="settle" data-tone="pink">
                 <i class="glow"></i>
                 <b></b>
-                <span>Settle</span>
               </div>
             </div>
           </div>
@@ -84,9 +64,13 @@
       <div class="grain"></div>
     </div>
     <div class="chrome">
+      <a href="/">Clips</a>
       <button id="replay" type="button">Replay</button>
       <button id="slow" type="button">0.25×</button>
       <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <span id="status" class="status"></span>
     </div>
     <script type="module" src="./scene.ts"></script>
   </body>

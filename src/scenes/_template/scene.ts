@@ -1,4 +1,4 @@
-import { cameraPush, drift, mountStage, reveal, units } from '../../lib/index';
+import { cameraPush, mountStage, reveal, units } from '../../lib/index';
 
 mountStage({
   width: 1920,
@@ -6,11 +6,7 @@ mountStage({
   duration: 6000,
   build(tl, stage) {
     cameraPush(tl, stage.querySelector('.camera')!, { duration: 6000 });
-    drift(tl, stage.querySelector('.bloom.c')!, { duration: 6000, dx: 60, dy: 40 });
-    drift(tl, stage.querySelector('.bloom.p')!, { duration: 6000, dx: -50, dy: -36 });
-
-    reveal(tl, units(stage.querySelector('.eyebrow')!), { at: 200 });
-    reveal(tl, units(stage.querySelector('h1')!), { at: 400, step: 60 });
+    reveal(tl, units(stage.querySelector('[data-screen="title"]')!), { at: 280, step: 0 });
   },
   still(stage) {
     stage.querySelectorAll<HTMLElement>('.m > i').forEach((el) => {

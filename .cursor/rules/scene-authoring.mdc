@@ -6,10 +6,14 @@ alwaysApply: false
 
 A scene folder contains exactly index.html and scene.ts.
 
-index.html is markup only: a .stage at true pixel size, the bloom layers, a
-.camera wrapper holding all content, a .grain overlay, and the three chrome
-buttons (#replay, #slow, #rec). No inline styles. No inline script beyond
+index.html is markup only: a .stage at true pixel size, a .camera wrapping
+.screen beats, a .grain overlay, and chrome (Clips, #replay, #slow, #rec,
+#export-mp4, #export-mov, #status). No inline styles. No inline script beyond
 <script type="module" src="./scene.ts">.
+
+No eyebrows. No rules. No captions. No labels sitting next to motion.
+Text is one centered line. Motion and type never share a screen — conceal
+the line, then bring the graph on.
 
 scene.ts calls mountStage once and reads top to bottom as a storyboard using
 absolute millisecond timings. Do not nest callbacks. Do not use setTimeout
@@ -19,11 +23,10 @@ Compose from src/lib primitives. If a scene needs a motion behaviour that
 does not exist yet, add it to src/lib as a named primitive with a doc comment
 explaining why it exists, then use it. Never inline a one-off animation.
 
-Text that should stagger per word gets data-split. Text that must stay one unit,
-which means anything using the .grad class, gets data-split="whole".
+A gradient phrase uses data-split="whole". Plain lines that must stay one
+unit do the same.
 
-Typical timings for a 10s scene: eyebrow 200, headline 400 with step 60, rule
-1050, objects 1300 with step 140, the travelling pulse 2500 over 2800, counters
-and footer 3800.
+Typical timings for a 10s scene: title 280, conceal 2800, graph screen 3600,
+nodes 4000 with step 140, travelling pulse 5200 over 2800.
 
 Imports are relative. No @ or ~ aliases.
