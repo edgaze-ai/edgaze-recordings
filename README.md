@@ -1,6 +1,6 @@
 # edgaze-motion
 
-A motion system for Edgaze product clips. Scenes are standalone pages at true pixel size. Preview them, hit Record, capture the frame, throw the page away.
+A motion system for Edgaze product clips. Scenes are standalone pages at true pixel size. Preview them, export MP4 or MOV, throw the page away.
 
 The craft lives in `src/lib` and `.cursor/rules`. A new scene should take minutes, not hours.
 
@@ -8,7 +8,7 @@ The craft lives in `src/lib` and `.cursor/rules`. A new scene should take minute
 
 ```bash
 npm install
-npm run dev          # gallery at /
+npm run dev          # dashboard at /
 npm run new -- 002 pricing-model
 npm run typecheck
 npm run lint
@@ -18,13 +18,22 @@ npm run build
 npm run ci
 ```
 
+## Dashboard
+
+`npm run dev` opens the recordings dashboard. Scenes first, finished clips under them.
+
+Export uses local Google Chrome at 1920×1080 and ffmpeg to write H.264. The file is saved to `recordings/` and downloaded to the machine. Play a clip from the list. Escape closes the viewer.
+
+Needs Google Chrome plus system `ffmpeg`. `npm install` also fetches Playwright's small ffmpeg helper used for the capture.
+
 ## Record
 
+Manual capture is still there if you want it:
+
 1. Open a scene.
-2. Click **Record**. Chrome hides, the page goes black, the stage scales to `max(1 / dpr, min(1, fit))`.
-3. Screen-record the stage.
+2. Click **Record**. Chrome hides, the page goes black.
+3. Screen-record the stage, or click **MP4** / **MOV** instead.
 4. Press Escape to leave record view.
-5. Put the file in object storage or a GitHub Release. Link it from `recordings/INDEX.md`.
 
 Do not commit video. `recordings/` is gitignored so clone stays fast. See `SPEC.md` section 8.
 

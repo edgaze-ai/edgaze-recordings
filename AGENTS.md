@@ -4,7 +4,7 @@ Motion system for Edgaze product clips. Scenes are standalone web pages authored
 at true pixel size, previewed in a browser, and screen-recorded.
 
 ## Commands
-- `npm run dev` - dev server with HMR, open the gallery at /
+- `npm run dev` - dashboard at /. Export MP4 / MOV from a scene row
 - `npm run new 00X slug` - scaffold a new scene from _template
 - `npm run typecheck` - tsc --noEmit
 - `npm run build` - production build to dist/

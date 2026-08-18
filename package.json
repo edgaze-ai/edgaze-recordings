@@ -16,12 +16,14 @@
     "format:write": "prettier --write .",
     "test": "vitest run",
     "ci": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
-    "new": "node scripts/new-scene.mjs"
+    "new": "node scripts/new-scene.mjs",
+    "postinstall": "playwright install ffmpeg"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "eslint": "^9.33.0",
     "jsdom": "^26.1.0",
+    "playwright": "^1.62.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.40.0",

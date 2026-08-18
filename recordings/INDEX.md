@@ -1,8 +1,7 @@
 # Recordings
 
-Clips are not stored in git. Link finished exports here once they live in
-object storage or a GitHub Release.
+Clips live on this machine only. Do not commit video.
 
-| Scene | Date | Size | Link |
+| File | Scene | Date | Bytes |
 | --- | --- | --- | --- |
-| 001-run-lifecycle | — | 1920×1080 | — |
+| — | — | — | — |
