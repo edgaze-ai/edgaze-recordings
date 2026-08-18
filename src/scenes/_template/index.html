@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <div class="bloom c"></div>
+      <div class="bloom p"></div>
+      <div class="camera">
+        <div class="template-copy">
+          <p class="eyebrow" data-split>New scene</p>
+          <h1>
+            <span data-split>Write the beat</span>
+            <span class="grad" data-split="whole">then record it.</span>
+          </h1>
+        </div>
+      </div>
+      <div class="grain"></div>
+    </div>
+    <div class="chrome">
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <button id="rec" type="button">Record</button>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

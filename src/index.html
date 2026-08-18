@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edgaze motion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/stage.css" />
+  </head>
+  <body class="gallery">
+    <main>
+      <p class="brand">Edgaze</p>
+      <h1>Motion</h1>
+      <p class="lede">
+        Scenes authored at true pixel size, previewed here, then recorded and thrown away.
+      </p>
+      <nav id="list"></nav>
+    </main>
+    <script type="module">
+      const modules = import.meta.glob('./scenes/*/scene.ts');
+      const list = document.querySelector('#list');
+      const scenes = Object.keys(modules)
+        .map((path) => path.split('/')[2])
+        .filter((name) => name && !name.startsWith('_'))
+        .sort();
+
+      if (list) {
+        list.innerHTML = scenes
+          .map((name) => {
+            const [n, ...rest] = name.split('-');
+            return `<a href="./scenes/${name}/index.html"><span>${n}</span>${rest.join(' ')}</a>`;
+          })
+          .join('');
+      }
+    </script>
+  </body>
+</html>

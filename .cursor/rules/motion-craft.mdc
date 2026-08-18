@@ -1,0 +1,23 @@
+---
+description: Non-negotiable motion craft rules for all animation work in this repo
+alwaysApply: true
+---
+
+Animation in this repo follows nine laws. Violating one is a bug, not a style choice.
+
+1. House easing curve is cubic-bezier(.16,1,.3,1). Never ease, ease-in-out, or
+   linear, except linear on a camera push.
+2. Sibling elements never animate simultaneously. Minimum 55ms stagger.
+3. Text reveals by clipping (overflow:hidden mask + inner translateY(115%)),
+   never by fading. Opacity is always paired with a transform.
+4. Fast-moving objects get a ghost trail of 6 to 10 copies, 18 to 26ms apart,
+   falling opacity. This is fake motion blur. Never reduce the count.
+5. Every scene has a camera push: scale 1.0 to ~1.032 over the full duration.
+6. Shadows are three layers at increasing blur and falling opacity, never one.
+7. Display type above 80px is tracked -0.035em or tighter. Inter 600, not 700.
+8. Animate transform and opacity only. Never width, height, top, left, margin.
+9. A gradient phrase reveals as ONE masked unit. Splitting gradient text per
+   word restarts the colour ramp inside each word and looks broken.
+
+All colours and curves come from src/styles/tokens.css via var(). Never write a
+hex value or a bezier literal inside a scene.

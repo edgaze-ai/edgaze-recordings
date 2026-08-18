@@ -1,0 +1,6 @@
+# Git LFS for recordings. Uncomment only after `git lfs install`
+# and after checking GitHub LFS quota — overage is billed.
+#
+# recordings/*.mp4 filter=lfs diff=lfs merge=lfs -text
+# recordings/*.mov filter=lfs diff=lfs merge=lfs -text
+# recordings/*.webm filter=lfs diff=lfs merge=lfs -text

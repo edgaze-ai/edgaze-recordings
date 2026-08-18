@@ -1,0 +1,19 @@
+---
+description: Edgaze brand tokens and where colour is allowed to live
+globs: src/styles/**
+alwaysApply: false
+---
+
+Brand is pure black ground with cyan and pink gradients, Inter throughout.
+--cyan #22D9F0, --pink #F653C8, --brand is a 100deg linear-gradient between them.
+
+Highlighted text uses .grad: background var(--brand), background-clip text,
+color transparent.
+
+tokens.css is the single source of truth. If a scene needs a colour, add a token
+here rather than writing a literal in the scene.
+
+The .grain overlay at 5.5% opacity with mix-blend-mode screen is functional, not
+decorative. Large soft gradients over pure black band under H.264 and the export
+gets re-encoded again on upload. The grain dithers the ramp. Do not remove it or
+lower the opacity.
