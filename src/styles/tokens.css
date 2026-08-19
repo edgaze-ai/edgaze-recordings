@@ -43,6 +43,33 @@
     0 10px 28px color-mix(in srgb, var(--black) 35%, transparent),
     0 22px 50px color-mix(in srgb, var(--black) 22%, transparent);
 
+  /* workflow studio — copied from the builder, lifted for capture */
+  --studio-canvas: #0a0a0a;
+  --studio-panel: #121212;
+  --studio-deep: #0c0c0c;
+  --studio-loop: #101010;
+  --studio-face: #191919;
+  --studio-chrome: #a4a4a4;
+  --studio-mute: #7c7c7c;
+  --studio-mark: #6a6a6e;
+  --studio-selected: #7eb0ff;
+  --studio-hover: #2a2a2a;
+  --studio-input: #1c1c1d;
+  --studio-input-hot: #212122;
+  --accent-mid: #b68cff;
+  --icon-ai: #b8acd4;
+  --icon-util: #7eb8b6;
+  --icon-io: #8ec0ff;
+  --icon-out: #6eb89a;
+  --icon-yt: #ff6b81;
+  --port-util: #6ec4be;
+  --port-io: #6aa8ff;
+  --port-ai: #b49ad8;
+  --port-out: #6fc9a6;
+  --success: #6eae7a;
+  --inner-light: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  --grid-dot: rgba(255, 255, 255, 0.16);
+
   /* motion */
   --expo: cubic-bezier(0.16, 1, 0.3, 1);
   --quint: cubic-bezier(0.22, 1, 0.36, 1);

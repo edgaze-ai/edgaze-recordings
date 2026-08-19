@@ -1,12 +1,14 @@
 export { asset, fillAssets, listAssets, listSlots } from './assets';
-export { aura, bloom, emit } from './burst';
-export { cameraPush, drift, track } from './camera';
+export { aura, bloom, emit, press, pressBurst, tunnel } from './burst';
+export { breathe, cameraPush, drift, track, travel3d } from './camera';
+export type { Pose3 } from './camera';
 export { countUp } from './counter';
 export { hardCut, crossfade } from './cut';
 export { suspendMarks, resolveHint } from './field';
 export { sweepAcross } from './sweep';
 export { plateIn, plateOut } from './plate';
-export { prepare, units, reveal, conceal, wipeX, popIn, land } from './reveal';
+export { prepare, units, reveal, conceal, wipeX, popIn, land, clipSwap } from './reveal';
 export { mountStage } from './stage';
 export { Timeline, ease } from './timeline';
+export { typeOut } from './type';
 export { ghostTrail, drawPath } from './trail';

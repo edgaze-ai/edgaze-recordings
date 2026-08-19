@@ -37,8 +37,7 @@ a {
   position: relative;
   overflow: hidden;
   background: var(--black);
-  transform: scale(var(--zoom));
-  transform-origin: top left;
+  zoom: var(--zoom);
 }
 
 .grain {
@@ -230,7 +229,7 @@ body.rec .chrome {
   height: 680px;
 }
 
-.graph svg {
+.graph > svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -949,7 +948,8 @@ body.busy .chrome button[id^='export'] {
   }
 
   .screen[data-screen='graph'],
-  .stage[data-scene='002'] .screen[data-screen='card-4'] {
+  .stage[data-scene='002'] .screen[data-screen='card-4'],
+  .stage[data-scene='003'] .screen[data-screen='card-6'] {
     opacity: 1;
   }
 

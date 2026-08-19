@@ -72,7 +72,7 @@ export function ghostTrail(
 export function drawPath(
   tl: Timeline,
   path: SVGPathElement,
-  { at, duration }: { at: number; duration: number },
+  { at, duration, fill = 'both' }: { at: number; duration: number; fill?: FillMode },
 ): void {
   const len = path.getTotalLength();
   path.style.strokeDasharray = `${len}`;
@@ -81,6 +81,6 @@ export function drawPath(
     delay: at,
     duration,
     easing: ease.travel,
-    fill: 'both',
+    fill,
   });
 }

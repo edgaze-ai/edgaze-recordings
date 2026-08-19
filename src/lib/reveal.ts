@@ -130,6 +130,33 @@ export function popIn(
  * Why: a clip-up title reads as a slide. The line starts a touch large
  * and eases down to size — in only; the cut takes it off.
  */
+/**
+ * Why: swapping copy by fading it is a dissolve. Clip the old line out
+ * and the new line in so the status change reads as thought, not a cut.
+ */
+export function clipSwap(
+  tl: Timeline,
+  el: HTMLElement,
+  { at, text, duration = 280 }: { at: number; text: string; duration?: number },
+): void {
+  const out = Math.round(duration * 0.42);
+  tl.add(el, [{ transform: 'translateY(0)' }, { transform: 'translateY(-115%)' }], {
+    delay: at,
+    duration: out,
+    easing: ease.expo,
+    fill: 'forwards',
+  });
+  tl.at(at + out, () => {
+    el.textContent = text;
+  });
+  tl.add(el, [{ transform: 'translateY(115%)' }, { transform: 'translateY(0)' }], {
+    delay: at + out,
+    duration,
+    easing: ease.expo,
+    fill: 'forwards',
+  });
+}
+
 export function land(
   tl: Timeline,
   el: HTMLElement,
