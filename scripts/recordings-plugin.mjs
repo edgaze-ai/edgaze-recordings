@@ -316,6 +316,7 @@ async function armPage(page, url) {
 async function seekPage(page, time) {
   await page.evaluate((ms) => {
     window.__edgazeSeek?.(ms);
+    document.body.getBoundingClientRect();
     return new Promise((resolve) => {
       requestAnimationFrame(() => requestAnimationFrame(resolve));
     });
@@ -329,7 +330,7 @@ function isContextLost(error) {
 async function captureFrame(page, stage, width, height, outWidth, outHeight) {
   const shot = {
     type: 'jpeg',
-    quality: 92,
+    quality: 94,
     scale: 'device',
     caret: 'hide',
     animations: 'allow',
@@ -399,9 +400,9 @@ function startEncode(output, format) {
     '-crf',
     '22',
     '-maxrate',
-    '2.5M',
+    '8M',
     '-bufsize',
-    '5M',
+    '16M',
     '-vf',
     'scale=in_range=jpeg:out_range=mpeg,format=yuv420p',
     '-color_range',
