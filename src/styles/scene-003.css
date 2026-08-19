@@ -1,0 +1,1894 @@
+.stage[data-scene='003'] .screen {
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-1'] {
+  z-index: 4;
+  overflow: hidden;
+  opacity: 1;
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-1'] .line {
+  backface-visibility: hidden;
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-1'] h1::before {
+  content: none;
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-1'].is-rush .grad {
+  background-image: none;
+  color: var(--white);
+  -webkit-text-fill-color: var(--white);
+}
+
+.stage[data-scene='003'] .tunnel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.stage[data-scene='003'] .rush-ring,
+.stage[data-scene='003'] .rush-ray {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage[data-scene='003'] .rush-ring > b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  height: 240px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .rush-ring > b svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stage[data-scene='003'] .rush-ray > b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 160%;
+  background-image: var(--accent);
+  opacity: 0;
+  transform-origin: 50% 50%;
+}
+
+.stage[data-scene='003'] .tunnel-flare {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  margin-top: -160px;
+  margin-left: -160px;
+  border-radius: 100%;
+  background-image: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--cyan) 40%, transparent),
+    0 0 36px color-mix(in srgb, var(--accent-mid) 28%, transparent),
+    0 0 64px color-mix(in srgb, var(--pink) 22%, transparent);
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-1'] .card {
+  z-index: 3;
+}
+
+.stage[data-scene='003'] .screen h1 {
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  font-size: 56px;
+  letter-spacing: -0.035em;
+}
+
+.stage[data-scene='003'] .screen h1::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  content: attr(data-glow);
+  filter: blur(0.18em);
+  opacity: 0.8;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-6'] h1 {
+  color: var(--white);
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: -0.042em;
+  -webkit-text-fill-color: var(--white);
+}
+
+.stage[data-scene='003'] .screen[data-screen='card-6'] h1::before {
+  content: none;
+}
+
+.stage[data-scene='003'] .grad {
+  background-image: var(--accent);
+}
+
+.stage[data-scene='003'] .space {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='003'] .atmosphere {
+  position: absolute;
+  z-index: 0;
+  top: -80px;
+  right: -72px;
+  bottom: 72px;
+  left: -72px;
+  pointer-events: none;
+}
+
+.stage[data-scene='003'] .wash {
+  position: absolute;
+  inset: 24px;
+  border-radius: 72px;
+  background-image: var(--accent);
+  opacity: 0;
+  filter: blur(56px);
+}
+
+.stage[data-scene='003'] .glow {
+  position: absolute;
+  width: 46%;
+  height: 62%;
+  border-radius: 100%;
+  opacity: 0;
+  filter: blur(80px);
+}
+
+.stage[data-scene='003'] .glow[data-glow='c'] {
+  top: 4%;
+  left: 0;
+  background: var(--cyan);
+}
+
+.stage[data-scene='003'] .glow[data-glow='p'] {
+  right: 0;
+  bottom: 8%;
+  background: var(--pink);
+}
+
+.stage[data-scene='003'] .desk {
+  position: absolute;
+  inset: 0;
+  transform: translateY(22px) scale(1.16);
+  transform-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='003'] .hero-host {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.stage[data-scene='003'] .hero-wash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-wash > i {
+  position: absolute;
+  border-radius: 100%;
+  filter: blur(72px);
+}
+
+.stage[data-scene='003'] .hero-wash > i[data-glow='band'] {
+  top: 96px;
+  left: 240px;
+  width: 1440px;
+  height: 880px;
+  background-image: var(--accent);
+  opacity: 0.52;
+}
+
+.stage[data-scene='003'] .hero-wash > i[data-glow='c'] {
+  top: 4%;
+  left: 0;
+  width: 64%;
+  height: 76%;
+  background: radial-gradient(circle, var(--cyan) 0%, transparent 68%);
+  opacity: 0.44;
+}
+
+.stage[data-scene='003'] .hero-wash > i[data-glow='m'] {
+  top: 16%;
+  left: 26%;
+  width: 50%;
+  height: 58%;
+  background: radial-gradient(circle, var(--accent-mid) 0%, transparent 70%);
+  opacity: 0.38;
+}
+
+.stage[data-scene='003'] .hero-wash > i[data-glow='p'] {
+  right: 0;
+  bottom: 4%;
+  width: 60%;
+  height: 72%;
+  background: radial-gradient(circle, var(--pink) 0%, transparent 68%);
+  opacity: 0.42;
+}
+
+.stage[data-scene='003'] .hero-plane {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-window {
+  position: absolute;
+  top: 88px;
+  left: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 1120px;
+  height: 904px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 10px;
+  background: var(--studio-panel);
+  box-shadow: var(--node-shadow);
+  transform-origin: 12% 42%;
+}
+
+.stage[data-scene='003'] .hero-window .win-bar {
+  height: 36px;
+  padding: 0 12px;
+}
+
+.stage[data-scene='003'] .hero-window .win-title {
+  color: var(--studio-chrome);
+  font-size: 12px;
+}
+
+.stage[data-scene='003'] .hero-window .win-title svg {
+  width: 13px;
+  height: 13px;
+}
+
+.stage[data-scene='003'] .hero-window .win-acts > i {
+  width: 26px;
+  height: 26px;
+}
+
+.stage[data-scene='003'] .hero-window .win-acts svg {
+  width: 11px;
+  height: 11px;
+}
+
+.stage[data-scene='003'] .hero-tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 12px;
+  color: color-mix(in srgb, var(--white) 65%, transparent);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .hero-tools > b {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stage[data-scene='003'] .hero-tools svg {
+  width: 10px;
+  height: 10px;
+}
+
+.stage[data-scene='003'] .hero-main {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.stage[data-scene='003'] .hero-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48px;
+  text-align: center;
+}
+
+.stage[data-scene='003'] .hero-empty .composer-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.stage[data-scene='003'] .hero-empty .composer-mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.stage[data-scene='003'] .hero-empty > b {
+  margin-top: 14px;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.stage[data-scene='003'] .hero-empty > p {
+  margin: 7px 0 0;
+  color: color-mix(in srgb, var(--white) 55%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .hero-empty .try {
+  width: 420px;
+  max-width: 100%;
+  margin-top: 28px;
+  color: color-mix(in srgb, var(--white) 70%, transparent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.stage[data-scene='003'] .hero-empty > i {
+  display: block;
+  width: 420px;
+  max-width: 100%;
+  margin-top: 6px;
+  padding: 9px 12px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--white) 5%, transparent);
+  color: color-mix(in srgb, var(--white) 80%, transparent);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+
+.stage[data-scene='003'] .hero-thread {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px 20px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-window .you-bubble {
+  padding: 12px 14px;
+  border-radius: 12px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-window .you-bubble > span {
+  font-size: 11px;
+}
+
+.stage[data-scene='003'] .hero-window .you-bubble > p {
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+.stage[data-scene='003'] .hero-window .reason {
+  margin-top: 0;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-window .reason-line > i {
+  font-size: 12px;
+}
+
+.stage[data-scene='003'] .hero-reply {
+  min-height: 1.5em;
+  margin: 0;
+  color: color-mix(in srgb, var(--white) 86%, transparent);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .hero-dock {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 10px 12px 14px;
+  border-top: 1px solid color-mix(in srgb, var(--white) 4.5%, transparent);
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--white) 1%, transparent),
+    transparent
+  );
+}
+
+.stage[data-scene='003'] .ask.is-hero {
+  min-height: 44px;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-plus,
+.stage[data-scene='003'] .ask.is-hero .ask-send {
+  width: 32px;
+  height: 32px;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-plus svg {
+  width: 14px;
+  height: 14px;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-field {
+  height: 32px;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-field [data-hero-prompt] {
+  overflow: hidden;
+  color: color-mix(in srgb, var(--white) 90%, transparent);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-field [data-hero-prompt]:empty::before {
+  color: color-mix(in srgb, var(--white) 76%, transparent);
+  content: 'Ask';
+}
+
+.stage[data-scene='003'] .ask.is-hero.is-run [data-hero-prompt]:empty::before {
+  content: 'Working...';
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-caret {
+  height: 14px;
+}
+
+.stage[data-scene='003'] .ask.is-hero .ask-send-icon,
+.stage[data-scene='003'] .ask.is-hero .ask-stop-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.stage[data-scene='003'] .hero-window .ask-note {
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.stage[data-scene='003'] .rig {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform-origin: 50% 48%;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='003'] .plane {
+  position: absolute;
+  transform-style: preserve-3d;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .plane[data-plane='bar'] {
+  top: 72px;
+  left: 36px;
+  z-index: 3;
+  width: 1848px;
+  height: 52px;
+}
+
+.stage[data-scene='003'] .plane[data-plane='canvas'] {
+  top: 140px;
+  left: 392px;
+  z-index: 1;
+  overflow: visible;
+  width: 1156px;
+  height: 732px;
+}
+
+.stage[data-scene='003'] .plane[data-plane='left'] {
+  top: 140px;
+  left: 36px;
+  z-index: 2;
+  width: 340px;
+  height: 732px;
+}
+
+.stage[data-scene='003'] .plane[data-plane='right'] {
+  top: 140px;
+  right: 36px;
+  z-index: 2;
+  width: 320px;
+  height: 732px;
+}
+
+.stage[data-scene='003'] .plane[data-plane='loop'] {
+  top: 178px;
+  left: 300px;
+  z-index: 4;
+  width: 1320px;
+  height: 724px;
+}
+
+.stage[data-scene='003'] .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 8px;
+  background: var(--studio-panel);
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='003'] .topbar-left,
+.stage[data-scene='003'] .topbar-right {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.stage[data-scene='003'] .topbar-left {
+  gap: 10px;
+}
+
+.stage[data-scene='003'] .topbar-right {
+  gap: 4px;
+}
+
+.stage[data-scene='003'] .tb-badge {
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--white) 5.5%, transparent);
+  color: var(--studio-chrome, var(--node-hint));
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 1px 4px;
+  text-transform: uppercase;
+}
+
+.stage[data-scene='003'] .topbar-left > b {
+  color: var(--node-label);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.stage[data-scene='003'] .topbar-left > em {
+  color: var(--studio-chrome, var(--node-hint));
+  font-size: 10px;
+  font-style: normal;
+}
+
+.stage[data-scene='003'] .tb-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--studio-chrome, var(--node-hint));
+}
+
+.stage[data-scene='003'] .tb-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.stage[data-scene='003'] .tb-run,
+.stage[data-scene='003'] .tb-pub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .tb-run {
+  border: 1px solid color-mix(in srgb, var(--white) 18%, transparent);
+  background: var(--studio-hover, color-mix(in srgb, var(--white) 12%, var(--node-face)));
+  color: var(--node-label);
+}
+
+.stage[data-scene='003'] .tb-run svg {
+  width: 13px;
+  height: 13px;
+}
+
+.stage[data-scene='003'] .tb-pub {
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  background: var(--node-face);
+  color: var(--studio-chrome, var(--node-hint));
+}
+
+.stage[data-scene='003'] .studio-canvas {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
+  border-radius: 10px;
+  background: var(--studio-canvas);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--white) 8%, transparent),
+    var(--node-shadow);
+}
+
+.stage[data-scene='003'] .grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    var(--grid-dot, color-mix(in srgb, var(--white) 14%, transparent)) 1.5px,
+    transparent 1.6px
+  );
+  background-size: 20px 20px;
+}
+
+.stage[data-scene='003'] .wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stage[data-scene='003'] .edge {
+  fill: none;
+  stroke: var(--node-wire);
+  stroke-width: 3.25;
+}
+
+.stage[data-scene='003'] .graph {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='form'] {
+  position: absolute;
+  top: 48px;
+  left: 90px;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='youtube'] {
+  position: absolute;
+  top: 48px;
+  left: 820px;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='scrape'] {
+  position: absolute;
+  top: 260px;
+  left: 90px;
+}
+
+.stage[data-scene='003'] .graph.is-pair .wf-node[data-node='scrape'] {
+  top: 248px;
+  left: 391px;
+}
+
+.stage[data-scene='003'] .graph.is-pair .wf-node[data-node='form'] {
+  top: 248px;
+  left: 622px;
+}
+
+.stage[data-scene='003'] .graph.is-pair .wf-node.is-on .face {
+  border-color: color-mix(in srgb, var(--studio-selected) 55%, var(--node-line));
+  box-shadow:
+    0 4px 10px color-mix(in srgb, var(--black) 20%, transparent),
+    0 10px 28px color-mix(in srgb, var(--black) 35%, transparent),
+    0 22px 50px color-mix(in srgb, var(--black) 22%, transparent);
+}
+
+.stage[data-scene='003'] .loop-card {
+  position: absolute;
+  top: 210px;
+  left: 390px;
+  width: 320px;
+  height: 214px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='output'] {
+  position: absolute;
+  top: 260px;
+  left: 820px;
+}
+
+.stage[data-scene='003'] .brand,
+.stage[data-scene='003'] .hint,
+.stage[data-scene='003'] .wf-name {
+  opacity: 1;
+}
+
+.stage[data-scene='003'] .face {
+  display: block;
+  padding: 0;
+  background: var(--studio-face);
+  border-color: var(--node-line);
+}
+
+.stage[data-scene='003'] .brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--icon-util);
+}
+
+.stage[data-scene='003'] .brand svg,
+.stage[data-scene='003'] .brand > i,
+.stage[data-scene='003'] .brand img {
+  display: block;
+  width: 57px;
+  height: 57px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.stage[data-scene='003'] .brand[data-tone='io'] {
+  color: var(--icon-io, var(--cyan));
+}
+
+.stage[data-scene='003'] .brand[data-tone='out'] {
+  color: var(--icon-out, var(--success));
+}
+
+.stage[data-scene='003'] .brand[data-tone='ai'] {
+  color: var(--icon-ai);
+}
+
+.stage[data-scene='003'] .brand > i {
+  display: grid;
+  place-items: center;
+}
+
+.stage[data-scene='003'] .brand > i img,
+.stage[data-scene='003'] .mini > i img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stage[data-scene='003'] .hint {
+  position: absolute;
+  z-index: 2;
+  right: 10px;
+  bottom: 11px;
+  left: 10px;
+  margin: 0;
+  color: color-mix(in srgb, var(--white) 58%, transparent);
+}
+
+.stage[data-scene='003'] .wf-name {
+  color: var(--white);
+}
+
+.stage[data-scene='003'] .port {
+  z-index: 3;
+  border-color: color-mix(in srgb, var(--white) 24%, var(--node-port-line));
+  background: var(--studio-deep, var(--node-port));
+}
+
+.stage[data-scene='003'] .port.is-on[data-tone='util'] {
+  border-color: var(--port-util, var(--cyan));
+  background: var(--port-util, var(--cyan));
+}
+
+.stage[data-scene='003'] .port.is-on[data-tone='io'] {
+  border-color: var(--port-io, var(--cyan));
+  background: var(--port-io, var(--cyan));
+}
+
+.stage[data-scene='003'] .port.is-on[data-tone='ai'] {
+  border-color: var(--port-ai, var(--node-port-ai));
+  background: var(--port-ai, var(--node-port-ai));
+}
+
+.stage[data-scene='003'] .port.is-on[data-tone='out'] {
+  border-color: var(--port-out, var(--success));
+  background: var(--port-out, var(--success));
+}
+
+.stage[data-scene='003'] .port.is-on[data-tone='loop'] {
+  border-color: var(--cyan);
+  background: var(--cyan);
+}
+
+.stage[data-scene='003'] .loop-card {
+  overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
+  border-radius: 16px;
+  background: var(--studio-loop, var(--node-face));
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='003'] .loop-card.is-on {
+  box-shadow:
+    0 0 0 2px var(--studio-selected, var(--node-run)),
+    var(--node-shadow);
+}
+
+.stage[data-scene='003'] .loop-head {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  color: var(--white);
+}
+
+.stage[data-scene='003'] .loop-title {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+
+.stage[data-scene='003'] .loop-head .loop-mark,
+.stage[data-scene='003'] .loop-head svg {
+  position: relative;
+  inset: auto;
+  display: block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--icon-util, var(--cyan));
+}
+
+.stage[data-scene='003'] .loop-head span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stage[data-scene='003'] .loop-head em {
+  margin-left: auto;
+  color: color-mix(in srgb, var(--white) 50%, transparent);
+  font-size: 9px;
+  font-style: normal;
+}
+
+.stage[data-scene='003'] .loop-preview {
+  position: relative;
+  overflow: hidden;
+  height: 112px;
+  margin: 12px 12px 0;
+  border: 1px solid color-mix(in srgb, var(--white) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--black) 40%, transparent);
+}
+
+.stage[data-scene='003'] .mini-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.stage[data-scene='003'] .mini {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
+  border-radius: 8px;
+  background: var(--studio-face, var(--node-face));
+}
+
+.stage[data-scene='003'] .mini svg,
+.stage[data-scene='003'] .mini > i,
+.stage[data-scene='003'] .mini img {
+  position: relative;
+  inset: auto;
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.stage[data-scene='003'] .mini[data-tone='util'] {
+  color: var(--icon-util, var(--cyan));
+}
+
+.stage[data-scene='003'] .mini-wire {
+  width: 16px;
+  height: 2px;
+  border-radius: 100vmax;
+  background: var(--node-wire);
+}
+
+.stage[data-scene='003'] .loop-btn {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  margin: 10px 12px 0;
+  border: 1px solid color-mix(in srgb, var(--white) 12%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--white) 4%, transparent);
+  color: color-mix(in srgb, var(--white) 70%, transparent);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .loop-card .port[data-side='in'] {
+  top: 50%;
+}
+
+.stage[data-scene='003'] .window {
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 8px;
+  background: var(--studio-panel, var(--black));
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='003'] .win-bar {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 10px;
+}
+
+.stage[data-scene='003'] .win-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--studio-chrome, var(--node-hint));
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .plane[data-plane='left'] .win-title {
+  position: absolute;
+  left: 10px;
+}
+
+.stage[data-scene='003'] .win-title svg {
+  width: 12px;
+  height: 12px;
+}
+
+.stage[data-scene='003'] .win-title[data-title='library'],
+.stage[data-scene='003'] .library,
+.stage[data-scene='003'] .insp {
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .win-acts {
+  display: flex;
+  gap: 2px;
+}
+
+.stage[data-scene='003'] .win-acts > i {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  color: var(--studio-chrome);
+}
+
+.stage[data-scene='003'] .win-acts svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.stage[data-scene='003'] .win-body {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+}
+
+.stage[data-scene='003'] .composer,
+.stage[data-scene='003'] .library,
+.stage[data-scene='003'] .insp {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--studio-panel);
+}
+
+.stage[data-scene='003'] .composer-tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 8px;
+  color: color-mix(in srgb, var(--white) 65%, transparent);
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .composer-tools > b {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .composer-tools svg {
+  width: 10px;
+  height: 10px;
+}
+
+.stage[data-scene='003'] .composer-body {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+}
+
+.stage[data-scene='003'] .composer-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 12px 0;
+  text-align: center;
+}
+
+.stage[data-scene='003'] .composer-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--white) 5.5%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--white) 10%, transparent);
+  color: var(--studio-mark);
+}
+
+.stage[data-scene='003'] .composer-mark svg {
+  width: 24px;
+  height: 24px;
+}
+
+.stage[data-scene='003'] .composer-empty > b {
+  margin-top: 12px;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.stage[data-scene='003'] .composer-empty > p {
+  margin: 6px 0 0;
+  color: color-mix(in srgb, var(--white) 55%, transparent);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .composer-empty > em {
+  margin: 8px 0 0;
+  max-width: 240px;
+  color: color-mix(in srgb, var(--white) 74%, transparent);
+  font-size: 9.5px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.stage[data-scene='003'] .composer-empty .try {
+  align-self: stretch;
+  margin-top: 16px;
+  color: color-mix(in srgb, var(--white) 70%, transparent);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.stage[data-scene='003'] .composer-empty > i {
+  display: block;
+  align-self: stretch;
+  margin-top: 4px;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--white) 5%, transparent);
+  color: color-mix(in srgb, var(--white) 80%, transparent);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+
+.stage[data-scene='003'] .composer-thread {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 10px 10px 0;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .you-bubble {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--white) 4.5%, transparent);
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .you-bubble > span {
+  display: block;
+  color: color-mix(in srgb, var(--white) 50%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .you-bubble > p {
+  margin: 6px 0 0;
+  color: color-mix(in srgb, var(--white) 88%, transparent);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.stage[data-scene='003'] .reason {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .reason-orb {
+  position: relative;
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  background-image: var(--accent);
+}
+
+.stage[data-scene='003'] .reason-orb > b {
+  position: absolute;
+  inset: -4px;
+  border-radius: 100%;
+  background-image: var(--accent);
+  opacity: 0.4;
+  filter: blur(3px);
+}
+
+.stage[data-scene='003'] .reason-line,
+.stage[data-scene='003'] .live-line {
+  overflow: hidden;
+  min-width: 0;
+}
+
+.stage[data-scene='003'] .reason-line > i,
+.stage[data-scene='003'] .live-line > i {
+  display: block;
+  transform: translateY(115%);
+}
+
+.stage[data-scene='003'] .reason-line > i {
+  color: color-mix(in srgb, var(--white) 62%, transparent);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.stage[data-scene='003'] .composer-dock {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 6px 6px 8px;
+  border-top: 1px solid color-mix(in srgb, var(--white) 4.5%, transparent);
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--white) 1%, transparent),
+    transparent
+  );
+}
+
+.stage[data-scene='003'] .live-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 0;
+  margin: 0 6px 6px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .live-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+}
+
+.stage[data-scene='003'] .live-dot > em,
+.stage[data-scene='003'] .live-dot > b {
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  background: color-mix(in srgb, var(--white) 45%, transparent);
+}
+
+.stage[data-scene='003'] .live-dot > em {
+  background: color-mix(in srgb, var(--white) 25%, transparent);
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .live-dot.is-done > b {
+  background: color-mix(in srgb, var(--success) 50%, transparent);
+}
+
+.stage[data-scene='003'] .live-line > i {
+  color: color-mix(in srgb, var(--white) 38%, transparent);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.stage[data-scene='003'] .ask {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--white) 12%, transparent);
+  border-radius: 18px;
+  background: var(--studio-input);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--white) 4%, transparent);
+}
+
+.stage[data-scene='003'] .ask.is-hot {
+  border-color: color-mix(in srgb, var(--white) 16%, transparent);
+  background: var(--studio-input-hot);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--white) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--white) 4%, transparent);
+}
+
+.stage[data-scene='003'] .ask-plus {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+  color: color-mix(in srgb, var(--white) 72%, transparent);
+}
+
+.stage[data-scene='003'] .ask-plus svg {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+.stage[data-scene='003'] .ask-field {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  height: 28px;
+  padding: 0 2px;
+}
+
+.stage[data-scene='003'] .ask-field [data-prompt] {
+  overflow: hidden;
+  color: color-mix(in srgb, var(--white) 90%, transparent);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 28px;
+  white-space: nowrap;
+}
+
+.stage[data-scene='003'] .ask-field [data-prompt]:empty::before {
+  color: color-mix(in srgb, var(--white) 76%, transparent);
+  content: 'Ask';
+}
+
+.stage[data-scene='003'] .ask.is-run [data-prompt]:empty::before {
+  content: 'Working...';
+}
+
+.stage[data-scene='003'] .ask-caret {
+  flex-shrink: 0;
+  width: 1px;
+  height: 13px;
+  margin-left: 1px;
+  background: color-mix(in srgb, var(--white) 82%, transparent);
+  opacity: 0;
+  transform-origin: center;
+}
+
+.stage[data-scene='003'] .ask-send {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  overflow: visible;
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+  background: color-mix(in srgb, var(--white) 7.5%, transparent);
+  color: color-mix(in srgb, var(--white) 52%, transparent);
+}
+
+.stage[data-scene='003'] .ask-send.is-ready {
+  background: var(--white);
+  color: var(--black);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--black) 18%, transparent),
+    0 4px 10px color-mix(in srgb, var(--black) 16%, transparent),
+    0 10px 22px color-mix(in srgb, var(--black) 10%, transparent);
+}
+
+.stage[data-scene='003'] .ask-send.is-run {
+  background: color-mix(in srgb, var(--white) 7.5%, transparent);
+  color: color-mix(in srgb, var(--white) 90%, transparent);
+  box-shadow: none;
+}
+
+.stage[data-scene='003'] .ask-send-icon,
+.stage[data-scene='003'] .ask-stop-icon {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.stage[data-scene='003'] .ask-stop-icon {
+  position: absolute;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .ask-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage[data-scene='003'] .ask-burst > i {
+  position: absolute;
+  inset: 0;
+  border-radius: 100%;
+  background: var(--white);
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .ask-note {
+  margin: 6px 4px 0;
+  color: color-mix(in srgb, var(--white) 62%, transparent);
+  font-size: 8.5px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.stage[data-scene='003'] .ask-note u {
+  color: color-mix(in srgb, var(--white) 76%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--white) 20%, transparent);
+  text-underline-offset: 2px;
+}
+
+.stage[data-scene='003'] .lib-top {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 12px 0;
+}
+
+.stage[data-scene='003'] .lib-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--white) 9%, transparent);
+  border-radius: 16px;
+  background: var(--studio-deep);
+  color: var(--studio-mute);
+  font-size: 12px;
+}
+
+.stage[data-scene='003'] .lib-search svg {
+  width: 16px;
+  height: 16px;
+  color: var(--studio-chrome);
+}
+
+.stage[data-scene='003'] .lib-composer {
+  padding: 1px;
+  border-radius: 8px;
+  background-image: var(--accent);
+}
+
+.stage[data-scene='003'] .lib-composer > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 32px;
+  border-radius: 7px;
+  background: var(--studio-panel);
+  color: var(--node-label);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .lib-composer svg {
+  width: 16px;
+  height: 16px;
+}
+
+.stage[data-scene='003'] .lib-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  margin-top: 10px;
+}
+
+.stage[data-scene='003'] .lib-rail {
+  position: static;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 48px;
+  padding: 12px 6px;
+}
+
+.stage[data-scene='003'] .lib-rail > i {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--studio-chrome);
+}
+
+.stage[data-scene='003'] .lib-rail > i.is-on {
+  background: transparent;
+  color: var(--white);
+}
+
+.stage[data-scene='003'] .lib-rail svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.stage[data-scene='003'] .lib-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 12px 12px 4px;
+}
+
+.stage[data-scene='003'] .lib-card {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 12px;
+  background: var(--studio-panel);
+  opacity: 0.72;
+}
+
+.stage[data-scene='003'] .lib-card.is-hot {
+  border-color: color-mix(in srgb, var(--white) 18%, transparent);
+  opacity: 1;
+}
+
+.stage[data-scene='003'] .lib-copy {
+  padding: 12px 12px 0;
+}
+
+.stage[data-scene='003'] .lib-card b {
+  display: block;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.stage[data-scene='003'] .lib-card p {
+  margin: 2px 0 0;
+  color: var(--studio-chrome);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.stage[data-scene='003'] .lib-card code {
+  display: block;
+  margin-top: 4px;
+  color: var(--studio-chrome);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-align: right;
+}
+
+.stage[data-scene='003'] .lib-preview {
+  display: grid;
+  place-items: center;
+  height: 82px;
+  margin: 10px 12px 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--white) 5%, transparent);
+  border-radius: 8px;
+  background: var(--studio-deep);
+}
+
+.stage[data-scene='003'] .lib-preview .face {
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  box-shadow: none;
+}
+
+.stage[data-scene='003'] .lib-preview .brand svg,
+.stage[data-scene='003'] .lib-preview .brand > i,
+.stage[data-scene='003'] .lib-preview .brand img {
+  width: 28px;
+  height: 28px;
+}
+
+.stage[data-scene='003'] .lib-preview .hint {
+  font-size: 8px;
+}
+
+.stage[data-scene='003'] .lib-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 12px;
+  color: var(--studio-chrome);
+  font-size: 11px;
+}
+
+.stage[data-scene='003'] .lib-foot em {
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .insp {
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 10px 16px 16px;
+  text-align: left;
+}
+
+.stage[data-scene='003'] .insp[data-insp='empty'] {
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.stage[data-scene='003'] .insp-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 12px;
+  background: var(--studio-face);
+  color: var(--node-hint);
+}
+
+.stage[data-scene='003'] .insp-mark > i {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid color-mix(in srgb, var(--white) 18%, transparent);
+  border-radius: 3px;
+  background: var(--studio-panel);
+}
+
+.stage[data-scene='003'] .insp-mark > i:first-child {
+  top: -4px;
+  right: -4px;
+}
+
+.stage[data-scene='003'] .insp-mark > i:nth-child(2) {
+  bottom: -4px;
+  left: -4px;
+}
+
+.stage[data-scene='003'] .insp > b {
+  color: var(--node-label);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.stage[data-scene='003'] .insp > p {
+  margin: 6px 0 0;
+  max-width: 220px;
+  color: var(--node-hint);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.stage[data-scene='003'] .insp > span {
+  margin-top: 16px;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 6px;
+  background: var(--studio-deep);
+  color: var(--studio-mute);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .insp-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stage[data-scene='003'] .insp-tabs em {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+  color: var(--white);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .insp-tabs i {
+  color: color-mix(in srgb, var(--success) 80%, transparent);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .insp-card {
+  width: 100%;
+  padding: 10px 12px 12px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 8px;
+  background: var(--studio-panel);
+}
+
+.stage[data-scene='003'] .insp-card > b {
+  display: block;
+  color: var(--node-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stage[data-scene='003'] .insp-card > p {
+  margin: 8px 0 0;
+  color: color-mix(in srgb, var(--white) 50%, transparent);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.stage[data-scene='003'] .insp-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--white) 8%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--white) 2.5%, transparent);
+  color: color-mix(in srgb, var(--white) 40%, transparent);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.stage[data-scene='003'] .insp-card label {
+  display: block;
+  margin-top: 10px;
+  color: var(--studio-chrome);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stage[data-scene='003'] .insp-field {
+  margin-top: 4px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--white) 11%, transparent);
+  border-radius: 6px;
+  background: var(--studio-face);
+  color: var(--white);
+  font-size: 10px;
+}
+
+.stage[data-scene='003'] .insp-field.is-act {
+  margin-top: 12px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--white) 4%, transparent);
+  color: color-mix(in srgb, var(--white) 75%, transparent);
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .window.is-loop {
+  background: var(--studio-panel, var(--black));
+}
+
+.stage[data-scene='003'] .loop-desk {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--studio-panel, var(--black));
+}
+
+.stage[data-scene='003'] .loop-stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow: hidden;
+  background: var(--studio-canvas, var(--black));
+}
+
+.stage[data-scene='003'] .loop-stage::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--studio-canvas, var(--black));
+  content: '';
+}
+
+.stage[data-scene='003'] .loop-stage .grid,
+.stage[data-scene='003'] .loop-board,
+.stage[data-scene='003'] .loop-count {
+  z-index: 1;
+}
+
+.stage[data-scene='003'] .loop-board {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1100px;
+  height: 420px;
+  transform: translate(-50%, -50%);
+}
+
+.stage[data-scene='003'] .loop-board .wires,
+.stage[data-scene='003'] .loop-graph {
+  position: absolute;
+  inset: 0;
+  width: 1100px;
+  height: 420px;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='loop-chat'],
+.stage[data-scene='003'] .wf-node[data-node='loop-draft'],
+.stage[data-scene='003'] .wf-node[data-node='loop-tmpl'] {
+  position: absolute;
+  top: 124px;
+  width: 143px;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='loop-chat'] {
+  left: 166px;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='loop-draft'] {
+  left: 479px;
+}
+
+.stage[data-scene='003'] .wf-node[data-node='loop-tmpl'] {
+  left: 792px;
+}
+
+.stage[data-scene='003'] .loop-stage .face {
+  width: 143px;
+  height: 143px;
+}
+
+.stage[data-scene='003'] .loop-count {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+}
+
+.stage[data-scene='003'] .loop-foot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 16px;
+  color: color-mix(in srgb, var(--white) 65%, transparent);
+  font-size: 11px;
+}
+
+.stage[data-scene='003'] .loop-foot em {
+  margin-left: auto;
+  font-style: normal;
+}
+
+.stage[data-scene='003'] .loop-foot b {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.stage[data-scene='003'] .insp[data-insp='empty'] {
+  opacity: 1;
+}
