@@ -6,6 +6,7 @@ interface Window {
   __edgazeStart?: () => Promise<void>;
   __edgazeArm?: () => void;
   __edgazeSeek?: (ms: number) => void;
+  __edgazeTime?: () => number;
 }
 
 interface CaptureController {

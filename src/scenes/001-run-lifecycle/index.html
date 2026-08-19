@@ -65,11 +65,34 @@
     </div>
     <div class="chrome">
       <a href="/">Clips</a>
+      <button id="play" type="button">Pause</button>
       <button id="replay" type="button">Replay</button>
       <button id="slow" type="button">0.25×</button>
+      <span id="clock" class="clock">0:00.0</span>
+      <div
+        id="rail"
+        class="rail"
+        role="slider"
+        tabindex="0"
+        aria-label="Timeline"
+        aria-valuemin="0"
+        aria-valuemax="0"
+        aria-valuenow="0"
+      >
+        <i class="rail-track"></i>
+        <i class="rail-fill"></i>
+        <i class="rail-head-wrap"><b></b></i>
+      </div>
       <button id="rec" type="button">Record</button>
       <button id="export-mp4" type="button">MP4</button>
       <button id="export-mov" type="button">MOV</button>
+      <div id="xfer" class="xfer" hidden>
+        <div class="xfer-meta">
+          <span id="xfer-label"></span>
+          <span id="xfer-pct" class="xfer-pct"></span>
+        </div>
+        <div class="xfer-rail"><i id="xfer-fill"></i></div>
+      </div>
       <span id="status" class="status"></span>
     </div>
     <script type="module" src="./scene.ts"></script>

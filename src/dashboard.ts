@@ -1,5 +1,5 @@
 import { listSlots, type SlotRow } from './lib/assets';
-import { requestExport } from './lib/export';
+import { applyExportProgress, requestExport } from './lib/export';
 import { formatBytes, formatDuration, type ClipFormat, type SceneMeta } from './lib/scene-meta';
 
 type Clip = {
@@ -246,11 +246,27 @@ async function refresh() {
 
 async function exportScene(scene: string, format: ClipFormat) {
   document.body.classList.add('busy');
+  applyExportProgress({
+    phase: 'queued',
+    percent: 0,
+    label: `Exporting ${format.toUpperCase()}`,
+  });
   try {
-    const name = await requestExport(format, { scene, onStatus: statusText });
+    const name = await requestExport(format, {
+      scene,
+      onStatus: statusText,
+      onProgress: (progress) => {
+        applyExportProgress({
+          ...progress,
+          label: progress.label || `Exporting ${format.toUpperCase()}`,
+        });
+      },
+    });
+    applyExportProgress(null);
     statusText(name);
     await refresh();
   } catch (error) {
+    applyExportProgress(null);
     statusText(error instanceof Error ? error.message : 'Export failed');
   } finally {
     document.body.classList.remove('busy');

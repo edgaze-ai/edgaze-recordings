@@ -15,6 +15,13 @@ describe('ease', () => {
 });
 
 describe('Timeline seek', () => {
+  it('exposes storyboard time after seek', () => {
+    const tl = new Timeline(1, true);
+    expect(tl.time).toBe(0);
+    tl.seek(840);
+    expect(tl.time).toBe(840);
+  });
+
   it('fires at() cues once while seeking forward', () => {
     const tl = new Timeline(1, true);
     const hits: number[] = [];

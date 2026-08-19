@@ -58,3 +58,10 @@ export function formatDuration(ms: number): string {
   const seconds = ms / 1000;
   return Number.isInteger(seconds) ? `${seconds}s` : `${seconds.toFixed(1)}s`;
 }
+
+export function formatClock(ms: number): string {
+  const total = Math.max(0, ms) / 1000;
+  const m = Math.floor(total / 60);
+  const s = total - m * 60;
+  return `${m}:${s.toFixed(1).padStart(4, '0')}`;
+}

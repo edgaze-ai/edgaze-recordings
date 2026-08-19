@@ -111,19 +111,21 @@ a {
 
 .chrome {
   position: fixed;
-  right: 32px;
-  bottom: 28px;
-  left: 32px;
+  right: 28px;
+  bottom: 22px;
+  left: 28px;
   z-index: 20;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 8px 22px;
+  user-select: none;
 }
 
 .chrome a,
-.chrome button {
+.chrome button,
+.chrome .clock {
   color: var(--quiet);
   font-size: 13px;
   font-weight: 500;
@@ -131,10 +133,78 @@ a {
   text-decoration: none;
 }
 
+.chrome .clock {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  cursor: default;
+}
+
 .chrome a:hover,
 .chrome button:hover,
 .chrome button.on {
   color: var(--ink);
+}
+
+.rail {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 140px;
+  max-width: 560px;
+  height: 22px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.rail i,
+.xfer-rail > i {
+  display: block;
+  font-style: normal;
+}
+
+.rail-track,
+.rail-fill {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+}
+
+.rail-track {
+  background: var(--hair);
+}
+
+.rail-fill {
+  transform: scaleX(var(--playhead, 0));
+  transform-origin: left center;
+  background: var(--accent);
+  opacity: 0.78;
+}
+
+.rail-head-wrap {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--playhead, 0) * 100%));
+  pointer-events: none;
+}
+
+.rail-head-wrap > b {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 2px;
+  height: 14px;
+  background: var(--ink);
+  transform: translateX(-50%);
+}
+
+.rail:focus-visible {
+  outline: none;
+}
+
+.rail:focus-visible .rail-track {
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
 }
 
 .chrome .status {
@@ -148,8 +218,54 @@ a {
   text-align: center;
 }
 
-.chrome .status:empty {
+.chrome .status:empty,
+.chrome:has(.xfer:not([hidden])) .status {
   display: none;
+}
+
+.xfer {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.xfer[hidden] {
+  display: none;
+}
+
+.xfer-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--quiet);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.xfer-pct {
+  color: var(--ink);
+}
+
+.xfer-rail {
+  width: min(360px, 52vw);
+  height: 2px;
+  background: var(--hair);
+}
+
+.xfer-rail > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(var(--xfer, 0));
+  transform-origin: left center;
+  background: var(--accent);
 }
 
 body.rec {
@@ -932,9 +1048,17 @@ body.rec .chrome {
 
 /* Dashboard chrome lives in dashboard.css so scene work stays isolated. */
 
-body.busy .chrome button[id^='export'] {
+body.busy .chrome button[id^='export'],
+body.busy .chrome #play,
+body.busy .chrome #replay,
+body.busy .chrome #slow {
   pointer-events: none;
   color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
+}
+
+body.busy .chrome .rail {
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 @media (prefers-reduced-motion: reduce) {

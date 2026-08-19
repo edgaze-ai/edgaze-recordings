@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   clipFilename,
   formatBytes,
+  formatClock,
   formatDuration,
   parseSceneSource,
   safeRecordingName,
@@ -53,5 +54,12 @@ describe('formatters', () => {
   it('renders sizes and durations', () => {
     expect(formatBytes(2048)).toBe('2.0 KB');
     expect(formatDuration(10000)).toBe('10s');
+  });
+
+  it('renders a seekable clock', () => {
+    expect(formatClock(0)).toBe('0:00.0');
+    expect(formatClock(840)).toBe('0:00.8');
+    expect(formatClock(40000)).toBe('0:40.0');
+    expect(formatClock(65000)).toBe('1:05.0');
   });
 });

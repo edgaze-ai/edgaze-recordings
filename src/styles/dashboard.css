@@ -288,6 +288,23 @@ body.dash .status:empty {
   display: none;
 }
 
+body.dash .xfer {
+  position: fixed;
+  right: 0;
+  bottom: 56px;
+  left: 0;
+  z-index: 11;
+}
+
+body.dash:has(#xfer:not([hidden])) .status {
+  display: none;
+}
+
+body.dash.busy .acts button[data-export] {
+  pointer-events: none;
+  color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
+}
+
 #viewer {
   position: fixed;
   inset: 0;

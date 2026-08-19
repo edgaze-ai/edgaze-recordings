@@ -38,6 +38,10 @@ export class Timeline {
     this.seekable = seekable;
   }
 
+  get time(): number {
+    return this.now;
+  }
+
   add(el: Element, frames: Keyframe[], opts: KeyframeAnimationOptions = {}): Animation {
     const duration =
       typeof opts.duration === 'number' ? opts.duration / this.rate : opts.duration;

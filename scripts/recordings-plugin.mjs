@@ -15,6 +15,7 @@ export function recordingsPlugin(root) {
   const recordingsDir = resolve(root, 'recordings');
   const scenesDir = resolve(root, 'src/scenes');
   let busy = false;
+  let exportStatus = idleExportStatus();
 
   const attach = (server) => {
     server.middlewares.use(async (req, res, next) => {
@@ -32,6 +33,10 @@ export function recordingsPlugin(root) {
           return sendJson(res, await listRecordings(recordingsDir));
         }
 
+        if (req.method === 'GET' && url.pathname === '/api/export/status') {
+          return sendJson(res, exportStatus);
+        }
+
         if (req.method === 'POST' && url.pathname === '/api/export') {
           if (busy) return sendError(res, 409, 'An export is already running');
           const body = JSON.parse(String(await readBody(req)) || '{}');
@@ -47,7 +52,15 @@ export function recordingsPlugin(root) {
             return sendError(res, 404, `Scene not found: ${scene}`);
           }
 
+          req.setTimeout(0);
+          res.setTimeout(0);
           busy = true;
+          exportStatus = {
+            ...idleExportStatus(),
+            phase: 'queued',
+            label: `Exporting ${format.toUpperCase()}`,
+          };
+          const signal = abortSignal(req, res);
           try {
             const port = serverPort(server);
             const file = await exportScene({
@@ -56,8 +69,29 @@ export function recordingsPlugin(root) {
               recordingsDir,
               scenesDir,
               url: `http://localhost:${port}/scenes/${scene}/index.html?export=1`,
+              signal,
+              onProgress: (progress) => {
+                exportStatus = { ...exportStatus, ...progress };
+              },
             });
+            exportStatus = {
+              phase: 'done',
+              percent: 100,
+              frame: 0,
+              frames: 0,
+              label: 'Done',
+              name: file.name,
+            };
             return sendJson(res, file);
+          } catch (error) {
+            const message = error instanceof Error ? error.message : 'Export failed';
+            exportStatus = {
+              ...idleExportStatus(),
+              phase: 'error',
+              error: message,
+              label: message,
+            };
+            throw error;
           } finally {
             busy = false;
           }
@@ -185,7 +219,42 @@ function parseSceneSource(id, source) {
   };
 }
 
-async function exportScene({ scene, format, recordingsDir, url, scenesDir }) {
+function idleExportStatus() {
+  return {
+    phase: 'idle',
+    percent: 0,
+    frame: 0,
+    frames: 0,
+    label: '',
+    name: '',
+    error: '',
+  };
+}
+
+function abortSignal(req, res) {
+  const controller = new AbortController();
+  const cancel = () => {
+    if (!res.writableEnded) controller.abort();
+  };
+  req.on('close', cancel);
+  req.on('aborted', cancel);
+  return controller.signal;
+}
+
+async function exportScene({
+  scene,
+  format,
+  recordingsDir,
+  url,
+  scenesDir,
+  onProgress,
+  signal,
+}) {
+  const report = (progress) => {
+    if (signal?.aborted) throw new Error('Export cancelled');
+    onProgress?.(progress);
+  };
+
   const { chromium } = await import('playwright');
   const stamp = new Date()
     .toISOString()
@@ -201,6 +270,7 @@ async function exportScene({ scene, format, recordingsDir, url, scenesDir }) {
   const duration = meta.duration || 10_000;
   const dest = join(recordingsDir, name);
 
+  report({ phase: 'arm', percent: 1, label: 'Opening scene' });
   const browser = await launchChrome(chromium);
   try {
     const context = await browser.newContext({
@@ -227,20 +297,31 @@ async function exportScene({ scene, format, recordingsDir, url, scenesDir }) {
     const frames = Math.max(1, Math.round((ms / 1000) * EXPORT_FPS));
     const outWidth = width * EXPORT_SCALE;
     const outHeight = height * EXPORT_SCALE;
+    report({ phase: 'capture', percent: 2, frame: 0, frames, label: 'Capturing' });
     const encode = startEncode(dest, format);
     try {
       for (let i = 0; i < frames; i += 1) {
         const time = (i * 1000) / EXPORT_FPS;
-        try {
-          await seekPage(page, time);
-        } catch (error) {
-          if (!isContextLost(error)) throw error;
-          await armPage(page, url);
-          await seekPage(page, time);
-        }
-        const frame = await captureFrame(page, stage, width, height, outWidth, outHeight);
+        const frame = await grabFrame({
+          page,
+          stage,
+          time,
+          url,
+          width,
+          height,
+          outWidth,
+          outHeight,
+        });
         await writeFrame(encode.child, frame);
+        report({
+          phase: 'capture',
+          percent: 2 + Math.round(((i + 1) / frames) * 92),
+          frame: i + 1,
+          frames,
+          label: 'Capturing',
+        });
       }
+      report({ phase: 'encode', percent: 96, frame: frames, frames, label: 'Encoding' });
       encode.child.stdin.end();
       await encode.done;
     } catch (error) {
@@ -253,8 +334,10 @@ async function exportScene({ scene, format, recordingsDir, url, scenesDir }) {
     await browser.close();
   }
 
+  report({ phase: 'save', percent: 99, label: 'Saving' });
   await writeIndex(recordingsDir);
   const info = await stat(dest);
+  report({ phase: 'done', percent: 100, name, label: 'Done' });
   return { name, bytes: info.size };
 }
 
@@ -311,6 +394,25 @@ async function armPage(page, url) {
   const live = await page.evaluate(() => window.__edgazeExport);
   await page.evaluate(() => window.__edgazeArm?.());
   return live;
+}
+
+async function grabFrame({ page, stage, time, url, width, height, outWidth, outHeight }) {
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      await seekPage(page, time);
+      return await captureFrame(page, stage, width, height, outWidth, outHeight);
+    } catch (error) {
+      lastError = error;
+      if (isContextLost(error)) {
+        await armPage(page, url);
+        continue;
+      }
+      if (attempt === 2) throw error;
+      await wait(40);
+    }
+  }
+  throw lastError;
 }
 
 async function seekPage(page, time) {
@@ -393,6 +495,8 @@ function startEncode(output, format) {
     'libx264',
     '-preset',
     'medium',
+    '-threads',
+    '0',
     '-profile:v',
     'high',
     '-level',
@@ -470,6 +574,10 @@ function readBody(req) {
     req.on('end', () => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function sendJson(res, data) {
