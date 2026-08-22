@@ -70,6 +70,40 @@
   --inner-light: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
   --grid-dot: rgba(255, 255, 255, 0.16);
 
+  /* device — iPhone 15/16 Pro, used only on the phone object */
+  --phone-hi: #ece8e0;
+  --phone-mid: #c8c4bc;
+  --phone-lo: #3a3936;
+  --phone-metal: linear-gradient(
+    168deg,
+    var(--phone-mid) 0%,
+    #6e6b66 16%,
+    var(--phone-hi) 38%,
+    var(--phone-lo) 58%,
+    #b7b3ab 78%,
+    #5c5954 100%
+  );
+  --phone-bezel: #0b0b0c;
+  --phone-glass: #09090b;
+  --phone-island: #050506;
+  --safari-pill: #2c2c2e;
+  --composer-bg: #0a0a0b;
+  --composer-bar: #0b0b0d;
+  --composer-panel: #121212;
+  --composer-input: #1c1c1d;
+  --composer-input-hot: #212122;
+  --composer-you: rgba(255, 255, 255, 0.045);
+  --composer-copy: rgba(255, 255, 255, 0.88);
+  --composer-mute: rgba(255, 255, 255, 0.55);
+  --composer-faint: rgba(255, 255, 255, 0.1);
+  --publish-face: #141414;
+  --publish-deep: #0c0c0c;
+  --publish-line: #2a2a2a;
+  --publish-ink: #f0f0f0;
+  --publish-hot: #1a1a1a;
+  --publish-cta-ink: #171717;
+  --phone-side: #9a968e;
+
   /* motion */
   --expo: cubic-bezier(0.16, 1, 0.3, 1);
   --quint: cubic-bezier(0.22, 1, 0.36, 1);
