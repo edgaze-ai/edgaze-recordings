@@ -4,6 +4,10 @@ Clips live on this machine only. Do not commit video.
 
 | File | Scene | Date | Bytes |
 | --- | --- | --- | --- |
+| 004-mobile-studio-20260821-144234.mp4 | 004-mobile-studio | 2026-08-21 14:45 | 20656990 |
+| 003-workflow-studio-20260819-145336.mov | 003-workflow-studio | 2026-08-19 14:57 | 15580959 |
+| 003-workflow-studio-20260819-144422.mov | 003-workflow-studio | 2026-08-19 14:47 | 8568344 |
+| 003-workflow-studio-20260819-143512.mov | 003-workflow-studio | 2026-08-19 14:38 | 8565849 |
 | 002-model-layer-20260818-134542.mp4 | 002-model-layer | 2026-08-18 13:47 | 7794275 |
 | 001-run-lifecycle-20260818-114303.mp4 | 001-run-lifecycle | 2026-08-18 11:43 | 3207126 |
 | 001-run-lifecycle-20260818-114142.mp4 | 001-run-lifecycle | 2026-08-18 11:42 | 3230973 |
