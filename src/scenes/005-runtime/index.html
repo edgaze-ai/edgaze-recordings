@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f3f3f0" />
+    <title>005 — Runtime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+    <link rel="stylesheet" href="../../styles/scene-005.css" />
+  </head>
+  <body>
+    <div class="stage" data-scene="005">
+      <div class="camera">
+        <div class="screen" data-screen="card-1">
+          <div class="card">
+            <div class="couplet">
+              <div class="line" data-line="a">
+                <h1 data-glow="Running a workflow once is easy.">
+                  Running a workflow <span class="grad">once</span> is easy.
+                </h1>
+              </div>
+              <div class="line" data-line="b">
+                <h1 data-glow="Running thousands reliably is not.">
+                  Running <span class="grad">thousands</span> reliably is not.
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-3">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="Things break.">Things <span class="grad">break</span>.</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-4">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="Completed work is never repeated.">
+                Completed work is <span class="grad">never repeated</span>.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-5">
+          <div class="card">
+            <div class="line">
+              <h1 data-glow="It should be invisible.">
+                It should be <span class="grad">invisible</span>.
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="card-6">
+          <div class="card">
+            <div class="lockup">
+              <div class="sigil" data-asset="photos/edgaze-mark"><i></i></div>
+              <h1>Edgaze</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" data-screen="runtime">
+          <div class="world">
+            <svg class="defs" aria-hidden="true">
+              <defs>
+                <linearGradient id="rt-edge" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="var(--cyan)" />
+                  <stop offset="1" stop-color="var(--pink)" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="rig" data-rig>
+              <div class="field" data-field>
+                <i class="drift" data-drift="c"></i>
+                <i class="drift" data-drift="p"></i>
+                <div class="dag" data-dag="hero">
+                  <div class="body">
+                    <svg
+                      class="wires"
+                      viewBox="0 0 1560 720"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                    >
+                      <path class="edge" data-edge="form-scrape" />
+                      <path class="edge" data-edge="form-youtube" />
+                      <path class="edge" data-edge="form-http" />
+                      <path class="edge" data-edge="scrape-chat" />
+                      <path class="edge" data-edge="youtube-image" />
+                      <path class="edge" data-edge="http-embed" />
+                      <path class="edge" data-edge="chat-merge" />
+                      <path class="edge" data-edge="image-merge" />
+                      <path class="edge" data-edge="embed-cond" />
+                      <path class="edge" data-edge="merge-loop" />
+                      <path class="edge" data-edge="cond-delay" />
+                      <path class="edge" data-edge="loop-out" />
+                      <path class="edge" data-edge="delay-out" />
+                    </svg>
+                    <div class="ghosts" data-ghosts></div>
+                    <div class="graph">
+                      <div class="wf-node" data-node="form">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="io">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path
+                                  d="M7 4.5h5.2L15 7.3v8.2c0 .83-.67 1.5-1.5 1.5H7c-.83 0-1.5-.67-1.5-1.5V6c0-.83.67-1.5 1.5-1.5Z"
+                                />
+                                <path d="M12.2 4.5V7.8H15" />
+                                <path d="M7.8 10.5h4.4M7.8 12.8h3.2" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">URL</div>
+                          <b class="port" data-side="out" data-tone="io"></b>
+                        </div>
+                        <div class="wf-name">Workflow Form</div>
+                      </div>
+                      <div class="wf-node" data-node="scrape">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="util">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path
+                                  d="M5.5 4.5h5.5L14 7.5v8c0 .83-.67 1.5-1.5 1.5H5.5c-.83 0-1.5-.67-1.5-1.5v-9c0-.83.67-1.5 1.5-1.5Z"
+                                />
+                                <path d="M11 4.5V7.8h3.2" />
+                                <circle cx="9.2" cy="11.2" r="2.4" />
+                                <path d="M10.9 12.9 13.2 15.2" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">example.com</div>
+                          <b class="port" data-side="in" data-tone="util"></b>
+                          <b class="port" data-side="out" data-tone="util"></b>
+                        </div>
+                        <div class="wf-name">Web Scrape</div>
+                      </div>
+                      <div class="wf-node" data-node="youtube">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-asset="photos/youtube"><i></i></div>
+                          <div class="hint">Plain text</div>
+                          <b class="port" data-side="in" data-tone="util"></b>
+                          <b class="port" data-side="out" data-tone="util"></b>
+                        </div>
+                        <div class="wf-name">YouTube Transcript</div>
+                      </div>
+                      <div class="wf-node" data-node="http">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="util">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <circle cx="10" cy="10" r="6.2" />
+                                <path d="M3.8 10h12.4" />
+                                <path
+                                  d="M10 3.8c1.7 1.7 2.6 3.9 2.6 6.2s-.9 4.5-2.6 6.2c-1.7-1.7-2.6-3.9-2.6-6.2s.9-4.5 2.6-6.2Z"
+                                />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">GET</div>
+                          <b class="port" data-side="in" data-tone="util"></b>
+                          <b class="port" data-side="out" data-tone="util"></b>
+                        </div>
+                        <div class="wf-name">HTTP Request</div>
+                      </div>
+                      <div class="wf-node" data-node="chat">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="ai">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path
+                                  d="M4.6 5.4h10.8c.78 0 1.4.62 1.4 1.4v6.2c0 .78-.62 1.4-1.4 1.4H8.4L4.8 16.6V6.8c0-.78.62-1.4 1.4-1.4Z"
+                                />
+                                <path d="M7.2 8.6h5.6M7.2 11h3.8" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Draft</div>
+                          <b class="port" data-side="in" data-tone="ai"></b>
+                          <b class="port" data-side="out" data-tone="ai"></b>
+                        </div>
+                        <div class="wf-name">LLM Chat</div>
+                      </div>
+                      <div class="wf-node" data-node="image">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="ai">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <rect x="4.4" y="5" width="11.2" height="10" rx="1.6" />
+                                <circle cx="8" cy="8.6" r="1.2" />
+                                <path d="M4.8 13.2 8.2 10.4 11 12.6l2.2-2 2.4 2.6" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Still</div>
+                          <b class="port" data-side="in" data-tone="ai"></b>
+                          <b class="port" data-side="out" data-tone="ai"></b>
+                        </div>
+                        <div class="wf-name">LLM Image</div>
+                      </div>
+                      <div class="wf-node" data-node="embed">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="ai">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path d="M7.2 6.2 4.6 10l2.6 3.8" />
+                                <path d="M12.8 6.2 15.4 10l-2.6 3.8" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Index</div>
+                          <b class="port" data-side="in" data-tone="ai"></b>
+                          <b class="port" data-side="out" data-tone="ai"></b>
+                        </div>
+                        <div class="wf-name">LLM Embeddings</div>
+                      </div>
+                      <div class="wf-node" data-node="merge">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="logic">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <circle cx="6.2" cy="5.4" r="1.5" />
+                                <circle cx="6.2" cy="14.6" r="1.5" />
+                                <circle cx="14.2" cy="10" r="1.5" />
+                                <path d="M7.6 5.8c2.4.4 3.8 2 4.8 3.7" />
+                                <path d="M7.6 14.2c2.4-.4 3.8-2 4.8-3.7" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">All</div>
+                          <b class="port" data-side="in" data-tone="logic"></b>
+                          <b class="port" data-side="out" data-tone="logic"></b>
+                        </div>
+                        <div class="wf-name">Merge</div>
+                      </div>
+                      <div class="wf-node" data-node="cond">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="logic">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <circle cx="6" cy="5.4" r="1.5" />
+                                <circle cx="14" cy="5.4" r="1.5" />
+                                <circle cx="14" cy="14.6" r="1.5" />
+                                <path d="M6 6.9v4.2c0 1.6 1.3 2.9 2.9 2.9H12.5" />
+                                <path d="M7.5 5.4H12.4" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Has text</div>
+                          <b class="port" data-side="in" data-tone="logic"></b>
+                          <b class="port" data-side="out" data-tone="logic"></b>
+                        </div>
+                        <div class="wf-name">Condition</div>
+                      </div>
+                      <div class="wf-node" data-node="loop">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="logic">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <path d="M5.5 7.2h6.8a3.3 3.3 0 1 1 0 6.6H7.4" />
+                                <path d="M5.5 7.2 3.5 9.2l2 2" />
+                                <path d="M7.4 13.8 5.4 11.8l2-2" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Each item</div>
+                          <b class="port" data-side="in" data-tone="logic"></b>
+                          <b class="port" data-side="out" data-tone="logic"></b>
+                        </div>
+                        <div class="wf-name">Loop</div>
+                      </div>
+                      <div class="wf-node" data-node="delay">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="logic">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <circle cx="10" cy="10.4" r="5.6" />
+                                <path d="M10 7.8v3l2 1.2" />
+                                <path d="M8.2 3.8h3.6" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Brief</div>
+                          <b class="port" data-side="in" data-tone="logic"></b>
+                          <b class="port" data-side="out" data-tone="logic"></b>
+                        </div>
+                        <div class="wf-name">Delay</div>
+                      </div>
+                      <div class="wf-node" data-node="out">
+                        <div class="face">
+                          <i class="halo"></i>
+                          <i class="halo-fail"></i>
+                          <div class="brand" data-tone="out">
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                              <g
+                                stroke="currentColor"
+                                stroke-width="1.15"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <rect x="4.8" y="5.2" width="10.4" height="10.4" rx="2" />
+                                <path d="M7.4 10.1 9.2 11.9 12.8 8.1" />
+                              </g>
+                            </svg>
+                          </div>
+                          <div class="hint">Auto</div>
+                          <b class="port" data-side="in" data-tone="out"></b>
+                        </div>
+                        <div class="wf-name">Workflow Output</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grain"></div>
+    </div>
+    <div class="chrome">
+      <a href="/">Clips</a>
+      <button id="play" type="button">Pause</button>
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <span id="clock" class="clock">0:00.0</span>
+      <div
+        id="rail"
+        class="rail"
+        role="slider"
+        tabindex="0"
+        aria-label="Timeline"
+        aria-valuemin="0"
+        aria-valuemax="0"
+        aria-valuenow="0"
+      >
+        <i class="rail-track"></i>
+        <i class="rail-fill"></i>
+        <i class="rail-head-wrap"><b></b></i>
+      </div>
+      <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <div id="xfer" class="xfer" hidden>
+        <div class="xfer-meta">
+          <span id="xfer-label"></span>
+          <span id="xfer-pct" class="xfer-pct"></span>
+        </div>
+        <div class="xfer-rail"><i id="xfer-fill"></i></div>
+      </div>
+      <span id="status" class="status"></span>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

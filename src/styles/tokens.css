@@ -67,6 +67,9 @@
   --port-ai: #b49ad8;
   --port-out: #6fc9a6;
   --success: #6eae7a;
+  --fail: #d45454;
+  --icon-logic: #c4a054;
+  --port-logic: #c4a054;
   --inner-light: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
   --grid-dot: rgba(255, 255, 255, 0.16);
 

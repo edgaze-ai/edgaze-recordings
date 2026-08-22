@@ -1,0 +1,449 @@
+.stage[data-scene='005'] {
+  background: var(--black);
+}
+
+.stage[data-scene='005'] .grain {
+  opacity: 0;
+}
+
+.stage[data-scene='005'] .screen {
+  opacity: 0;
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-1'] {
+  z-index: 5;
+  opacity: 1;
+}
+
+.stage[data-scene='005'] .screen[data-screen^='card'] .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage[data-scene='005'] .couplet {
+  display: grid;
+  place-items: center;
+}
+
+.stage[data-scene='005'] .couplet .line {
+  grid-area: 1 / 1;
+}
+
+.stage[data-scene='005'] .screen[data-screen^='card'] h1 {
+  position: relative;
+  z-index: 1;
+  color: var(--white);
+  font-size: 64px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-1'] h1 {
+  font-size: 56px;
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-4'] h1 {
+  font-size: 54px;
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-3'] h1 {
+  font-size: 80px;
+  letter-spacing: -0.042em;
+}
+
+.stage[data-scene='005'] .screen[data-screen^='card'] h1::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  content: attr(data-glow);
+  filter: blur(0.18em);
+  opacity: 0.8;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.stage[data-scene='005'] .sigil {
+  width: 120px;
+  height: 120px;
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-6'] h1 {
+  font-size: 88px;
+  letter-spacing: -0.042em;
+  -webkit-text-fill-color: var(--white);
+}
+
+.stage[data-scene='005'] .screen[data-screen='card-6'] h1::before {
+  content: none;
+}
+
+.stage[data-scene='005'] .grad {
+  background-image: var(--accent);
+}
+
+.stage[data-scene='005'] .screen[data-screen='runtime'] {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.stage[data-scene='005'] .world {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  perspective: 1800px;
+  perspective-origin: 50% 46%;
+}
+
+.stage[data-scene='005'] .defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.stage[data-scene='005'] .rig {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 48%;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='005'] .field {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='005'] .drift {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.stage[data-scene='005'] .drift[data-drift='c'] {
+  top: 18%;
+  left: 22%;
+  width: 520px;
+  height: 220px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    color-mix(in srgb, var(--cyan) 28%, transparent),
+    transparent 72%
+  );
+}
+
+.stage[data-scene='005'] .drift[data-drift='p'] {
+  top: 54%;
+  right: 16%;
+  width: 480px;
+  height: 200px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    color-mix(in srgb, var(--pink) 22%, transparent),
+    transparent 74%
+  );
+}
+
+.stage[data-scene='005'] .dag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1560px;
+  height: 720px;
+  margin: -360px 0 0 -780px;
+  transform-style: preserve-3d;
+}
+
+.stage[data-scene='005'] .dag[data-dag='hero'] {
+  z-index: 3;
+}
+
+.stage[data-scene='005'] .dag[data-lite] {
+  z-index: 1;
+}
+
+.stage[data-scene='005'] .dag[data-lite] .wf-node {
+  opacity: 1;
+}
+
+.stage[data-scene='005'] .dag[data-lite] .wf-name,
+.stage[data-scene='005'] .dag[data-lite] .hint {
+  opacity: 0;
+}
+
+.stage[data-scene='005'] .body {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+}
+
+.stage[data-scene='005'] .wires,
+.stage[data-scene='005'] .ghosts,
+.stage[data-scene='005'] .graph {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  width: 1560px;
+  height: 720px;
+}
+
+.stage[data-scene='005'] .edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--white) 42%, transparent);
+  stroke-linecap: round;
+  stroke-width: 3.25;
+}
+
+.stage[data-scene='005'] .edge.is-hot {
+  stroke: url(#rt-edge);
+}
+
+.stage[data-scene='005'] .ghosts {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.stage[data-scene='005'] .graph {
+  z-index: 2;
+}
+
+.stage[data-scene='005'] .wf-node {
+  position: absolute;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='form'] {
+  top: 288px;
+  left: 24px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='scrape'] {
+  top: 128px;
+  left: 276px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='youtube'] {
+  top: 288px;
+  left: 276px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='http'] {
+  top: 448px;
+  left: 276px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='chat'] {
+  top: 48px;
+  left: 528px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='image'] {
+  top: 248px;
+  left: 528px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='embed'] {
+  top: 448px;
+  left: 528px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='merge'] {
+  top: 148px;
+  left: 780px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='cond'] {
+  top: 388px;
+  left: 780px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='loop'] {
+  top: 148px;
+  left: 1032px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='delay'] {
+  top: 388px;
+  left: 1032px;
+}
+
+.stage[data-scene='005'] .wf-node[data-node='out'] {
+  top: 268px;
+  left: 1284px;
+}
+
+.stage[data-scene='005'] .brand,
+.stage[data-scene='005'] .hint,
+.stage[data-scene='005'] .wf-name {
+  opacity: 1;
+}
+
+.stage[data-scene='005'] .face {
+  display: block;
+  padding: 0;
+  border-color: var(--node-line);
+  background: var(--studio-face);
+}
+
+.stage[data-scene='005'] .halo,
+.stage[data-scene='005'] .halo-fail {
+  position: absolute;
+  inset: -10px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 16px;
+  opacity: 0;
+}
+
+.stage[data-scene='005'] .halo {
+  background: var(--accent);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, var(--white) 12%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 50%, var(--white) 12%, transparent 72%);
+}
+
+.stage[data-scene='005'] .halo-fail {
+  background: var(--fail);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, var(--white) 14%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 50% 50%, var(--white) 14%, transparent 70%);
+}
+
+.stage[data-scene='005'] .brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--icon-util);
+}
+
+.stage[data-scene='005'] .brand svg,
+.stage[data-scene='005'] .brand > i,
+.stage[data-scene='005'] .brand img {
+  display: block;
+  width: 57px;
+  height: 57px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.stage[data-scene='005'] .brand[data-tone='io'] {
+  color: var(--icon-io);
+}
+
+.stage[data-scene='005'] .brand[data-tone='ai'] {
+  color: var(--icon-ai);
+}
+
+.stage[data-scene='005'] .brand[data-tone='out'] {
+  color: var(--icon-out);
+}
+
+.stage[data-scene='005'] .brand[data-tone='logic'] {
+  color: var(--icon-logic);
+}
+
+.stage[data-scene='005'] .brand > i {
+  display: grid;
+  place-items: center;
+}
+
+.stage[data-scene='005'] .brand > i img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stage[data-scene='005'] .hint {
+  position: absolute;
+  z-index: 2;
+  right: 10px;
+  bottom: 11px;
+  left: 10px;
+  margin: 0;
+  color: color-mix(in srgb, var(--white) 58%, transparent);
+}
+
+.stage[data-scene='005'] .wf-name {
+  color: var(--white);
+}
+
+.stage[data-scene='005'] .port {
+  z-index: 3;
+  border-color: color-mix(in srgb, var(--white) 24%, var(--node-port-line));
+  background: var(--studio-deep);
+}
+
+.stage[data-scene='005'] .port.is-on[data-tone='util'] {
+  border-color: var(--port-util);
+  background: var(--port-util);
+}
+
+.stage[data-scene='005'] .port.is-on[data-tone='io'] {
+  border-color: var(--port-io);
+  background: var(--port-io);
+}
+
+.stage[data-scene='005'] .port.is-on[data-tone='ai'] {
+  border-color: var(--port-ai);
+  background: var(--port-ai);
+}
+
+.stage[data-scene='005'] .port.is-on[data-tone='out'] {
+  border-color: var(--port-out);
+  background: var(--port-out);
+}
+
+.stage[data-scene='005'] .port.is-on[data-tone='logic'] {
+  border-color: var(--port-logic);
+  background: var(--port-logic);
+}
+
+.stage[data-scene='005'] .dag[data-dag='hero'] .wf-node.is-run .face {
+  border-color: var(--node-run);
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='005'] .dag[data-dag='hero'] .wf-node.is-done .face {
+  border-color: var(--node-line-hot);
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='005'] .dag[data-lite] .wf-node.is-run .face {
+  border-color: transparent;
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--cyan) 28%, transparent),
+    0 0 36px color-mix(in srgb, var(--pink) 16%, transparent),
+    0 0 0 2px color-mix(in srgb, var(--cyan) 50%, var(--pink)),
+    var(--node-shadow);
+}
+
+.stage[data-scene='005'] .dag[data-lite] .wf-node.is-done .face {
+  border-color: color-mix(in srgb, var(--success) 42%, var(--node-line));
+  box-shadow: var(--node-shadow);
+}
+
+.stage[data-scene='005'] .wf-node.is-fail .face {
+  border-color: var(--fail);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--fail) 28%, transparent),
+    0 0 22px color-mix(in srgb, var(--fail) 14%, transparent),
+    0 0 40px color-mix(in srgb, var(--fail) 8%, transparent);
+}
+
+.stage[data-scene='005'] .wf-node.is-fail .hint {
+  color: var(--fail);
+  font-weight: 600;
+}
