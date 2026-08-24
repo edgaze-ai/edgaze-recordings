@@ -1074,7 +1074,8 @@ body.busy .chrome .rail {
   .screen[data-screen='graph'],
   .stage[data-scene='002'] .screen[data-screen='card-4'],
   .stage[data-scene='003'] .screen[data-screen='card-6'],
-  .stage[data-scene='005'] .screen[data-screen='card-6'] {
+  .stage[data-scene='005'] .screen[data-screen='card-6'],
+  .stage[data-scene='006'] .screen[data-screen='card-4'] {
     opacity: 1;
   }
 

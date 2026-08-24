@@ -70,6 +70,23 @@
   --fail: #d45454;
   --icon-logic: #c4a054;
   --port-logic: #c4a054;
+  --wait: #fbbf24;
+  --runs-page: #050505;
+  --runs-detail: #070809;
+  --run-live: #22d3ee;
+  --run-live-text: #67e8f9;
+  --run-done: #34d399;
+  --run-done-text: #6ee7b7;
+  --run-wait-text: #fcd34d;
+  --run-fail-text: #fda4af;
+  --run-charge: rgba(255, 255, 255, 0.8);
+  --run-meta: rgba(255, 255, 255, 0.5);
+  --run-sub: rgba(255, 255, 255, 0.65);
+  --run-faint: rgba(255, 255, 255, 0.35);
+  --run-hair: rgba(255, 255, 255, 0.1);
+  --run-face: rgba(255, 255, 255, 0.04);
+  --run-face-hot: rgba(255, 255, 255, 0.06);
+  --run-line: rgba(255, 255, 255, 0.12);
   --inner-light: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
   --grid-dot: rgba(255, 255, 255, 0.16);
 
