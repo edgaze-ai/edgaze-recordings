@@ -4,6 +4,11 @@ Clips live on this machine only. Do not commit video.
 
 | File | Scene | Date | Bytes |
 | --- | --- | --- | --- |
+| 007-docs-platform-20260828-150557.mp4 | 007-docs-platform | 2026-08-28 15:09 | 25719768 |
+| 007-docs-platform-20260828-143619.mp4 | 007-docs-platform | 2026-08-28 14:39 | 24671730 |
+| 007-docs-platform-20260828-143313.mp4 | 007-docs-platform | 2026-08-28 14:36 | 24691505 |
+| 007-docs-platform-20260828-131937-1080p.mp4 | 007-docs-platform-20260828-131937-1080p.mp4 | 2026-08-28 13:23 | 16631238 |
+| 007-docs-platform-20260828-131937.mp4 | 007-docs-platform | 2026-08-28 13:22 | 32602321 |
 | 006-runs-20260824-151207.mp4 | 006-runs | 2026-08-24 15:13 | 6894290 |
 | 005-runtime-20260822-145749.mp4 | 005-runtime | 2026-08-22 15:00 | 8640116 |
 | 004-mobile-studio-20260821-144234.mp4 | 004-mobile-studio | 2026-08-21 14:45 | 20656990 |
