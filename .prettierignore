@@ -4,4 +4,5 @@ package-lock.json
 SPEC.md
 AGENTS.md
 .cursor
+.claude
 recordings

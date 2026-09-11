@@ -153,12 +153,72 @@ function pose3(p: Pose3): { transform: string; opacity: number } {
 export function travel3d(
   tl: Timeline,
   el: HTMLElement,
-  { at, duration, from, to }: { at: number; duration: number; from: Pose3; to: Pose3 },
+  {
+    at,
+    duration,
+    from,
+    to,
+    easing = ease.expo,
+  }: { at: number; duration: number; from: Pose3; to: Pose3; easing?: string },
 ): void {
   tl.add(el, [pose3(from), pose3(to)], {
     delay: at,
     duration,
-    easing: ease.expo,
+    easing,
+    fill: 'forwards',
+  });
+}
+
+export type Frame = { x: number; y: number; s: number };
+
+/**
+ * Why: framing a captured plate by hand means recomputing a translate every
+ * time the scale changes, and a wrong translate is a misaligned shot. Name
+ * the focal point in the plate's own pixels — "the Delay node at 1.95×" —
+ * and keep the arithmetic in one place.
+ *
+ * The element must be laid out at the plate's own size from the frame's top
+ * left with transform-origin 0 0, so a plate taller than the frame can be
+ * scrolled by moving the focal point down it.
+ */
+export function framePose(f: Frame, w = 1920, h = 1080): { transform: string } {
+  const tx = w / 2 - f.x * f.s;
+  const ty = h / 2 - f.y * f.s;
+  return {
+    transform: `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0) scale(${f.s})`,
+  };
+}
+
+/**
+ * Why: one move per beat. Expo dumps the travel up front so a shot snaps
+ * onto its mark; travel is the long settle that keeps the frame alive.
+ */
+export function frame(
+  tl: Timeline,
+  el: Element,
+  {
+    at,
+    duration,
+    from,
+    to,
+    easing = ease.expo,
+    width = 1920,
+    height = 1080,
+  }: {
+    at: number;
+    duration: number;
+    from: Frame;
+    to: Frame;
+    easing?: string;
+    /** Size of the window the focal point is centred in — the frame, or a card inside it. */
+    width?: number;
+    height?: number;
+  },
+): void {
+  tl.add(el, [framePose(from, width, height), framePose(to, width, height)], {
+    delay: at,
+    duration,
+    easing,
     fill: 'forwards',
   });
 }

@@ -1,0 +1,576 @@
+/*
+ * 007 — Docs Platform.
+ *
+ * Every docs frame is a production capture of edgaze.ai/docs taken at a 1280
+ * viewport and 3x, so a plate pixel here is 1.5 site pixels and the type is
+ * half again as large in frame as a 1920 capture would put it. Nothing
+ * redraws the product. The one painted element inside a plate is .nav, which
+ * repaints the top bar's link row in the bar's own #0f0f13 so the clip
+ * carries two destinations instead of seven; its numbers are measured off the
+ * plates (divider on x237, first link on x263, 13px/500 at 0.58 white).
+ *
+ * Rigs are laid out at the plate's own pixel size from the top left with
+ * transform-origin 0 0. framePose() in src/lib/camera.ts turns a focal point
+ * in those coordinates into the transform, so every offset below is a plate
+ * pixel and every camera move in scene.ts names a point on the page.
+ */
+
+.stage[data-scene='007'] {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--ui);
+}
+
+.stage[data-scene='007'] .grain {
+  opacity: 0;
+}
+
+.stage[data-scene='007'] .screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--black);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .screen[data-screen='card-1'] {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------- cards */
+
+.stage[data-scene='007'] .card {
+  display: grid;
+  place-items: center;
+}
+
+.stage[data-scene='007'] .card h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--white);
+  font-size: 82px;
+  font-weight: 600;
+  letter-spacing: -0.044em;
+  line-height: 1.04;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.74);
+}
+
+.stage[data-scene='007'] [data-screen='card-2'] h1 {
+  font-size: 66px;
+  letter-spacing: -0.038em;
+}
+
+/* Why: the gradient behind the line is the same string, blurred. One extra
+   paint, no second layout, and the ramp never restarts inside a word. */
+.stage[data-scene='007'] .card h1::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  content: attr(data-glow);
+  filter: blur(0.17em);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .card .grad {
+  background-image: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ------------------------------------------------------------ ui plates */
+
+.stage[data-scene='007'] .ui {
+  background: var(--docs-page);
+}
+
+.stage[data-scene='007'] .rig {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.stage[data-scene='007'] .rig.off {
+  opacity: 0;
+}
+
+/* Why: a shot framed on the top bar can land a fraction of a pixel above the
+   plate. Running the bar's own colour past the plate edge means the seam can
+   never open, so the bar can be pinned to the top of frame through a push. */
+.stage[data-scene='007'] .rig:not([data-rig='raw'])::before {
+  position: absolute;
+  top: -300px;
+  right: 0;
+  left: 0;
+  height: 300px;
+  background: var(--docs-bar);
+  content: '';
+}
+
+.stage[data-scene='007'] [data-rig='landing'] {
+  height: 1470px;
+}
+
+.stage[data-scene='007'] [data-rig^='sweep-'] {
+  height: 1800px;
+}
+
+.stage[data-scene='007'] [data-rig='delay'],
+.stage[data-scene='007'] [data-rig='markdown'] {
+  height: 1650px;
+}
+
+.stage[data-scene='007'] [data-rig='openapi'] {
+  height: 1230px;
+}
+
+/* ----------------------------------------------------------- spec card
+ * The spec beat pulls all the way back: the page stops being the frame and
+ * becomes an object — a 1420x910 card, which is the plate's own 1920x1230
+ * at 0.74, so the whole page lands edge to edge inside it with the sidebar
+ * and the On this page rail intact. frame() is given the card's size so a
+ * focal point still means the same thing inside it.
+ */
+.stage[data-scene='007'] .lit {
+  background: var(--black);
+}
+
+.stage[data-scene='007'] .bed {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+}
+
+.stage[data-scene='007'] .bed > i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  opacity: 0;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* The cores sit in the margin the card leaves — top left, bottom centre,
+   right — so the colour lands where it can be seen rather than behind the
+   page. */
+.stage[data-scene='007'] .bed > i[data-blob='cyan'] {
+  top: -550px;
+  left: -600px;
+  width: 1500px;
+  height: 1500px;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--cyan) 78%, transparent),
+    color-mix(in srgb, var(--cyan) 26%, transparent) 44%,
+    transparent 74%
+  );
+}
+
+.stage[data-scene='007'] .bed > i[data-blob='violet'] {
+  top: 250px;
+  left: 160px;
+  width: 1600px;
+  height: 1600px;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent-mid) 76%, transparent),
+    color-mix(in srgb, var(--accent-mid) 24%, transparent) 44%,
+    transparent 74%
+  );
+}
+
+.stage[data-scene='007'] .bed > i[data-blob='pink'] {
+  top: -450px;
+  left: 1050px;
+  width: 1500px;
+  height: 1500px;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--pink) 72%, transparent),
+    color-mix(in srgb, var(--pink) 22%, transparent) 44%,
+    transparent 74%
+  );
+}
+
+.stage[data-scene='007'] .glass {
+  position: absolute;
+  z-index: 2;
+  top: 85px;
+  left: 250px;
+  overflow: hidden;
+  width: 1420px;
+  height: 910px;
+  border: 1px solid color-mix(in srgb, var(--white) 13%, transparent);
+  border-radius: 28px;
+  background: var(--docs-page);
+  box-shadow:
+    0 2px 0 color-mix(in srgb, var(--white) 5%, transparent) inset,
+    0 34px 90px color-mix(in srgb, var(--black) 62%, transparent),
+    0 90px 180px color-mix(in srgb, var(--black) 48%, transparent);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.stage[data-scene='007'] [data-rig='raw'] {
+  height: 1080px;
+}
+
+.stage[data-scene='007'] .shot,
+.stage[data-scene='007'] .shot > i,
+.stage[data-scene='007'] .shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stage[data-scene='007'] .shot img {
+  display: block;
+  object-fit: fill;
+}
+
+/* Why: the raw .md view is a browser text page, not a docs page. Its own
+   #121212 has to run past the plate edge or the push in shows a seam. */
+.stage[data-scene='007'] .raw-bed {
+  position: absolute;
+  z-index: 0;
+  inset: -1600px;
+  background: var(--docs-raw);
+}
+
+/* Why: the real Open in menu has no transition — it is a conditional render.
+   Windows onto the same page captured with the menu up let the button state
+   and the menu land on one frame, the way the component does, instead of
+   inventing a fade the product does not have. */
+.stage[data-scene='007'] .crop {
+  position: absolute;
+  z-index: 3;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.stage[data-scene='007'] .crop > .shot {
+  inset: auto;
+  width: 1920px;
+  height: 1650px;
+}
+
+.stage[data-scene='007'] .crop.trigger {
+  top: 357px;
+  left: 682px;
+  width: 216px;
+  height: 52px;
+}
+
+.stage[data-scene='007'] .crop.trigger > .shot {
+  top: -357px;
+  left: -682px;
+}
+
+.stage[data-scene='007'] .crop.menu {
+  top: 423px;
+  left: 632px;
+  width: 432px;
+  height: 248px;
+}
+
+.stage[data-scene='007'] .crop.menu > .shot {
+  top: -423px;
+  left: -632px;
+}
+
+/* ------------------------------------------------------------- nav patch */
+
+.stage[data-scene='007'] .nav {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 244px;
+  display: flex;
+  align-items: center;
+  gap: 21px;
+  width: 724px;
+  height: 94px;
+  padding-left: 17px;
+  background: var(--docs-bar);
+}
+
+.stage[data-scene='007'] .nav b {
+  color: var(--docs-nav-off);
+  font-size: 19.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.stage[data-scene='007'] .nav b.on {
+  color: var(--docs-nav-on);
+}
+
+/* ------------------------------------------------------------- highlight */
+
+.stage[data-scene='007'] .spot {
+  position: absolute;
+  z-index: 4;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--cyan) 26%, transparent),
+    color-mix(in srgb, var(--accent-mid) 14%, transparent) 46%,
+    color-mix(in srgb, var(--pink) 7%, transparent) 70%,
+    transparent
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] [data-spot='hero'] {
+  top: 80px;
+  left: 571px;
+  width: 900px;
+  height: 520px;
+}
+
+.stage[data-scene='007'] [data-spot='paths'] {
+  top: 880px;
+  left: 420px;
+  width: 1500px;
+  height: 520px;
+}
+
+.stage[data-scene='007'] .spot.band {
+  top: -30px;
+  left: 400px;
+  width: 1400px;
+  height: 340px;
+}
+
+.stage[data-scene='007'] [data-spot='graph'] {
+  top: 850px;
+  left: 394px;
+  width: 1100px;
+  height: 560px;
+}
+
+.stage[data-scene='007'] [data-spot='menu'] {
+  top: 240px;
+  left: 470px;
+  width: 760px;
+  height: 520px;
+}
+
+.stage[data-scene='007'] [data-spot='front'] {
+  top: -120px;
+  left: 20px;
+  width: 900px;
+  height: 420px;
+}
+
+.stage[data-scene='007'] [data-spot='zod'] {
+  top: 140px;
+  left: 395px;
+  width: 1100px;
+  height: 380px;
+}
+
+/* Why: a lamp riding the wire is the only thing moving in the graph shot.
+   It is what makes Input to Delay to Output read as a path, not a diagram. */
+.stage[data-scene='007'] .lamp {
+  position: absolute;
+  z-index: 5;
+  top: 1116px;
+  left: 601px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--white), var(--cyan) 34%, transparent 70%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .spark {
+  position: absolute;
+  z-index: 6;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .spark > i,
+.stage[data-scene='007'] .dust > i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.stage[data-scene='007'] .spark > i {
+  width: 8px;
+  height: 8px;
+  box-shadow:
+    0 0 9px currentcolor,
+    0 0 22px currentcolor;
+}
+
+.stage[data-scene='007'] .dust > i {
+  box-shadow:
+    0 0 7px currentcolor,
+    0 0 16px currentcolor;
+}
+
+.stage[data-scene='007'] .spark > i[data-tone='c'],
+.stage[data-scene='007'] .dust > i[data-tone='c'] {
+  background: var(--cyan);
+  color: var(--cyan);
+}
+
+.stage[data-scene='007'] .spark > i[data-tone='p'],
+.stage[data-scene='007'] .dust > i[data-tone='p'] {
+  background: var(--pink);
+  color: var(--pink);
+}
+
+.stage[data-scene='007'] [data-spark='hero'] {
+  top: 330px;
+  left: 1420px;
+}
+
+.stage[data-scene='007'] [data-spark='buyers'] {
+  top: 1100px;
+  left: 678px;
+}
+
+.stage[data-scene='007'] [data-spark='creators'] {
+  top: 1100px;
+  left: 1170px;
+}
+
+.stage[data-scene='007'] [data-spark='developers'] {
+  top: 1100px;
+  left: 1662px;
+}
+
+.stage[data-scene='007'] [data-spark='input'] {
+  top: 1126px;
+  left: 612px;
+}
+
+.stage[data-scene='007'] [data-spark='delay'] {
+  top: 1126px;
+  left: 946px;
+}
+
+.stage[data-scene='007'] [data-spark='output'] {
+  top: 1126px;
+  left: 1271px;
+}
+
+.stage[data-scene='007'] [data-spark='menu'] {
+  top: 440px;
+  left: 1013px;
+}
+
+.stage[data-scene='007'] [data-spark='zod'] {
+  top: 320px;
+  left: 1446px;
+}
+
+/* --------------------------------------------------------------- ambient */
+
+.stage[data-scene='007'] .dust {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .scan {
+  position: absolute;
+  z-index: 8;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 260px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--cyan) 10%, transparent) 44%,
+    color-mix(in srgb, var(--pink) 8%, transparent) 64%,
+    transparent
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Why: the spec page is one long push with nothing on it that moves. A single
+   raking pass of light across the glass is what keeps the shot from reading as
+   a screenshot held for four seconds. */
+.stage[data-scene='007'] .sheen {
+  position: absolute;
+  z-index: 8;
+  top: -40%;
+  left: -62%;
+  width: 62%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--cyan) 9%, transparent) 38%,
+    color-mix(in srgb, var(--white) 7%, transparent) 52%,
+    color-mix(in srgb, var(--pink) 8%, transparent) 66%,
+    transparent
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .vignette {
+  position: absolute;
+  z-index: 9;
+  inset: 0;
+  background: radial-gradient(
+    120% 100% at 50% 46%,
+    transparent 44%,
+    color-mix(in srgb, var(--black) 30%, transparent) 88%,
+    color-mix(in srgb, var(--black) 48%, transparent)
+  );
+  pointer-events: none;
+}
+
+.stage[data-scene='007'] .lit .vignette {
+  background: radial-gradient(
+    130% 108% at 50% 48%,
+    transparent 58%,
+    color-mix(in srgb, var(--black) 16%, transparent) 92%,
+    color-mix(in srgb, var(--black) 26%, transparent)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage[data-scene='007'] .card h1 {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

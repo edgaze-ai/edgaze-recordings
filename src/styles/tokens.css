@@ -90,6 +90,89 @@
   --inner-light: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
   --grid-dot: rgba(255, 255, 255, 0.16);
 
+  /* docs — copied from the production DocsShell and Tailwind utilities */
+  --docs-page: #0c0c0f;
+  --docs-bar: #0f0f13;
+  --docs-card: rgba(255, 255, 255, 0.045);
+  --docs-card-soft: rgba(255, 255, 255, 0.035);
+  --docs-card-hot: rgba(255, 255, 255, 0.08);
+  --docs-line: rgba(255, 255, 255, 0.12);
+  --docs-line-soft: rgba(255, 255, 255, 0.1);
+  --docs-ink: rgba(255, 255, 255, 0.95);
+  --docs-copy: rgba(255, 255, 255, 0.7);
+  --docs-sub: rgba(255, 255, 255, 0.55);
+  --docs-faint: rgba(255, 255, 255, 0.45);
+  --docs-sky: #7dd3fc;
+  --docs-violet: #c4b5fd;
+  --docs-pink: #f9a8d4;
+  --docs-code-page: #ffffff;
+  --docs-code-ink: #111111;
+  --docs-node: #191919;
+  --docs-node-edge: rgba(255, 255, 255, 0.14);
+  --docs-node-port: #0e0e10;
+  --docs-node-port-edge: #38383e;
+  --docs-blue: #8ec0ff;
+  --docs-gold: #c4a054;
+  --docs-green: #6eb89a;
+  --docs-menu-shadow: rgba(0, 0, 0, 0.45);
+  --docs-nav-on: #ffffff;
+  --docs-nav-off: #9a9a9c;
+  --docs-raw: #121212;
+
+  /* REST launch film — values traced to the API docs, developer console,
+     marketplace card, and premium Workflow Studio node tokens. */
+  --rest-panel: #0a0b0f;
+  --rest-panel-soft: #121212;
+  --rest-panel-raised: #191919;
+  --rest-code: #0b0d12;
+  --rest-ink: #eeeeee;
+  --rest-copy: #a4a4a4;
+  --rest-muted: #8a8a8a;
+  --rest-faint: #5d6168;
+  --rest-violet: #b8acd4;
+  --rest-violet-port: #9484b8;
+  --rest-blue: #8ec0ff;
+  --rest-blue-port: #4f8cff;
+  --rest-amber: #fbbf24;
+  --rest-amber-ink: #241504;
+  --rest-green: #6eb89a;
+  --rest-green-bright: #6ee7b7;
+  --rest-rose: #fda4af;
+  --rest-sky: #7dd3fc;
+  --rest-ekme-page: #f7f4ed;
+  --rest-ekme-panel: #fffdf8;
+  --rest-ekme-ink: #1f2925;
+  --rest-ekme-copy: #66706b;
+  --rest-ekme-line: #dedfd9;
+  --rest-ekme-green: #326b57;
+  --rest-ekme-green-soft: #dcebe2;
+  --rest-ekme-warm: #d9a96a;
+
+  /* Shiki dark-plus — the theme DeveloperCodeBlock renders every docs and
+     console snippet with. Traced token colours, so a hand-built code panel
+     in a scene is the same code panel the reader sees on the page. */
+  --dp-punc: #d4d4d4;
+  --dp-key: #9cdcfe;
+  --dp-str: #ce9178;
+  --dp-num: #b5cea8;
+  --dp-lit: #569cd6;
+  --dp-fn: #dcdcaa;
+
+  /* API method badges — METHOD_COLORS in api-reference-data.ts, resolved
+     from Tailwind emerald/sky to literals so a scene can use var() only. */
+  --method-get-ink: #6ee7b7;
+  --method-get-face: rgba(16, 185, 129, 0.1);
+  --method-get-edge: rgba(16, 185, 129, 0.3);
+  --method-post-ink: #7dd3fc;
+  --method-post-face: rgba(14, 165, 233, 0.1);
+  --method-post-edge: rgba(14, 165, 233, 0.3);
+
+  /* rim light on the three surfaces — canvas port colours, one per panel */
+  --rim-blue: #6aa8ff;
+  --rim-amber: #fbbf24;
+  --rim-green: #6fc9a6;
+  --rim-warm: #f0e2c8;
+
   /* device — iPhone 15/16 Pro, used only on the phone object */
   --phone-hi: #ece8e0;
   --phone-mid: #c8c4bc;

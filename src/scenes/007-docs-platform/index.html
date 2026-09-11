@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>007 — Docs Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+    <link rel="stylesheet" href="../../styles/scene-007.css" />
+  </head>
+  <body>
+    <div class="stage" data-scene="007">
+      <div class="camera">
+        <section class="screen card" data-screen="card-1">
+          <h1 data-glow="Edgaze has documentation now.">
+            Edgaze has <span class="grad">documentation</span> now.
+          </h1>
+        </section>
+
+        <section class="screen ui" data-screen="landing">
+          <div class="rig" data-rig="landing">
+            <div class="shot" data-asset="photos/docs-landing"><i></i></div>
+            <div class="nav"><b>Documentation</b><b>API Reference</b></div>
+            <div class="spot" data-spot="hero"></div>
+            <div class="spot" data-spot="paths"></div>
+            <div class="spark" data-spark="hero"></div>
+            <div class="spark" data-spark="buyers"></div>
+            <div class="spark" data-spark="creators"></div>
+            <div class="spark" data-spark="developers"></div>
+          </div>
+          <div class="dust" data-dust="landing"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <section class="screen card" data-screen="card-2">
+          <h1 data-glow="Every block. Every price. Every policy.">
+            Every block. Every price. <span class="grad">Every policy.</span>
+          </h1>
+        </section>
+
+        <section class="screen ui" data-screen="sweep">
+          <div class="rig" data-rig="sweep-builder">
+            <div class="shot" data-asset="photos/docs-sweep-builder"><i></i></div>
+            <div class="nav"><b class="on">Documentation</b><b>API Reference</b></div>
+            <div class="spot band" data-spot="builder"></div>
+          </div>
+          <div class="rig off" data-rig="sweep-payments">
+            <div class="shot" data-asset="photos/docs-sweep-payments"><i></i></div>
+            <div class="nav"><b class="on">Documentation</b><b>API Reference</b></div>
+            <div class="spot band" data-spot="payments"></div>
+          </div>
+          <div class="rig off" data-rig="sweep-legal">
+            <div class="shot" data-asset="photos/docs-sweep-legal"><i></i></div>
+            <div class="nav"><b class="on">Documentation</b><b>API Reference</b></div>
+            <div class="spot band" data-spot="legal"></div>
+          </div>
+          <div class="scan" data-scan></div>
+          <div class="dust" data-dust="sweep"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <section class="screen card" data-screen="card-3">
+          <h1 data-glow="Written for people.">Written for <span class="grad">people.</span></h1>
+        </section>
+
+        <section class="screen ui" data-screen="delay">
+          <div class="rig" data-rig="delay">
+            <div class="shot" data-asset="photos/docs-delay"><i></i></div>
+            <div class="nav"><b class="on">Documentation</b><b>API Reference</b></div>
+            <div class="spot" data-spot="graph"></div>
+            <div class="lamp" data-lamp></div>
+            <div class="spark" data-spark="input"></div>
+            <div class="spark" data-spark="delay"></div>
+            <div class="spark" data-spark="output"></div>
+          </div>
+          <div class="dust" data-dust="delay"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <section class="screen card" data-screen="card-4">
+          <h1 data-glow="And for agents.">And for <span class="grad">agents.</span></h1>
+        </section>
+
+        <section class="screen ui" data-screen="markdown">
+          <div class="rig" data-rig="markdown">
+            <div class="shot" data-asset="photos/docs-delay"><i></i></div>
+            <div class="nav"><b class="on">Documentation</b><b>API Reference</b></div>
+            <div class="crop trigger" data-pop="trigger">
+              <div class="shot" data-asset="photos/docs-delay-open"><i></i></div>
+            </div>
+            <div class="crop menu" data-pop="menu">
+              <div class="shot" data-asset="photos/docs-delay-open"><i></i></div>
+            </div>
+            <div class="spot" data-spot="menu"></div>
+            <div class="spark" data-spark="menu"></div>
+          </div>
+          <div class="rig off" data-rig="raw">
+            <div class="raw-bed"></div>
+            <div class="shot" data-asset="photos/docs-delay-raw"><i></i></div>
+            <div class="spot" data-spot="front"></div>
+          </div>
+          <div class="dust" data-dust="markdown"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <section class="screen card" data-screen="card-5">
+          <h1 data-glow="Down to the API spec.">
+            Down to the <span class="grad">API spec.</span>
+          </h1>
+        </section>
+
+        <section class="screen ui lit" data-screen="api">
+          <div class="bed">
+            <i data-blob="cyan"></i><i data-blob="violet"></i><i data-blob="pink"></i>
+          </div>
+          <div class="glass" data-glass>
+            <div class="rig" data-rig="openapi">
+              <div class="shot" data-asset="photos/docs-openapi"><i></i></div>
+              <div class="nav"><b>Documentation</b><b class="on">API Reference</b></div>
+              <div class="spot" data-spot="zod"></div>
+              <div class="spark" data-spark="zod"></div>
+            </div>
+          </div>
+          <div class="sheen" data-sheen></div>
+          <div class="dust" data-dust="api"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <section class="screen card" data-screen="closing">
+          <h1 data-glow="edgaze.ai/docs">edgaze.ai<span class="grad">/docs</span></h1>
+        </section>
+      </div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="chrome">
+      <a href="/">Clips</a>
+      <button id="play" type="button">Pause</button>
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <span id="clock" class="clock">0:00.0</span>
+      <div
+        id="rail"
+        class="rail"
+        role="slider"
+        tabindex="0"
+        aria-label="Timeline"
+        aria-valuemin="0"
+        aria-valuemax="0"
+        aria-valuenow="0"
+      >
+        <i class="rail-track"></i>
+        <i class="rail-fill"></i>
+        <i class="rail-head-wrap"><b></b></i>
+      </div>
+      <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <div id="xfer" class="xfer" hidden>
+        <div class="xfer-meta">
+          <span id="xfer-label"></span><span id="xfer-pct" class="xfer-pct"></span>
+        </div>
+        <div class="xfer-rail"><i id="xfer-fill"></i></div>
+      </div>
+      <span id="status" class="status"></span>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

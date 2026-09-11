@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>008 — REST API</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+    <link rel="stylesheet" href="../../styles/scene-008.css" />
+  </head>
+  <body>
+    <div class="stage" data-scene="008">
+      <div class="camera">
+        <!-- 0.0 — the claim -->
+        <section class="screen card" data-screen="card-1">
+          <h1>Edgaze has a REST API.</h1>
+        </section>
+
+        <!--
+          2.2 and again at 42.5 — the three-surface arrangement. One space,
+          entered twice: the panels are mid-action on the way in and finished
+          on the way out, and the fourth surface only exists in the second
+          pass. Real 3D: .space carries the perspective, .space-camera and
+          every .panel are preserve-3d, so the depth below is geometry and the
+          parallax is the projection doing its job.
+        -->
+        <section class="screen space-screen" data-screen="space">
+          <div class="lamps">
+            <i data-lamp="blue"></i><i data-lamp="amber"></i><i data-lamp="green"></i>
+          </div>
+          <div class="space">
+            <div class="space-camera" data-space-camera>
+              <!--
+                Painted back to front. .panel opacity animates on the way in,
+                which flattens the preserve-3d subtree and drops the browser
+                back to paint order, so DOM order has to agree with depth or
+                the far MCP panel draws over the near terminal. Order here is
+                ascending z: ekme -660, market -150, mcp -130, terminal +175.
+              -->
+              <!-- fourth surface, second pass only: Ekme, small and light -->
+              <article class="panel" data-panel="ekme">
+                <i class="panel-bloom"></i>
+                <div class="slab">
+                  <i class="slab-back"></i>
+                  <i class="slab-edge t"></i><i class="slab-edge b"></i>
+                  <i class="slab-edge l"></i><i class="slab-edge r"></i>
+                </div>
+                <div class="panel-face">
+                  <div class="ui" data-ui="ekme-mini">
+                    <div class="mini-side"><i class="mini-mark"></i><b>ekme</b></div>
+                    <div class="mini-main">
+                      <b>Company intelligence brief</b>
+                      <span>example.com</span>
+                      <i></i><i></i><i></i><i></i>
+                    </div>
+                  </div>
+                </div>
+                <i class="panel-rim"></i>
+              </article>
+
+              <!-- left: the marketplace listing card, real component -->
+              <article class="panel" data-panel="market">
+                <i class="panel-bloom"></i>
+                <div class="slab">
+                  <i class="slab-back"></i>
+                  <i class="slab-edge t"></i><i class="slab-edge b"></i>
+                  <i class="slab-edge l"></i><i class="slab-edge r"></i>
+                </div>
+                <div class="panel-face">
+                  <div class="ui" data-ui="listing">
+                    <div class="listing-card">
+                      <div class="listing-thumb">
+                        <div class="thumb-bed">
+                          <div class="thumb-word">COMPANY INTELLIGENCE BRIEF</div>
+                          <i class="thumb-inset"></i>
+                          <i class="thumb-edge left"></i><i class="thumb-edge right"></i>
+                        </div>
+                        <i class="thumb-scrim"></i>
+                      </div>
+                      <div class="listing-body">
+                        <div class="listing-title">
+                          <span class="waypoints">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                              <circle cx="12" cy="4.5" r="2.5" />
+                              <circle cx="4.5" cy="19.5" r="2.5" />
+                              <circle cx="19.5" cy="19.5" r="2.5" />
+                              <path d="M12 7v4.5M9.9 13.4 6.4 17M14.1 13.4l3.5 3.6" />
+                            </svg>
+                          </span>
+                          <h3>Company Intelligence Brief</h3>
+                          <span class="heart">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                              <path
+                                d="M12 20s-7.2-4.6-7.2-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.2 2.4C19.2 15.4 12 20 12 20Z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                        <div class="listing-creator">
+                          <i class="avatar">E</i><b>Edgaze</b><span>@edgaze</span>
+                        </div>
+                        <p class="listing-desc">
+                          Turns a company name, public website URL, and research goal into a
+                          structured, evidence-aware sales brief.
+                        </p>
+                        <div class="listing-actions">
+                          <span class="listing-price">$2.50/run</span>
+                          <span class="try-pill" data-market-run>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M7 4.5v15l12-7.5z" />
+                            </svg>
+                            Try it free
+                          </span>
+                          <i class="press-host" data-market-press></i>
+                          <i class="cursor" data-market-cursor></i>
+                        </div>
+                        <div class="listing-code">/company-intel</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <i class="panel-rim"></i>
+              </article>
+
+              <!-- right: an MCP client calling the real edgaze_run tool -->
+              <article class="panel" data-panel="mcp">
+                <i class="panel-bloom"></i>
+                <div class="slab">
+                  <i class="slab-back"></i>
+                  <i class="slab-edge t"></i><i class="slab-edge b"></i>
+                  <i class="slab-edge l"></i><i class="slab-edge r"></i>
+                </div>
+                <div class="panel-face">
+                  <div class="ui" data-ui="mcp">
+                    <div class="mcp-bar">
+                      <i class="orb"></i><b>edgaze</b><span>mcp.edgaze.ai</span>
+                    </div>
+                    <div class="mcp-call" data-mcp-call>
+                      <div class="mcp-tool"><i class="bolt"></i><b>edgaze_run</b></div>
+                      <pre><code><span class="pn">{</span>
+  <span class="ky">"slug"</span><span class="pn">:</span> <span class="st">"edgaze/company-intel"</span><span class="pn">,</span>
+  <span class="ky">"inputs"</span><span class="pn">: {</span>
+    <span class="ky">"Company name"</span><span class="pn">:</span> <span class="st">"Example Corp"</span><span class="pn">,</span>
+    <span class="ky">"Website URL"</span><span class="pn">:</span> <span class="st">"https://example.com"</span>
+  <span class="pn">},</span>
+  <span class="ky">"max_cost_usd"</span><span class="pn">:</span> <span class="nu">2.5</span>
+<span class="pn">}</span></code></pre>
+                    </div>
+                    <div class="mcp-result" data-mcp-result>
+                      <i class="tick"></i>
+                      <div>
+                        <b>accepted</b>
+                        <code>run_id 7c9e6679-7425-40de-944b-e07fc1f90ae7</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <i class="spark" data-spark="mcp"></i>
+                <i class="panel-rim"></i>
+              </article>
+
+              <!-- centre: the terminal, the real generated curl snippet -->
+              <article class="panel" data-panel="terminal">
+                <i class="panel-bloom"></i>
+                <div class="slab">
+                  <i class="slab-back"></i>
+                  <i class="slab-edge t"></i><i class="slab-edge b"></i>
+                  <i class="slab-edge l"></i><i class="slab-edge r"></i>
+                </div>
+                <div class="panel-face">
+                  <div class="ui" data-ui="terminal">
+                    <div class="term-bar"><i></i><i></i><i></i><b>bash</b></div>
+                    <pre
+                      class="term-body"
+                    ><code><span class="sh">$</span> <span class="term-cmd" data-term-cmd>curl --fail-with-body --silent --show-error -X POST <span class="st">'https://api.edgaze.ai/v1/runs'</span> \
+  -H <span class="st">"Authorization: Bearer $EDGAZE_API_KEY"</span> \
+  -H <span class="st">'Content-Type: application/json'</span> \
+  --data <span class="st">'{"workflow":"550e8400-e29b-41d4-a716-446655440000","inputs":{"Company name":"Example Corp","Website URL":"https://example.com","Research goal":"Prepare for a first sales discovery call"}}'</span></span><i class="caret" data-term-caret></i></code></pre>
+                    <div class="term-out" data-term-out>
+                      <span class="st">HTTP/2</span> <b>202</b>
+                      <span class="dim">accepted · 7c9e6679-7425-40de-944b-e07fc1f90ae7</span>
+                    </div>
+                  </div>
+                </div>
+                <i class="panel-rim"></i>
+              </article>
+            </div>
+          </div>
+          <div class="dust" data-dust="space"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <!-- 8.0 -->
+        <section class="screen card" data-screen="card-2">
+          <h1>One workflow. Three kinds of customer.</h1>
+        </section>
+
+        <!-- 9.8 — the real /docs/api overview: base URL, three primitives, reference -->
+        <section class="screen ui-screen" data-screen="primitives">
+          <div class="rig" data-rig="docs">
+            <div class="docs-page">
+              <div class="docs-col">
+                <div class="docs-block">
+                  <h2>Base URL</h2>
+                  <p>
+                    Pin this origin in your SDK or HTTP client. All paths below are relative to
+                    it.
+                  </p>
+                  <pre
+                    class="docs-code"
+                  ><code><span class="st">https://api.edgaze.ai/v1</span></code></pre>
+                </div>
+                <div class="docs-block">
+                  <h2>How it works</h2>
+                  <p>Three primitives. Most integrations only need these.</p>
+                  <div class="concepts">
+                    <article class="concept" data-concept="keys">
+                      <i class="concept-icon" data-concept-icon>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <circle cx="7.5" cy="15.5" r="4.5" />
+                          <path d="m21 3-9.6 9.6M16 6.5 19.5 10M13 9.5l3.5 3.5" />
+                        </svg>
+                      </i>
+                      <b>API keys</b>
+                      <p>
+                        Scoped secrets with optional spend caps. One header on every request.
+                      </p>
+                      <span class="concept-link">Read more →</span>
+                    </article>
+                    <article class="concept" data-concept="runs">
+                      <i class="concept-icon" data-concept-icon>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M13 2 3.5 13.5H11l-1 8.5L20.5 10H13z" />
+                        </svg>
+                      </i>
+                      <b>Runs</b>
+                      <p>
+                        Async execution. POST to start, GET to poll, events for step progress.
+                      </p>
+                      <span class="concept-link">Read more →</span>
+                    </article>
+                    <article class="concept" data-concept="webhooks">
+                      <i class="concept-icon" data-concept-icon>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M9.7 7.6a3.4 3.4 0 1 1 5 3.3l2.6 4.4M14.9 20a3.4 3.4 0 1 1 1.2-5.6M6.6 11.4A3.4 3.4 0 1 0 9 20h5"
+                          />
+                        </svg>
+                      </i>
+                      <b>Webhooks</b>
+                      <p>Signed callbacks on completion. Skip the poll loop in production.</p>
+                      <span class="concept-link">Read more →</span>
+                    </article>
+                  </div>
+                </div>
+                <div class="docs-block">
+                  <h2>Reference</h2>
+                  <p>
+                    Guides for auth, billing, and webhooks. Endpoint pages include a playground
+                    and copy-paste snippets.
+                  </p>
+                  <ul class="endpoints">
+                    <li data-endpoint>
+                      <span class="mb get">GET</span>
+                      <div>
+                        <b>List Workflows</b>
+                        <p>Discover workflows your key can access</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                    <li data-endpoint>
+                      <span class="mb get">GET</span>
+                      <div>
+                        <b>Get Workflow</b>
+                        <p>Full schema, pricing, and example request</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                    <li data-endpoint>
+                      <span class="mb post">POST</span>
+                      <div>
+                        <b>Create Run</b>
+                        <p>Start an async workflow run</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                    <li data-endpoint>
+                      <span class="mb get">GET</span>
+                      <div>
+                        <b>Get Run</b>
+                        <p>Poll status, outputs, and charge</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                    <li data-endpoint>
+                      <span class="mb get">GET</span>
+                      <div>
+                        <b>List Run Events</b>
+                        <p>Ordered step-level events</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                    <li data-endpoint>
+                      <span class="mb post">POST</span>
+                      <div>
+                        <b>Cancel Run</b>
+                        <p>Stop an in-flight run</p>
+                      </div>
+                      <i class="chev-r"></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="spot" data-spot="webhooks"></div>
+            <div class="spark" data-spark="webhooks"></div>
+          </div>
+          <div class="dust" data-dust="primitives"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <!-- 13.5 -->
+        <section class="screen card" data-screen="card-3">
+          <h1>Start a run. Get the result.</h1>
+        </section>
+
+        <!-- 15.0 — the lifecycle. One shot, no cuts. -->
+        <section class="screen life" data-screen="lifecycle">
+          <article class="pane" data-life="request">
+            <div class="pane-head"><span class="mb post">POST</span><code>/v1/runs</code></div>
+            <pre><code><span class="ln" data-split="whole"><span class="pn">{</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"workflow"</span><span class="pn">:</span> <span class="st">"550e8400-e29b-41d4-a716-446655440000"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"inputs"</span><span class="pn">: {</span></span>
+<span class="ln" data-split="whole">    <span class="ky">"Company name"</span><span class="pn">:</span> <span class="st">"Example Corp"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">    <span class="ky">"Website URL"</span><span class="pn">:</span> <span class="st">"https://example.com"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">    <span class="ky">"Research goal"</span><span class="pn">:</span> <span class="st">"Prepare for a first sales discovery call"</span></span>
+<span class="ln" data-split="whole">  <span class="pn">}</span></span>
+<span class="ln" data-split="whole"><span class="pn">}</span></span></code></pre>
+          </article>
+
+          <article class="pane" data-life="accepted">
+            <div class="pane-head">
+              <span class="status-202" data-status-202>202 Accepted</span>
+              <i class="status-glow" data-status-glow></i>
+            </div>
+            <pre><code><span class="ln" data-split="whole"><span class="pn">{ </span><span class="ky">"run"</span><span class="pn">: {</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"id"</span><span class="pn">:</span> <span class="st">"7c9e6679-7425-40de-944b-e07fc1f90ae7"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"status"</span><span class="pn">:</span> <span class="st">"accepted"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"statusUrl"</span><span class="pn">:</span> <span class="st">"https://api.edgaze.ai/v1/runs/7c9e6679-7425-40de-944b-e07fc1f90ae7"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"eventsUrl"</span><span class="pn">:</span> <span class="st">"https://api.edgaze.ai/v1/runs/7c9e6679-7425-40de-944b-e07fc1f90ae7/events"</span><span class="pn">,</span></span>
+<span class="ln" data-split="whole">  <span class="ky">"streamUrl"</span><span class="pn">:</span> <span class="st">"https://api.edgaze.ai/v1/runs/7c9e6679-7425-40de-944b-e07fc1f90ae7/stream"</span></span>
+<span class="ln" data-split="whole"><span class="pn">} }</span></span></code></pre>
+          </article>
+
+          <article class="pane" data-life="events">
+            <div class="pane-head">
+              <span class="mb get">GET</span><code>/v1/runs/{run_id}/events</code>
+            </div>
+            <ul class="events">
+              <li data-event>
+                <span class="seq">1</span><b>run.started</b><code>status running</code>
+              </li>
+              <li data-event>
+                <span class="seq">2</span><b>node.output.delta</b
+                ><code>llm_1 · # Edge AI in 2026</code>
+              </li>
+              <li data-event>
+                <span class="seq">3</span><b>node.completed</b><code>llm_1 · attempt 1</code>
+              </li>
+              <li data-event>
+                <span class="seq">4</span><b>run.completed</b><code>status completed</code>
+              </li>
+            </ul>
+          </article>
+
+          <!-- the run: one physical object, real geometry, lit from inside -->
+          <div class="run-stage">
+            <div class="run-object" data-run-object>
+              <i class="run-halo" data-run-halo></i>
+              <div class="run-body" data-run-body>
+                <i class="run-face fz"></i><i class="run-face bz"></i>
+                <i class="run-face lx"></i><i class="run-face rx"></i>
+                <i class="run-face ty"></i><i class="run-face by"></i>
+                <i class="run-core" data-run-core></i>
+                <i class="run-lattice a" data-run-lattice></i>
+                <i class="run-lattice b" data-run-lattice></i>
+                <i class="run-lattice c" data-run-lattice></i>
+              </div>
+              <i class="run-ring a" data-run-ring></i>
+              <i class="run-ring b" data-run-ring></i>
+            </div>
+          </div>
+
+          <article class="pane out" data-life="output">
+            <div class="out-head"><i class="tick"></i><b>Company intelligence brief</b></div>
+            <p class="out-body">
+              <span class="md-h"># Edge AI in 2026</span>
+            </p>
+            <div class="out-meta">
+              <span data-out-meta><i>displayedChargeUsd</i><b>2.5</b></span>
+              <span data-out-meta><i>billingStatus</i><b>settled</b></span>
+              <span data-out-meta><i>status</i><b>completed</b></span>
+            </div>
+          </article>
+
+          <div class="spark" data-spark="resolve"></div>
+          <div class="dust" data-dust="life"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <!-- 22.0 -->
+        <section class="screen card" data-screen="card-4">
+          <h1>Same run. Same price. Same engine.</h1>
+        </section>
+
+        <!-- 23.5 — billing parity, both halves real UI -->
+        <section class="screen billing" data-screen="billing">
+          <div class="half left" data-half="product">
+            <div class="runtime-card">
+              <div class="runtime-head">
+                <i class="tick"></i><b>Company Intelligence Brief</b>
+                <span class="charge-chip" data-chip="product">
+                  <i>Charged</i><b data-price-product>$0.00</b>
+                </span>
+                <i class="chip-glow" data-chip-glow="product"></i>
+              </div>
+              <div class="runtime-out">
+                <span class="md-h"># Edge AI in 2026</span>
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="runtime-foot">
+                <span>Marketplace</span><span>·</span><span>42.0s</span>
+              </div>
+            </div>
+          </div>
+          <div class="half right" data-half="api">
+            <div class="api-card">
+              <div class="pane-head">
+                <span class="mb get">GET</span
+                ><code>/v1/runs/7c9e6679-7425-40de-944b-e07fc1f90ae7</code>
+              </div>
+              <pre><code><span class="pn">{</span>
+  <span class="ky">"id"</span><span class="pn">:</span> <span class="st">"7c9e6679-7425-40de-944b-e07fc1f90ae7"</span><span class="pn">,</span>
+  <span class="ky">"status"</span><span class="pn">:</span> <span class="st">"completed"</span><span class="pn">,</span>
+  <span class="ky">"reason"</span><span class="pn">:</span> <span class="li">null</span><span class="pn">,</span>
+  <span class="ky">"startedAt"</span><span class="pn">:</span> <span class="st">"2026-07-08T10:00:00.000Z"</span><span class="pn">,</span>
+  <span class="ky">"completedAt"</span><span class="pn">:</span> <span class="st">"2026-07-08T10:00:42.000Z"</span><span class="pn">,</span>
+  <span class="ky">"displayedChargeUsd"</span><span class="pn">:</span> <b class="nu" data-price-api>0</b><span class="pn">,</span>
+  <span class="ky">"billingStatus"</span><span class="pn">:</span> <span class="st">"settled"</span><span class="pn">,</span>
+  <span class="ky">"outputs"</span><span class="pn">: [</span>
+    <span class="pn">{</span> <span class="ky">"name"</span><span class="pn">:</span> <span class="st">"article"</span><span class="pn">,</span> <span class="ky">"type"</span><span class="pn">:</span> <span class="st">"text"</span> <span class="pn">}</span>
+  <span class="pn">]</span>
+<span class="pn">}</span></code></pre>
+              <i class="chip-glow" data-chip-glow="api"></i>
+            </div>
+          </div>
+          <div class="dust" data-dust="billing"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <!-- 27.0 -->
+        <section class="screen card" data-screen="card-5">
+          <h1>Spend caps enforced before the run starts.</h1>
+        </section>
+
+        <!-- 28.3 — the real developer console key modal -->
+        <section class="screen keys" data-screen="keys">
+          <div class="console">
+            <aside class="console-nav">
+              <div class="console-mark"><i></i><b>Edgaze</b></div>
+              <span>Workflows</span><span class="on">API keys</span><span>Webhooks</span
+              ><span>Usage</span>
+            </aside>
+            <main class="console-main">
+              <h2>API keys</h2>
+              <p>Authenticate API requests. Open a key to rotate, cap spend, or disable it.</p>
+            </main>
+          </div>
+          <i class="shade"></i>
+          <div class="key-frame">
+            <div class="key-modal" data-key-modal>
+              <div class="modal-head">
+                <h2>New API key</h2>
+                <p>Name it, pick the permissions it needs, then copy the secret once.</p>
+              </div>
+              <div class="modal-body">
+                <label>Name</label>
+                <div class="kfield">Production</div>
+                <p class="group">Permissions</p>
+                <p class="knote">
+                  Nothing is selected by default. Most integrations need Start runs and Read
+                  runs.
+                </p>
+                <div class="check" data-check>
+                  <i class="on"></i>
+                  <div><b>Start runs</b><span>Create runs and spend wallet balance.</span></div>
+                </div>
+                <div class="check" data-check>
+                  <i class="on"></i>
+                  <div>
+                    <b>Read runs</b><span>Read status, events, and the live stream.</span>
+                  </div>
+                </div>
+                <div class="check" data-check>
+                  <i></i>
+                  <div>
+                    <b>Accept updates</b
+                    ><span>Re-pin a purchase to a newer workflow version.</span>
+                  </div>
+                </div>
+                <div class="cap" data-cap>
+                  <div class="cap-row">
+                    <div>
+                      <b>Spend cap</b
+                      ><span>Stop this key with HTTP 402 when it exceeds a limit.</span>
+                    </div>
+                    <i class="toggle" data-cap-toggle><b data-cap-knob></b></i>
+                  </div>
+                  <div class="cap-fields" data-cap-fields>
+                    <div>
+                      <label>Amount (USD)</label>
+                      <div class="kfield"><span data-cap-value>0</span></div>
+                    </div>
+                    <div>
+                      <label>Window</label>
+                      <div class="kfield select">Daily<i class="chev"></i></div>
+                    </div>
+                  </div>
+                  <i class="cap-edge" data-cap-edge></i>
+                </div>
+              </div>
+              <div class="modal-foot">
+                <span class="btn">Cancel</span><span class="btn go">Create key</span>
+              </div>
+            </div>
+          </div>
+          <div class="dust" data-dust="keys"></div>
+          <div class="vignette"></div>
+        </section>
+
+        <!-- 31.5 -->
+        <section class="screen card" data-screen="card-6">
+          <h1>Someone else's product.</h1>
+        </section>
+
+        <!-- 33.0 — Ekme. Light mode, warm, entirely its own design language. -->
+        <section class="screen ekme-screen" data-screen="ekme">
+          <div class="rig" data-rig="ekme">
+            <div class="ekme">
+              <aside class="ekme-side">
+                <div class="ekme-brand"><i></i><b>ekme</b></div>
+                <nav>
+                  <span class="on">Research</span><span>Companies</span><span>Saved briefs</span
+                  ><span>Settings</span>
+                </nav>
+                <div class="ekme-who"><i>AK</i><span>Fieldwork workspace</span></div>
+              </aside>
+              <main class="ekme-main">
+                <header class="ekme-head">
+                  <h1>New research brief</h1>
+                  <p>Paste a company page. We read it and write up what is actually there.</p>
+                </header>
+                <div class="ekme-query">
+                  <div class="ekme-input">
+                    <i class="link"></i><span data-ekme-url></span
+                    ><i class="caret" data-ekme-caret></i>
+                  </div>
+                  <span class="ekme-go" data-ekme-go>Research</span>
+                  <i class="press-host" data-ekme-press></i>
+                </div>
+                <div class="ekme-credit" data-ekme-credit>Powered by Edgaze</div>
+                <div class="ekme-progress" data-ekme-progress>
+                  <i class="bar"><b data-ekme-bar></b></i>
+                  <span data-ekme-step>Reading the page</span>
+                </div>
+                <article class="ekme-brief" data-ekme-brief>
+                  <header>
+                    <div>
+                      <span>example.com</span>
+                      <h2>Company intelligence brief</h2>
+                    </div>
+                    <b data-brief-state>Complete</b>
+                  </header>
+                  <section data-brief-part>
+                    <h3>Company summary</h3>
+                    <p>
+                      Example Corp publishes one page at example.com. The retrieved page is a
+                      reserved-domain notice, not a product or marketing site.
+                    </p>
+                  </section>
+                  <section data-brief-part>
+                    <h3>Products and target customers</h3>
+                    <p>
+                      The source names no products, pricing, or customer segments. Nothing on
+                      the page supports a segment claim.
+                    </p>
+                  </section>
+                  <section data-brief-part>
+                    <h3>Likely business priorities</h3>
+                    <p>
+                      Not evidenced by this source. Inference only, and weak: retrieve the live
+                      company page before relying on it.
+                    </p>
+                  </section>
+                  <section data-brief-part>
+                    <h3>Three evidence-backed sales hypotheses</h3>
+                    <p>
+                      None are supported. The retrieved page carries no commercial signal to
+                      build a hypothesis on.
+                    </p>
+                  </section>
+                  <section data-brief-part>
+                    <h3>Open questions and verification risks</h3>
+                    <p>
+                      Confirm the correct domain, then run again. Treat every inference above as
+                      unverified against a primary source.
+                    </p>
+                  </section>
+                </article>
+              </main>
+            </div>
+          </div>
+          <div class="soft-light"></div>
+        </section>
+
+        <!-- 41.0 -->
+        <section class="screen card" data-screen="card-7"><h1>Publish once.</h1></section>
+
+        <!-- 46.0 -->
+        <section class="screen card" data-screen="closing">
+          <h1>edgaze.ai/developer</h1>
+        </section>
+      </div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="chrome">
+      <a href="/">Clips</a>
+      <button id="play" type="button">Pause</button>
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <span id="clock" class="clock">0:00.0</span>
+      <div
+        id="rail"
+        class="rail"
+        role="slider"
+        tabindex="0"
+        aria-label="Timeline"
+        aria-valuemin="0"
+        aria-valuemax="0"
+        aria-valuenow="0"
+      >
+        <i class="rail-track"></i>
+        <i class="rail-fill"></i>
+        <i class="rail-head-wrap"><b></b></i>
+      </div>
+      <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <div id="xfer" class="xfer" hidden>
+        <div class="xfer-meta">
+          <span id="xfer-label"></span><span id="xfer-pct" class="xfer-pct"></span>
+        </div>
+        <div class="xfer-rail"><i id="xfer-fill"></i></div>
+      </div>
+      <span id="status" class="status"></span>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

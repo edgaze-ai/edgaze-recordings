@@ -250,3 +250,38 @@ export function tunnel(
     }
   }
 }
+
+/**
+ * Why: pressBurst throws its ghosts past the object, which is right for an
+ * impact and wrong for a limit. A spend cap is a boundary that holds, so the
+ * ghosts here barely leave the edge they trace — three copies 90ms apart at
+ * 1.0 to about 1.05. It reads as the boundary asserting itself rather than
+ * as something escaping it, which is the whole point of the beat.
+ */
+export function edgePulse(
+  tl: Timeline,
+  host: HTMLElement,
+  {
+    at,
+    count = 3,
+    gap = 90,
+    duration = 900,
+    reach = 0.05,
+  }: { at: number; count?: number; gap?: number; duration?: number; reach?: number },
+): void {
+  host.replaceChildren();
+  for (let i = 0; i < count; i += 1) {
+    const ring = document.createElement('i');
+    host.append(ring);
+    const peak = 0.85 * (1 - i / (count + 1));
+    tl.add(
+      ring,
+      [
+        { transform: 'scale(1)', opacity: 0 },
+        { transform: `scale(${1 + reach * 0.28})`, opacity: peak, offset: 0.22 },
+        { transform: `scale(${1 + reach})`, opacity: 0 },
+      ],
+      { delay: at + i * gap, duration, easing: ease.expo, fill: 'forwards' },
+    );
+  }
+}
