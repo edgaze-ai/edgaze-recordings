@@ -33,11 +33,21 @@ a {
   cursor: pointer;
 }
 
+/*
+ * Light is the default ground from 010 on. Scenes 001–009 opt back into the
+ * original black film with data-tone="dark".
+ */
 .stage {
   position: relative;
   overflow: hidden;
-  background: var(--black);
+  background: var(--ground);
+  color: var(--ink-display);
   zoom: var(--zoom);
+}
+
+.stage[data-tone='dark'] {
+  background: var(--black);
+  color: var(--ink);
 }
 
 .grain {
@@ -49,6 +59,15 @@ a {
   mix-blend-mode: screen;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 180px 180px;
+}
+
+/*
+ * On a light ground screen-blended grain only lifts white further. Multiply
+ * darkens instead, which is what dithers a pastel ramp under H.264.
+ */
+.stage:not([data-tone='dark']) .grain {
+  opacity: 0.045;
+  mix-blend-mode: multiply;
 }
 
 .camera {
@@ -199,6 +218,22 @@ a {
   transform: translateX(-50%);
 }
 
+.rail-bar {
+  position: absolute;
+  top: 6px;
+  width: 1px;
+  height: 10px;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
+  pointer-events: none;
+}
+
+.rail-bar.drop {
+  top: 2px;
+  width: 2px;
+  height: 18px;
+  background: var(--pink);
+}
+
 .rail:focus-visible {
   outline: none;
 }
@@ -269,8 +304,12 @@ a {
 }
 
 body.rec {
-  background: var(--black);
+  background: var(--ground);
   overflow: hidden;
+}
+
+body.rec:has(.stage[data-tone='dark']) {
+  background: var(--black);
 }
 
 body.rec .chrome {
