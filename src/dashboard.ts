@@ -1,5 +1,6 @@
 import { listSlots, type SlotRow } from './lib/assets';
 import { applyExportProgress, requestExport } from './lib/export';
+import { guardReloads } from './lib/hot';
 import { icons } from './lib/icons';
 import { formatBytes, formatDuration, type ClipFormat, type SceneMeta } from './lib/scene-meta';
 
@@ -459,7 +460,48 @@ viewer?.addEventListener('click', (event) => {
   if (event.target === viewer) closeViewer();
 });
 
+/** Arrow keys walk the visible scenes; Enter opens the selected one. */
+function moveSelection(delta: number) {
+  const list = visibleScenes();
+  if (!list.length) return;
+  const index = list.findIndex((scene) => scene.id === selected);
+  const next = list[Math.max(0, Math.min(list.length - 1, index < 0 ? 0 : index + delta))];
+  if (next) {
+    select(next.id);
+    scenesEl
+      ?.querySelector(`[data-scene="${CSS.escape(next.id)}"]`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }
+}
+
 window.addEventListener('keydown', (event) => {
+  const typing =
+    event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
+  const open = viewer ? !viewer.hidden : false;
+  if (!typing && !open && !event.metaKey && !event.ctrlKey && !event.altKey) {
+    if (event.key === '/') {
+      event.preventDefault();
+      search?.focus();
+      search?.select();
+      return;
+    }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      moveSelection(event.key === 'ArrowDown' ? 1 : -1);
+      return;
+    }
+    if (event.key === 'Enter' && selected && !(event.target instanceof HTMLButtonElement)) {
+      if (event.target instanceof HTMLAnchorElement) return;
+      event.preventDefault();
+      location.href = `./scenes/${selected}/index.html`;
+      return;
+    }
+  }
+  if (typing && event.key === 'ArrowDown' && event.target === search) {
+    event.preventDefault();
+    moveSelection(1);
+    return;
+  }
   if (event.key === 'Escape') {
     if (viewer && !viewer.hidden) {
       closeViewer();
@@ -514,6 +556,9 @@ const refreshSoon = () => {
 window.setInterval(() => void pollExport(), 1000);
 window.addEventListener('focus', refreshSoon);
 document.addEventListener('visibilitychange', refreshSoon);
+
+// Agent edits arrive in bursts; reload once they settle, never mid-export.
+guardReloads({ hold: () => exportingHere });
 
 paintFilter();
 void refresh();
