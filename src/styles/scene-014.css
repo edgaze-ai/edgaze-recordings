@@ -1,0 +1,798 @@
+/* 014 — Daily Workflow Spotlight #002: Title and Abstract Screening for
+   Systematic Reviews, by Arjun Kuttikkat. Vertical (1080×1920). Classes
+   carry an rv- prefix: stage.css owns many short unscoped names. */
+
+.stage[data-scene='014'] .screen {
+  overflow: hidden;
+  flex-direction: column;
+  /* Clear of the Reels caption and buttons. */
+  padding-bottom: 180px;
+  background: var(--ground);
+  opacity: 0;
+}
+
+.stage[data-scene='014'] .river > i {
+  bottom: -15%;
+  height: 36%;
+}
+
+.stage[data-scene='014'] .river > i:nth-child(2) {
+  bottom: -14%;
+  height: 26%;
+}
+
+.stage[data-scene='014'] img,
+.stage[data-scene='014'] video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stage[data-scene='014'] [data-asset] > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.rv-shadow,
+.rv-shot,
+.rv-sheet,
+.rv-box,
+.rv-card {
+  box-shadow:
+    0 3px 8px color-mix(in srgb, var(--ink-display) 8%, transparent),
+    0 18px 40px color-mix(in srgb, var(--ink-display) 11%, transparent),
+    0 48px 90px color-mix(in srgb, var(--ink-display) 12%, transparent);
+}
+
+.kin .w {
+  display: inline-block;
+}
+
+/* ── Illustration kit ─────────────────────────────────────────────── */
+.rv-art {
+  position: relative;
+  width: 900px;
+  height: 900px;
+}
+
+.rv-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.rv-art .pc {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.rv-art .rv-who,
+.rv-art .rv-panel,
+.rv-art .rv-laptop {
+  filter: drop-shadow(0 18px 30px color-mix(in srgb, var(--ink-display) 12%, transparent));
+}
+
+.rv-skin {
+  fill: var(--skin-a);
+}
+
+.rv-skin2 {
+  fill: var(--skin-a-2);
+  opacity: 0.55;
+}
+
+.rv-hair {
+  fill: var(--hair-a);
+}
+
+.rv-cardigan {
+  fill: var(--cat-research);
+}
+
+.rv-sleeve {
+  fill: none;
+  stroke: var(--cat-research);
+  stroke-width: 58;
+  stroke-linecap: round;
+}
+
+.rv-shirt {
+  fill: var(--white);
+}
+
+.rv-lens {
+  fill: color-mix(in srgb, var(--white) 30%, transparent);
+  stroke: var(--ink-display);
+  stroke-width: 7;
+}
+
+.rv-stroke {
+  fill: none;
+  stroke: var(--ink-display);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rv-stroke.thin {
+  stroke-width: 5;
+  opacity: 0.45;
+}
+
+.rv-ink {
+  fill: var(--ink-display);
+}
+
+.rv-shine {
+  fill: var(--white);
+}
+
+.rv-blush {
+  fill: var(--blush);
+  opacity: 0.7;
+}
+
+.rv-tongue {
+  fill: var(--cat-marketing);
+}
+
+.rv-sweat {
+  fill: var(--cat-support);
+  opacity: 0.8;
+}
+
+.rv-paper {
+  fill: var(--card-face);
+  stroke: color-mix(in srgb, var(--ink-display) 10%, transparent);
+  stroke-width: 2;
+}
+
+.rv-line {
+  fill: color-mix(in srgb, var(--ink-display) 14%, transparent);
+}
+
+.rv-inc {
+  fill: var(--decide-include);
+}
+
+.rv-exc {
+  fill: var(--decide-exclude);
+}
+
+.rv-chk {
+  fill: var(--decide-check);
+}
+
+.rv-desk {
+  fill: var(--card-face);
+}
+
+.rv-desk-front {
+  fill: color-mix(in srgb, var(--ink-display) 5%, var(--card-face));
+}
+
+.rv-desk-shade {
+  fill: color-mix(in srgb, var(--ink-display) 9%, transparent);
+}
+
+.rv-desk-line {
+  fill: color-mix(in srgb, var(--ink-display) 12%, transparent);
+}
+
+.rv-base {
+  fill: color-mix(in srgb, var(--ink-display) 70%, var(--cat-research));
+}
+
+.rv-mug {
+  fill: var(--cat-marketing);
+}
+
+.rv-lid {
+  fill: color-mix(in srgb, var(--ink-display) 86%, var(--cat-research));
+}
+
+.rv-logo-dot {
+  fill: var(--white);
+  opacity: 0.9;
+}
+
+.rv-steam {
+  fill: none;
+  stroke: color-mix(in srgb, var(--ink-display) 25%, transparent);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.rv-spark {
+  fill: var(--cat-design);
+}
+
+.rv-wowface {
+  opacity: 0;
+}
+
+/* ── Hook ─────────────────────────────────────────────────────────── */
+.rv-storm {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1400px;
+}
+
+.rv-storm .sheet[data-layer='near'] {
+  filter: blur(3px);
+}
+
+.rv-storm .sheet[data-layer='far'] {
+  filter: blur(1.5px);
+}
+
+.rv-storm .sheet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 120px;
+  height: 156px;
+  margin-left: -60px;
+  border-radius: 10px;
+  backface-visibility: visible;
+  background:
+    linear-gradient(
+        color-mix(in srgb, var(--ink-display) 22%, transparent),
+        color-mix(in srgb, var(--ink-display) 22%, transparent)
+      )
+      18px 22px / 70px 9px no-repeat,
+    repeating-linear-gradient(
+        color-mix(in srgb, var(--ink-display) 10%, transparent) 0 6px,
+        transparent 6px 15px
+      )
+      18px 46px / 84px 90px no-repeat,
+    var(--card-face);
+  box-shadow:
+    0 4px 10px color-mix(in srgb, var(--ink-display) 10%, transparent),
+    0 18px 30px color-mix(in srgb, var(--ink-display) 10%, transparent);
+  opacity: 0;
+}
+
+.kin.rv-hook,
+.kin.rv-pair-h,
+.kin.rv-sheet-h,
+.kin.rv-prisma-h,
+.kin.rv-wow-h {
+  position: relative;
+  z-index: 2;
+  font-size: 108px;
+  line-height: 1;
+}
+
+.rv-tired {
+  z-index: 1;
+  margin-top: 30px;
+}
+
+/* ── Two screeners ────────────────────────────────────────────────── */
+.rv-pair {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px 640px 150px;
+  column-gap: 30px;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.rv-eye {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.rv-eye > .rv-ring,
+.rv-eye > .rv-iris {
+  display: block;
+  border-radius: 50%;
+}
+
+.rv-eye > .rv-ring:nth-child(1) {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--card-face) 0%,
+    color-mix(in srgb, var(--cat-support) 22%, var(--card-face)) 70%
+  );
+  box-shadow:
+    0 14px 30px color-mix(in srgb, var(--ink-display) 14%, transparent),
+    inset 0 -6px 14px color-mix(in srgb, var(--cat-support) 25%, transparent);
+}
+
+.rv-eye[data-n='2'] > .rv-ring:nth-child(1) {
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--card-face) 0%,
+    color-mix(in srgb, var(--cat-research) 22%, var(--card-face)) 70%
+  );
+}
+
+.rv-eye > .rv-ring:nth-child(2) {
+  position: absolute;
+  top: 25px;
+  width: 100px;
+  height: 100px;
+  border: 8px solid color-mix(in srgb, var(--cat-support) 70%, var(--ink-display));
+}
+
+.rv-eye[data-n='2'] > .rv-ring:nth-child(2) {
+  border-color: color-mix(in srgb, var(--cat-research) 70%, var(--ink-display));
+}
+
+.rv-eye > .rv-iris {
+  position: absolute;
+  top: 55px;
+  width: 40px;
+  height: 40px;
+  background: var(--ink-display);
+  box-shadow: inset 8px -8px 0 0 color-mix(in srgb, var(--white) 35%, transparent);
+}
+
+.rv-eye > span {
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.rv-records {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.rv-card {
+  position: relative;
+  padding: 24px 30px 22px;
+  border-radius: 28px;
+  background: var(--card-face);
+}
+
+.rv-card h3 {
+  margin: 0;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+}
+
+.rv-card .rv-meta {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.rv-card .rv-marks {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.rv-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  color: var(--white);
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rv-mark[data-v='include'] {
+  background: var(--decide-include);
+}
+
+.rv-mark[data-v='exclude'] {
+  background: var(--decide-exclude);
+}
+
+.rv-mark[data-v='check'] {
+  background: var(--decide-check);
+}
+
+.rv-verdict {
+  margin-left: auto;
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.rv-verdict[data-v='include'] {
+  color: var(--decide-include);
+}
+
+.rv-verdict[data-v='exclude'] {
+  color: var(--decide-exclude);
+}
+
+.rv-verdict[data-v='check'] {
+  color: var(--decide-check);
+}
+
+.rv-rule {
+  margin: 64px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* ── Title ────────────────────────────────────────────────────────── */
+.rv-kicker {
+  margin: 0 0 44px;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.rv-titleblock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 18px;
+}
+
+.kin.rv-title {
+  font-size: 112px;
+  line-height: 1;
+}
+
+.kin.rv-title .row {
+  display: block;
+}
+
+/* splitChars keeps the space between the rows as its own .ch; between two
+   block rows it would become an empty line. */
+.kin.rv-title > .sp {
+  display: none;
+}
+
+.rv-for {
+  margin: 30px 0 0;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-size: 52px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.rv-by {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 70px;
+}
+
+.rv-by p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.rv-by b {
+  color: var(--ink-display);
+  font-weight: 600;
+}
+
+.rv-face {
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--ink-display) 18%, transparent);
+}
+
+.rv-tick {
+  width: 46px;
+  height: 46px;
+  filter: brightness(0.9) saturate(1.5);
+}
+
+/* ── Live run ─────────────────────────────────────────────────────── */
+.rv-caps {
+  position: relative;
+  z-index: 4;
+  width: 1080px;
+  height: 110px;
+  margin-bottom: 64px;
+}
+
+.kin.rv-cap {
+  position: absolute;
+  inset: 0;
+  font-size: 88px;
+  opacity: 0;
+}
+
+.rv-shot {
+  position: relative;
+  width: 1000px;
+  height: 688px;
+  overflow: hidden;
+  border-radius: 44px;
+  background: var(--card-face);
+}
+
+.rv-foot {
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+/* ── The spreadsheet ──────────────────────────────────────────────── */
+.rv-sheet {
+  position: relative;
+  width: 980px;
+  margin-top: 70px;
+  padding: 10px 0 14px;
+  overflow: hidden;
+  border-radius: 36px;
+  background: var(--card-face);
+}
+
+.rv-sheet-head,
+.rv-row {
+  display: grid;
+  grid-template-columns: 450px 170px 1fr;
+  column-gap: 24px;
+  align-items: center;
+  padding: 0 34px;
+}
+
+.rv-sheet-head {
+  height: 74px;
+  border-bottom: 2px solid color-mix(in srgb, var(--ink-display) 8%, transparent);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.rv-row {
+  min-height: 96px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid color-mix(in srgb, var(--ink-display) 6%, transparent);
+  font-family: var(--display);
+}
+
+.rv-row:last-child {
+  border-bottom: 0;
+}
+
+.rv-row .rv-t {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.22;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.rv-row .rv-d {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.rv-row .rv-d b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 22px;
+}
+
+.rv-row[data-v='include'] .rv-d {
+  color: var(--decide-include);
+}
+
+.rv-row[data-v='include'] .rv-d b {
+  background: var(--decide-include);
+}
+
+.rv-row[data-v='exclude'] .rv-d {
+  color: var(--decide-exclude);
+}
+
+.rv-row[data-v='exclude'] .rv-d b {
+  background: var(--decide-exclude);
+}
+
+.rv-row[data-v='check'] .rv-d {
+  color: var(--decide-check);
+}
+
+.rv-row[data-v='check'] .rv-d b {
+  background: var(--decide-check);
+}
+
+.rv-row .rv-r {
+  overflow: hidden;
+  color: var(--ink-soft);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.rv-file {
+  margin: 40px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 34px;
+  font-weight: 500;
+}
+
+/* ── PRISMA flow ──────────────────────────────────────────────────── */
+.rv-flow {
+  position: relative;
+  width: 960px;
+  height: 1060px;
+  margin-top: 60px;
+}
+
+.rv-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 34px;
+  border-radius: 30px;
+  background: var(--card-face);
+}
+
+.rv-box p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.rv-box b {
+  margin-top: 6px;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rv-box[data-tone='include'] b {
+  color: var(--decide-include);
+}
+
+.rv-box[data-tone='exclude'] b {
+  color: var(--decide-exclude);
+}
+
+.rv-box[data-tone='check'] b {
+  color: var(--decide-check);
+}
+
+.rv-link {
+  position: absolute;
+  display: block;
+  background: color-mix(in srgb, var(--ink-display) 22%, transparent);
+  border-radius: 3px;
+}
+
+.rv-link.v {
+  width: 6px;
+  transform-origin: 50% 0%;
+}
+
+.rv-link.h {
+  height: 6px;
+  transform-origin: 0% 50%;
+}
+
+/* ── Wow ──────────────────────────────────────────────────────────── */
+.rv-happy {
+  margin-top: 20px;
+}
+
+/* ── CTA ──────────────────────────────────────────────────────────── */
+.lk.rv-lk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.lk.rv-lk .logo {
+  width: 120px;
+  height: 132px;
+}
+
+.lk.rv-lk .logo img {
+  object-fit: contain;
+}
+
+.kin.rv-end {
+  font-size: 124px;
+  letter-spacing: -0.05em;
+}
+
+.kin.rv-end > span {
+  display: block;
+}
+
+.kin.rv-end > .grad {
+  margin-top: -0.2em;
+}
+
+.kin.rv-end > .sp {
+  display: none;
+}
+
+[data-screen='cta'] .url {
+  position: relative;
+  z-index: 1;
+  margin: 60px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.ripple {
+  z-index: 0;
+  overflow: visible;
+  border-radius: 0;
+}
+
+.ripple .ring {
+  border-width: 14px;
+}
+
+[data-screen='cta'] > .lk {
+  position: relative;
+  z-index: 1;
+}
