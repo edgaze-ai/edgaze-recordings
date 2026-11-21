@@ -311,6 +311,7 @@ function paintFilter() {
 }
 
 async function refresh() {
+  lastRefresh = Date.now();
   const [nextScenes, nextClips] = await Promise.all([loadScenes(), loadClips()]);
   scenes = nextScenes;
   clips = nextClips;
@@ -319,6 +320,7 @@ async function refresh() {
 }
 
 async function exportScene(scene: string, format: ClipFormat) {
+  exportingHere = true;
   document.body.classList.add('busy');
   applyExportProgress({
     phase: 'queued',
@@ -343,6 +345,7 @@ async function exportScene(scene: string, format: ClipFormat) {
     applyExportProgress(null);
     statusText(error instanceof Error ? error.message : 'Export failed', 6000);
   } finally {
+    exportingHere = false;
     document.body.classList.remove('busy');
   }
 }
@@ -471,6 +474,46 @@ window.addEventListener('keydown', (event) => {
     if (pendingDelete || selected) select(null);
   }
 });
+
+// ── follow exports and new files from anywhere ──────────────────────────
+// An export started in a scene tab, or a clip dropped into recordings/,
+// shows up here without a manual reload. Polls only while visible.
+const ACTIVE = new Set(['queued', 'arm', 'capture', 'encode', 'save']);
+let exportingHere = false;
+let remoteActive = false;
+let lastRefresh = 0;
+
+async function pollExport() {
+  if (document.hidden || exportingHere || !live) return;
+  try {
+    const response = await fetch('/api/export/status');
+    if (!response.ok) return;
+    const status = (await response.json()) as Parameters<typeof applyExportProgress>[0];
+    const active = Boolean(status && ACTIVE.has(status.phase));
+    if (active) {
+      document.body.classList.add('busy');
+      applyExportProgress(status);
+    } else if (remoteActive) {
+      document.body.classList.remove('busy');
+      applyExportProgress(null);
+      if (status?.name) statusText(`Saved ${status.name}`);
+      void refresh();
+    }
+    remoteActive = active;
+  } catch {
+    // Server restarting; the next tick tries again.
+  }
+}
+
+const refreshSoon = () => {
+  if (document.hidden || Date.now() - lastRefresh < 1500) return;
+  lastRefresh = Date.now();
+  void refresh();
+};
+
+window.setInterval(() => void pollExport(), 1000);
+window.addEventListener('focus', refreshSoon);
+document.addEventListener('visibilitychange', refreshSoon);
 
 paintFilter();
 void refresh();
