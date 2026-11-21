@@ -1,4 +1,4 @@
-export type AssetKind = 'photo' | 'video' | 'gif';
+export type AssetKind = 'photo' | 'video' | 'gif' | 'audio';
 
 export type Asset = {
   id: string;
@@ -7,10 +7,28 @@ export type Asset = {
   ext: string;
 };
 
-const RANK = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'mp4', 'webm', 'mov', 'svg'];
+const RANK = [
+  'jpg',
+  'jpeg',
+  'png',
+  'webp',
+  'avif',
+  'gif',
+  'mp4',
+  'webm',
+  'mov',
+  'wav',
+  'flac',
+  'm4a',
+  'mp3',
+  'aac',
+  'ogg',
+  'svg',
+];
 
 const VIDEO_EXT = new Set(['mp4', 'webm', 'mov']);
 const GIF_EXT = new Set(['gif']);
+const AUDIO_EXT = new Set(['wav', 'flac', 'm4a', 'mp3', 'aac', 'ogg']);
 
 /**
  * Why: a photo dropped next to an SVG slot must win. The SVG is the empty
@@ -39,6 +57,7 @@ export function parseAssetPath(path: string): Omit<Asset, 'url'> | null {
 }
 
 export function kindOf(folder: string, ext: string): AssetKind {
+  if (folder === 'music' || AUDIO_EXT.has(ext)) return 'audio';
   if (folder === 'videos' || VIDEO_EXT.has(ext)) return 'video';
   if (folder === 'gifs' || GIF_EXT.has(ext)) return 'gif';
   return 'photo';
@@ -50,7 +69,7 @@ function rank(ext: string): number {
 }
 
 const modules = import.meta.glob<string>(
-  '../assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg,mp4,webm,mov}',
+  '../assets/**/*.{png,jpg,jpeg,webp,avif,gif,svg,mp4,webm,mov,wav,flac,m4a,mp3,aac,ogg}',
   {
     eager: true,
     query: '?url',

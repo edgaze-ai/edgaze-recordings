@@ -32,11 +32,13 @@ export function countUp(
   };
 
   el.textContent = `${prefix}${format(0)}${suffix}`;
-  tl.at(at, () => {
-    tl.raf((t) => {
-      const p = Math.min(t / duration, 1);
-      el.textContent = `${prefix}${format(to * quartOut(p))}${suffix}`;
-      return p < 1;
-    });
+  // Registered at build, so `t` is absolute scene time. Starting the clock
+  // from a cue instead would restart the count wherever a scrub or an
+  // export first lands after `at`, and show 0 on a frame deep into the move.
+  tl.raf((t) => {
+    if (t < at) return true;
+    const p = Math.min((t - at) / duration, 1);
+    el.textContent = `${prefix}${format(to * quartOut(p))}${suffix}`;
+    return p < 1;
   });
 }

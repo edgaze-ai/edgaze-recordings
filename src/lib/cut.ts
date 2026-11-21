@@ -22,6 +22,27 @@ export function hardCut(tl: Timeline, from: HTMLElement, to: HTMLElement, at: nu
 }
 
 /**
+ * Why: the film's transition between two pictures is a dip, not a wipe.
+ * The outgoing shot eases away — a touch of push with the fade, so it
+ * reads as the lens leaving rather than a layer switching off — and the
+ * incoming shot settles in with `land`. Black holds for a beat between.
+ */
+export function fadeOut(
+  tl: Timeline,
+  el: HTMLElement,
+  { at, duration = 420, to = 1.02 }: { at: number; duration?: number; to?: number },
+): void {
+  tl.add(
+    el,
+    [
+      { transform: 'scale(1)', opacity: 1 },
+      { transform: `scale(${to})`, opacity: 0 },
+    ],
+    { delay: at, duration, easing: ease.quint, fill: 'forwards' },
+  );
+}
+
+/**
  * Why: a model swap that pops reads as an error. Crossfade the label only
  * so the node keeps running through the change.
  */
