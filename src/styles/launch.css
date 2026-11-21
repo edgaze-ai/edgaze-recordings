@@ -1,0 +1,336 @@
+/*
+ * Launch look — the default from 010 on. Light ground, very large black
+ * display type, colour delivered by full-frame wipes and category fields.
+ * Any scene can link this after stage.css; nothing here touches 001–009.
+ */
+
+/* Display type. Tight, heavy-but-not-bold, and huge. */
+.kin {
+  margin: 0;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.kin.xl {
+  font-size: 236px;
+}
+
+.kin.lg {
+  font-size: 190px;
+}
+
+.kin.md {
+  font-size: 132px;
+}
+
+.kin .row {
+  display: block;
+}
+
+/* Masks for display type need more room: rotation in slam() tips the
+   descender and the top-left corner past a tight mask. */
+.kin .m {
+  padding: 0.04em 0.03em 0.2em;
+  margin: -0.04em -0.03em -0.2em;
+}
+
+/* Brand gradient stays legible on a light ground: the app accent, deeper. */
+.stage:not([data-tone='dark']) .grad {
+  background-image: var(--accent-deep);
+}
+
+/* Colour fields. data-cat sets --c and --c2; anything can paint with them. */
+[data-cat='marketing'] {
+  --c: var(--cat-marketing);
+  --c2: var(--cat-marketing-2);
+}
+[data-cat='sales'] {
+  --c: var(--cat-sales);
+  --c2: var(--cat-sales-2);
+}
+[data-cat='engineering'] {
+  --c: var(--cat-engineering);
+  --c2: var(--cat-engineering-2);
+}
+[data-cat='research'] {
+  --c: var(--cat-research);
+  --c2: var(--cat-research-2);
+}
+[data-cat='content'] {
+  --c: var(--cat-content);
+  --c2: var(--cat-content-2);
+}
+[data-cat='finance'] {
+  --c: var(--cat-finance);
+  --c2: var(--cat-finance-2);
+}
+[data-cat='support'] {
+  --c: var(--cat-support);
+  --c2: var(--cat-support-2);
+}
+[data-cat='design'] {
+  --c: var(--cat-design);
+  --c2: var(--cat-design-2);
+}
+[data-cat='legal'] {
+  --c: var(--cat-legal);
+  --c2: var(--cat-legal-2);
+}
+[data-cat='ops'] {
+  --c: var(--cat-ops);
+  --c2: var(--cat-ops-2);
+}
+[data-cat='people'] {
+  --c: var(--cat-people);
+  --c2: var(--cat-people-2);
+}
+[data-cat='education'] {
+  --c: var(--cat-education);
+  --c2: var(--cat-education-2);
+}
+[data-cat='product'] {
+  --c: var(--cat-product);
+  --c2: var(--cat-product-2);
+}
+[data-cat='data'] {
+  --c: var(--cat-data);
+  --c2: var(--cat-data-2);
+}
+
+.paint {
+  background:
+    radial-gradient(90% 80% at 85% 15%, var(--c2) 0%, transparent 62%),
+    radial-gradient(
+      70% 70% at 10% 95%,
+      color-mix(in srgb, var(--c2) 55%, var(--c)) 0%,
+      transparent 70%
+    ),
+    var(--c);
+}
+
+/* Colour mesh for light screens: four soft lights that drift. */
+.mesh {
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+}
+
+.mesh > i {
+  position: absolute;
+  display: block;
+  width: 62%;
+  height: 72%;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.75;
+}
+
+.mesh > i:nth-child(1) {
+  left: -6%;
+  top: -8%;
+  background: var(--mesh-a);
+}
+.mesh > i:nth-child(2) {
+  right: -8%;
+  top: -4%;
+  background: var(--mesh-b);
+}
+.mesh > i:nth-child(3) {
+  right: 6%;
+  bottom: -14%;
+  background: var(--mesh-c);
+}
+.mesh > i:nth-child(4) {
+  left: 4%;
+  bottom: -16%;
+  background: var(--mesh-d);
+}
+
+/*
+ * The river: the design signature of the launch look. White screens carry
+ * a band of colour along the bottom made of two blurred gradient ribbons
+ * drifting in opposite directions, so the colours slide through each other
+ * and the light never holds still. --ra…--rd set the four colours; they
+ * default to the brand mesh and a category screen swaps in its own two.
+ */
+.river {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.river > i {
+  position: absolute;
+  bottom: -30%;
+  left: -40%;
+  display: block;
+  width: 180%;
+  height: 58%;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(
+    90deg,
+    var(--ra, var(--mesh-a)) 0%,
+    var(--rb, var(--mesh-b)) 25%,
+    var(--rc, var(--mesh-c)) 50%,
+    var(--rd, var(--mesh-d)) 75%,
+    var(--ra, var(--mesh-a)) 100%
+  );
+  filter: blur(90px);
+  opacity: 0.62;
+}
+
+.river > i:nth-child(2) {
+  bottom: -22%;
+  height: 40%;
+  background: linear-gradient(
+    90deg,
+    var(--rc, var(--mesh-c)) 0%,
+    var(--ra, var(--mesh-a)) 30%,
+    var(--rd, var(--mesh-d)) 60%,
+    var(--rb, var(--mesh-b)) 100%
+  );
+  opacity: 0.5;
+}
+
+[data-cat] > .river,
+.river[data-cat] {
+  --ra: var(--c2);
+  --rb: var(--c);
+  --rc: color-mix(in srgb, var(--c) 55%, var(--c2));
+  --rd: var(--c);
+}
+
+/* A soft orb of the category's light, breathing behind its illustration. */
+.orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  display: block;
+  width: 760px;
+  height: 760px;
+  margin: -380px 0 0 -380px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    var(--c2) 0%,
+    color-mix(in srgb, var(--c) 70%, transparent) 42%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: 0.5;
+}
+
+/* A word painted in its category's two tones, deepened to hold on white. */
+.tone-text {
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--c) 82%, var(--ink-display)) 0%,
+    color-mix(in srgb, var(--c2) 82%, var(--ink-display)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Typed characters keep one gradient across a word (see splitChars). */
+.ch {
+  display: inline-block;
+  /* Room for ink on every side: a gradient letter paints only inside its own
+     box, a 0.92 line box cuts the tail off a g, p or y, and with tight
+     tracking an s or a y overhangs its advance. An animated letter is its
+     own layer, sized to this box, so anything outside it is cropped. The
+     negative margin keeps layout exactly where it was. */
+  padding: 0.16em 0.12em 0.36em;
+  margin: -0.16em -0.12em -0.36em;
+  white-space: pre;
+}
+
+.grad-ch {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Rings host sits at a letter's counter, clipped to it (see rings()). */
+.rings {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 3px solid;
+  border-radius: 50%;
+}
+
+/* Wipe host: above the screens, below the grain. Bands come from colorWipe. */
+.wipes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wipe-band {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* A soft shadow on every band edge gives the sweep depth, so a wipe reads
+     as sheets of colour passing the lens rather than a hard matte. */
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--ink-display) 10%, transparent),
+    0 0 70px color-mix(in srgb, var(--ink-display) 12%, transparent),
+    0 0 160px color-mix(in srgb, var(--ink-display) 10%, transparent);
+  transform: translateX(-125%);
+  will-change: transform;
+}
+
+/* Iris discs from irisWipe, positioned and sized by script. */
+.iris {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform: scale(0);
+  box-shadow:
+    0 0 30px color-mix(in srgb, var(--ink-display) 8%, transparent),
+    0 0 90px color-mix(in srgb, var(--ink-display) 10%, transparent),
+    0 0 180px color-mix(in srgb, var(--ink-display) 8%, transparent);
+}
+
+/* Inline icon sprite lives off-stage. */
+.icons {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/*
+ * Gradient text paints only inside its own box, so a tight line-height cuts
+ * the tails off g, p, y and q. Every gradient word gets room above and below
+ * the line, cancelled by negative margin so layout does not move.
+ */
+.stage:not([data-tone='dark']) .grad,
+.tone-text {
+  padding: 0.12em 0.04em 0.26em;
+  margin: -0.12em -0.04em -0.26em;
+}
