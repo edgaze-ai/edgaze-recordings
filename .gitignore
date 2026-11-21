@@ -13,3 +13,10 @@ recordings/*
 
 # Dropped footage. Photos and SVG slots stay in git.
 src/assets/**/*.{mp4,mov,webm,gif}
+
+# Licensed music tracks stay on the machine that holds the licence.
+src/assets/music/*
+!src/assets/music/.gitkeep
+# Beat maps are small derived text; keep them so scenes build without the track.
+!src/assets/music/*.beats.json
+!src/assets/music/*.beats.md
