@@ -4,7 +4,9 @@ globs: src/styles/**
 alwaysApply: false
 ---
 
-Scenes stay on --black. The recording platform (dashboard, viewer, chrome)
+From 010 scenes default to the light --ground with --ink-display type;
+--accent-deep for gradient words, --cat-* for category colour fields.
+Scenes 001–009 stay on --black via data-tone="dark". The recording platform (dashboard, viewer, chrome)
 is light: --paper, --ink, --quiet. Cyan and pink stay in tokens; the
 gradient is a hover accent only.
 
@@ -16,7 +18,7 @@ color transparent.
 tokens.css is the single source of truth. If a scene needs a colour, add a token
 here rather than writing a literal in the scene.
 
-The .grain overlay at 5.5% opacity with mix-blend-mode screen is functional, not
+On light grounds the grain is 4.5% multiply. On black, the .grain overlay at 5.5% opacity with mix-blend-mode screen is functional, not
 decorative. Large soft gradients over pure black band under H.264 and the export
 gets re-encoded again on upload. The grain dithers the ramp. Do not remove it or
 lower the opacity.

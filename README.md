@@ -22,7 +22,7 @@ npm run ci
 
 `npm run dev` opens the recordings dashboard. Scenes first, finished clips under them.
 
-Export steps the scene in Chrome at 60fps, captures the 1920×1080 stage at 2× (3840×2160), and writes H.264. The file is saved to `recordings/` and downloaded to the machine. Play a clip from the list. Escape closes the viewer.
+Export steps the scene in Chrome at 60fps, captures the 1920×1080 stage at 2× (3840×2160), renders the scene's soundtrack, and muxes both. MP4 is H.264 + AAC for posting; MOV is a ProRes 422 HQ master. The file is saved to `recordings/` and downloaded to the machine. Play a clip from the list. Escape closes the viewer.
 
 Needs Google Chrome plus system `ffmpeg`. `npm install` also fetches Playwright's small ffmpeg helper used for the capture.
 
@@ -36,6 +36,10 @@ Manual capture is still there if you want it:
 4. Press Escape to leave record view.
 
 Do not commit video. `recordings/` is gitignored so clone stays fast. See `SPEC.md` section 8.
+
+## Music and beats
+
+Scenes cut to a beat map. A scene's `score(s)` is synthesized and plays in preview (Sound toggle) and in every export. To use a licensed track, drop it in `src/assets/music/`, run `npm run beats -- music/<name>`, read the generated `.beats.md`, and import the `.beats.json` as the scene's map. Verify an export with `npm run beats -- recordings/<clip>.mp4`.
 
 ## Author a scene
 

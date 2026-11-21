@@ -40,3 +40,13 @@ Typical timings for a 10s scene: title 280, conceal 2800, graph screen 3600,
 nodes 4000 with step 140, travelling pulse 5200 over 2800.
 
 Imports are relative. No @ or ~ aliases.
+
+Launch films (010 on) are the default: light ground, launch.css, very large
+.kin type, colour wipes. Text may share a screen with one supporting object
+(a workflow card) when it lifts out of the way first.
+
+Timing comes from a BeatMap. Write `const B = (bar, beat) => barAt(MAP, bar,
+beat)` and express every cue as B(...). For a licensed track run
+`npm run beats -- music/<name>` and read the .beats.md: sections, drops and
+per-bar beat times. Put the biggest cuts on drops. Write score(s) next to
+build() using the same B().
