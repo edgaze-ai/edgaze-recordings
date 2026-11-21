@@ -1,8 +1,19 @@
 import { fillAssets } from './assets';
 import { type MusicSpec, Soundtrack } from './audio';
 import { type BeatMap } from './beatgrid';
+import {
+  buildEditor,
+  drawWave,
+  loadSession,
+  preciseClock,
+  prefs,
+  saveSession,
+  whereInBars,
+} from './editor';
 import { applyExportProgress, requestExport, type ExportProgress } from './export';
 import { settled } from './footage';
+import { guardReloads } from './hot';
+import { icons } from './icons';
 import { prepare } from './reveal';
 import { type Score } from './score';
 import { type ClipFormat, formatClock } from './scene-meta';
@@ -10,6 +21,8 @@ import { Timeline } from './timeline';
 
 const FRAME = 1000 / 60;
 const LOOP_HOLD = 400;
+/** Gap between the stage and the window edges / dock in preview. */
+const PREVIEW_PAD = 28;
 
 /**
  * Why: preview and record are different jobs. Preview must fit a laptop
@@ -33,30 +46,34 @@ export function mountStage(config: {
   /** Optional licensed track from src/assets/music; mutes synth music. */
   music?: MusicSpec;
   /**
-   * The beat map the storyboard is cut to. Bars and drops are drawn on the
-   * editor rail so a late cut is visible, not just audible.
+   * The beat map the storyboard is cut to. Bars, sections and drops are
+   * drawn on the editor timeline so a late cut is visible, not just audible.
    */
   beats?: BeatMap;
 }): void {
   const stage = document.querySelector<HTMLElement>('.stage');
   if (!stage) throw new Error('Missing .stage');
 
-  const chrome = document.querySelector<HTMLElement>('.chrome');
   const sound = config.score
     ? new Soundtrack(config.score, config.bpm ?? 120, config.duration, config.music)
     : null;
-  if (chrome) ensureEditor(chrome, config.duration, Boolean(sound));
-  if (config.beats) markBeats(config.beats, config.duration);
+  // Preview mute is a preference of this machine, not of the film: the
+  // export renders the mix offline and always carries it.
+  if (sound) sound.muted = prefs.muted;
 
-  const playBtn = document.querySelector('#play');
-  const replay = document.querySelector('#replay');
-  const slow = document.querySelector('#slow');
-  const rec = document.querySelector('#rec');
-  const exportMp4 = document.querySelector('#export-mp4');
-  const exportMov = document.querySelector('#export-mov');
-  const status = document.querySelector('#status');
-  const clock = document.querySelector('#clock');
-  const rail = document.querySelector('#rail');
+  let chrome = document.querySelector<HTMLElement>('.chrome');
+  if (!chrome) {
+    chrome = document.createElement('div');
+    document.body.append(chrome);
+  }
+  const ui = buildEditor(chrome, {
+    width: config.width,
+    height: config.height,
+    duration: config.duration,
+    hasSound: Boolean(sound),
+    beats: config.beats,
+  });
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const autoExport = new URLSearchParams(location.search).get('export');
   const scene =
@@ -79,6 +96,7 @@ export function mountStage(config: {
   let resumeAfterScrub = false;
   let snapshot = '';
   let scrubApply = 0;
+  const painted = { clock: '', where: '', playing: true, aria: -1 };
 
   stage.style.width = `${config.width}px`;
   stage.style.height = `${config.height}px`;
@@ -88,13 +106,23 @@ export function mountStage(config: {
   if (recording) document.body.classList.add('rec');
 
   const statusText = (message: string) => {
-    if (status instanceof HTMLElement) status.textContent = message;
+    ui.status.textContent = message;
+  };
+
+  let toastTimer = 0;
+  const toast = (message: string, ms = 1600) => {
+    statusText(message);
+    if (toastTimer) window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => {
+      toastTimer = 0;
+      if (!exporting) statusText('');
+    }, ms);
   };
 
   const setRecording = (on: boolean) => {
     recording = on;
     document.body.classList.toggle('rec', on);
-    rec?.classList.toggle('on', on);
+    ui.rec.classList.toggle('on', on);
     fit();
   };
 
@@ -106,31 +134,52 @@ export function mountStage(config: {
       return;
     }
     const dpr = window.devicePixelRatio || 1;
-    const pad = recording ? 0 : 120;
-    const fitScale = Math.min(
-      (window.innerWidth - pad) / config.width,
-      (window.innerHeight - pad) / config.height,
-    );
+    // The dock owns the bottom of the window; the stage fits the rest.
+    const dock = recording ? 0 : ui.dock.getBoundingClientRect().height;
+    const pad = recording ? 0 : PREVIEW_PAD * 2;
+    const roomW = window.innerWidth - pad;
+    const roomH = window.innerHeight - dock - pad;
+    const fitScale = Math.min(roomW / config.width, roomH / config.height);
     const zoom = recording ? Math.max(1 / dpr, Math.min(1, fitScale)) : Math.min(1, fitScale);
     document.documentElement.style.setProperty('--zoom', String(zoom));
     const left = Math.max(0, (window.innerWidth - config.width * zoom) / 2);
-    const top = Math.max(0, (window.innerHeight - config.height * zoom) / 2);
-    stage.style.marginLeft = `${left}px`;
-    stage.style.marginTop = `${top}px`;
+    const top = recording
+      ? Math.max(0, (window.innerHeight - config.height * zoom) / 2)
+      : Math.max(0, (window.innerHeight - dock - config.height * zoom) / 2);
+    // CSS zoom scales the element's own margins, so divide them back out.
+    stage.style.marginLeft = `${left / zoom}px`;
+    stage.style.marginTop = `${top / zoom}px`;
   };
 
+  /** Writes only what changed; the clock runs every frame. */
   const paint = () => {
     const ratio = config.duration > 0 ? time / config.duration : 0;
-    if (clock instanceof HTMLElement) {
-      clock.textContent = `${formatClock(time)} / ${formatClock(config.duration)}`;
+    ui.rail.style.setProperty('--playhead', String(ratio));
+    const clock = preciseClock(time);
+    if (clock !== painted.clock) {
+      ui.clock.textContent = clock;
+      painted.clock = clock;
     }
-    if (rail instanceof HTMLElement) {
-      rail.style.setProperty('--playhead', String(ratio));
-      rail.setAttribute('aria-valuenow', String(Math.round(time)));
-      rail.setAttribute('aria-valuetext', formatClock(time));
+    if (config.beats) {
+      const where = whereInBars(config.beats, time);
+      if (where !== painted.where) {
+        ui.where.textContent = where;
+        painted.where = where;
+      }
     }
-    if (playBtn instanceof HTMLElement) {
-      playBtn.textContent = playing ? 'Pause' : 'Play';
+    // Screen readers do not need 60 updates a second; settle on pause.
+    const aria = playing && !scrubbing ? Math.round(time / 1000) * 1000 : Math.round(time);
+    if (aria !== painted.aria) {
+      ui.rail.setAttribute('aria-valuenow', String(aria));
+      ui.rail.setAttribute('aria-valuetext', formatClock(time));
+      painted.aria = aria;
+    }
+    if (playing !== painted.playing) {
+      ui.play.innerHTML = playing ? icons.pause : icons.play;
+      const tip = playing ? 'Pause (Space)' : 'Play (Space)';
+      ui.play.setAttribute('aria-label', tip);
+      ui.play.dataset.tip = tip;
+      painted.playing = playing;
     }
   };
 
@@ -304,9 +353,10 @@ export function mountStage(config: {
           });
         },
       });
+      toast(ui.status.textContent || 'Exported', 4000);
     } catch (error) {
       applyExportProgress(null);
-      statusText(error instanceof Error ? error.message : 'Export failed');
+      toast(error instanceof Error ? error.message : 'Export failed', 6000);
     } finally {
       exporting = false;
       document.body.classList.remove('busy');
@@ -323,16 +373,38 @@ export function mountStage(config: {
     }
   };
 
-  const seekFromPointer = (event: PointerEvent, immediate = false) => {
-    if (!(rail instanceof HTMLElement)) return;
-    const rect = rail.getBoundingClientRect();
-    const ratio =
-      rect.width <= 0 ? 0 : Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
-    seekTo(ratio * config.duration, immediate);
+  const step = (ms: number) => {
+    if (playing) setPlaying(false);
+    seekTo(time + ms);
     syncOrigin();
   };
 
-  playBtn?.addEventListener('click', () => {
+  const toggleSlow = () => {
+    rate = rate === 1 ? 0.25 : 1;
+    ui.slow.setAttribute('aria-pressed', String(rate !== 1));
+    syncOrigin();
+  };
+
+  const paintSound = () => {
+    if (!ui.sound || !sound) return;
+    ui.sound.innerHTML = sound.muted ? icons.muted : icons.sound;
+    ui.sound.classList.toggle('off', sound.muted);
+    const tip = sound.muted ? 'Unmute preview (M)' : 'Mute preview (M)';
+    ui.sound.setAttribute('aria-label', tip);
+    ui.sound.setAttribute('aria-pressed', String(sound.muted));
+    ui.sound.dataset.tip = tip;
+  };
+
+  const toggleMute = () => {
+    if (!sound) return;
+    sound.muted = !sound.muted;
+    prefs.muted = sound.muted;
+    paintSound();
+    syncOrigin();
+    toast(sound.muted ? 'Preview muted · exports keep sound' : 'Preview sound on');
+  };
+
+  ui.play.addEventListener('click', () => {
     if (reduce.matches) {
       showStill();
       return;
@@ -340,25 +412,27 @@ export function mountStage(config: {
     setPlaying(!playing);
   });
 
-  replay?.addEventListener('click', () => {
+  ui.replay.addEventListener('click', () => {
     if (reduce.matches) showStill();
     else playFromStart();
   });
 
-  slow?.addEventListener('click', () => {
-    rate = rate === 1 ? 0.25 : 1;
-    slow.classList.toggle('on', rate !== 1);
+  ui.toStart.addEventListener('click', () => {
+    seekTo(0);
     syncOrigin();
   });
 
-  const soundBtn = document.querySelector('#sound');
-  soundBtn?.addEventListener('click', () => {
-    if (!sound) return;
-    sound.muted = !sound.muted;
-    soundBtn.classList.toggle('on', !sound.muted);
-    soundBtn.textContent = sound.muted ? 'Muted' : 'Sound';
+  ui.toEnd.addEventListener('click', () => {
+    setPlaying(false);
+    seekTo(config.duration);
     syncOrigin();
   });
+
+  ui.frameBack.addEventListener('click', () => step(-FRAME));
+  ui.frameNext.addEventListener('click', () => step(FRAME));
+  ui.slow.addEventListener('click', toggleSlow);
+  ui.sound?.addEventListener('click', toggleMute);
+  paintSound();
 
   if (sound) {
     // Browsers hold audio until the first gesture. Re-cue from the playhead
@@ -373,43 +447,84 @@ export function mountStage(config: {
     window.addEventListener('keydown', unlock, true);
   }
 
-  rec?.addEventListener('click', () => {
+  ui.rec.addEventListener('click', () => {
     setRecording(!recording);
   });
 
-  exportMp4?.addEventListener('click', () => {
+  ui.mp4.addEventListener('click', () => {
     void runExport('mp4');
   });
-  exportMov?.addEventListener('click', () => {
+  ui.mov.addEventListener('click', () => {
     void runExport('mov');
   });
 
-  if (rail instanceof HTMLElement) {
-    rail.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0 || exporting) return;
-      event.preventDefault();
-      resumeAfterScrub = playing;
-      scrubbing = true;
-      playing = false;
-      stopClock();
-      rail.setPointerCapture(event.pointerId);
-      seekFromPointer(event, true);
-      paint();
-    });
-    rail.addEventListener('pointermove', (event) => {
-      if (!scrubbing) return;
-      seekFromPointer(event);
-    });
-    const endScrub = () => {
-      if (!scrubbing) return;
-      scrubbing = false;
-      seekTo(time, true);
-      if (resumeAfterScrub && !reduce.matches) setPlaying(true);
-      else paint();
-    };
-    rail.addEventListener('pointerup', endScrub);
-    rail.addEventListener('pointercancel', endScrub);
-  }
+  // ── timeline scrub and hover ─────────────────────────────────────────
+  // Pointer events can arrive at 120–240Hz; seek at most once per frame.
+  const rail = ui.rail;
+  const lanes = ui.lanes;
+  let railBox: DOMRect | null = null;
+  let pendingX: number | null = null;
+  let pointerRaf = 0;
+
+  const ratioAt = (clientX: number) => {
+    const rect = railBox ?? lanes.getBoundingClientRect();
+    return rect.width <= 0 ? 0 : Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+  };
+
+  const flushPointer = () => {
+    pointerRaf = 0;
+    if (pendingX === null) return;
+    const ratio = ratioAt(pendingX);
+    pendingX = null;
+    ui.hover.style.setProperty('--hover', String(ratio));
+    ui.hoverTime.textContent = preciseClock(ratio * config.duration);
+    if (scrubbing) {
+      seekTo(ratio * config.duration, false);
+      syncOrigin();
+    }
+  };
+
+  const queuePointer = (clientX: number) => {
+    pendingX = clientX;
+    if (!pointerRaf) pointerRaf = requestAnimationFrame(flushPointer);
+  };
+
+  rail.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0 || exporting) return;
+    event.preventDefault();
+    rail.focus({ preventScroll: true });
+    railBox = lanes.getBoundingClientRect();
+    resumeAfterScrub = playing;
+    scrubbing = true;
+    playing = false;
+    stopClock();
+    sound?.stop();
+    rail.setPointerCapture(event.pointerId);
+    seekTo(ratioAt(event.clientX) * config.duration, true);
+    syncOrigin();
+    paint();
+  });
+  rail.addEventListener('pointermove', (event) => {
+    ui.hover.hidden = false;
+    queuePointer(event.clientX);
+  });
+  rail.addEventListener('pointerleave', () => {
+    if (!scrubbing) ui.hover.hidden = true;
+  });
+  const endScrub = () => {
+    if (!scrubbing) return;
+    if (pointerRaf) {
+      cancelAnimationFrame(pointerRaf);
+      flushPointer();
+    }
+    scrubbing = false;
+    railBox = null;
+    seekTo(time, true);
+    if (resumeAfterScrub && !reduce.matches) setPlaying(true);
+    else paint();
+  };
+  rail.addEventListener('pointerup', endScrub);
+  rail.addEventListener('pointercancel', endScrub);
 
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && recording && !exporting) {
@@ -436,6 +551,22 @@ export function mountStage(config: {
       setPlaying(!playing);
       return;
     }
+    if (event.code === 'KeyM') {
+      event.preventDefault();
+      toggleMute();
+      return;
+    }
+    if (event.code === 'KeyS') {
+      event.preventDefault();
+      toggleSlow();
+      return;
+    }
+    if (event.code === 'KeyR') {
+      event.preventDefault();
+      if (reduce.matches) showStill();
+      else playFromStart();
+      return;
+    }
     if (event.key === 'Home') {
       event.preventDefault();
       seekTo(0);
@@ -450,21 +581,31 @@ export function mountStage(config: {
       return;
     }
     const frameStep = event.code === 'Comma' || event.code === 'Period';
-    const step = event.shiftKey ? 5000 : frameStep ? FRAME : 1000;
+    const amount = event.shiftKey ? 5000 : frameStep ? FRAME : 1000;
     if (event.code === 'ArrowLeft' || event.code === 'KeyJ' || event.code === 'Comma') {
       event.preventDefault();
-      seekTo(time - step);
+      seekTo(time - amount);
       syncOrigin();
       return;
     }
     if (event.code === 'ArrowRight' || event.code === 'KeyL' || event.code === 'Period') {
       event.preventDefault();
-      seekTo(time + step);
+      seekTo(time + amount);
       syncOrigin();
     }
   });
 
-  window.addEventListener('resize', fit);
+  // A resize burst (dragging the window) fits once per frame, not per event.
+  let fitRaf = 0;
+  const queueFit = () => {
+    if (fitRaf) return;
+    fitRaf = requestAnimationFrame(() => {
+      fitRaf = 0;
+      fit();
+    });
+  };
+  window.addEventListener('resize', queueFit);
+  new ResizeObserver(queueFit).observe(ui.dock);
   fit();
 
   window.__edgazeExport = {
@@ -493,83 +634,68 @@ export function mountStage(config: {
     });
 
   if (autoExport === '1') {
+    // The capture page must never reload under an export in flight.
+    guardReloads({ frozen: true });
     return;
   }
 
-  if (reduce.matches) showStill();
-  else playFromStart();
-}
-
-function ensureEditor(chrome: HTMLElement, duration: number, hasSound: boolean): void {
-  if (hasSound && !document.querySelector('#sound')) {
-    const btn = document.createElement('button');
-    btn.id = 'sound';
-    btn.type = 'button';
-    btn.className = 'on';
-    btn.textContent = 'Sound';
-    const rec = document.querySelector('#rec');
-    chrome.insertBefore(btn, rec ?? null);
-  }
-
-  if (!document.querySelector('#play')) {
-    const play = document.createElement('button');
-    play.id = 'play';
-    play.type = 'button';
-    play.textContent = 'Pause';
-    const replay = document.querySelector('#replay');
-    chrome.insertBefore(play, replay ?? chrome.firstChild);
-  }
-
-  if (!document.querySelector('#clock')) {
-    const clock = document.createElement('span');
-    clock.id = 'clock';
-    clock.className = 'clock';
-    clock.textContent = `0:00.0 / ${formatClock(duration)}`;
-    const slow = document.querySelector('#slow');
-    (slow ?? document.querySelector('#play'))?.after(clock);
-  }
-
-  const rail = document.querySelector('#rail');
-  if (!rail) {
-    const next = document.createElement('div');
-    next.id = 'rail';
-    next.className = 'rail';
-    next.tabIndex = 0;
-    next.setAttribute('role', 'slider');
-    next.setAttribute('aria-label', 'Timeline');
-    next.setAttribute('aria-valuemin', '0');
-    next.setAttribute('aria-valuemax', String(duration));
-    next.innerHTML =
-      '<i class="rail-track"></i><i class="rail-fill"></i><i class="rail-head-wrap"><b></b></i>';
-    document.querySelector('#clock')?.after(next);
-  } else {
-    rail.setAttribute('aria-valuemax', String(duration));
-  }
-
-  if (!document.querySelector('#xfer')) {
-    const xfer = document.createElement('div');
-    xfer.id = 'xfer';
-    xfer.className = 'xfer';
-    xfer.hidden = true;
-    xfer.innerHTML =
-      '<div class="xfer-meta"><span id="xfer-label"></span><span id="xfer-pct" class="xfer-pct"></span></div>' +
-      '<div class="xfer-rail"><i id="xfer-fill"></i></div>';
-    chrome.append(xfer);
-  }
-}
-
-/** Bar lines and drops on the rail, positioned once — never animated. */
-function markBeats(map: BeatMap, duration: number): void {
-  const rail = document.querySelector('#rail');
-  if (!(rail instanceof HTMLElement) || duration <= 0) return;
-  rail.querySelectorAll('.rail-bar').forEach((el) => el.remove());
-  map.downbeats.forEach((t, i) => {
-    if (t > duration) return;
-    const tick = document.createElement('i');
-    tick.className = 'rail-bar';
-    if (map.drops.includes(t)) tick.classList.add('drop');
-    tick.style.left = `${(t / duration) * 100}%`;
-    tick.title = `bar ${i + 1} · ${Math.round(t)}ms`;
-    rail.prepend(tick);
+  // ── stability while files change under the editor ────────────────────
+  const persist = () => {
+    saveSession(scene, { time, playing, slow: rate !== 1 });
+  };
+  window.addEventListener('pagehide', persist);
+  guardReloads({
+    hold: () => scrubbing || exporting,
+    persist,
+    onPending: () => toast('Updating…', 1200),
   });
+
+  // A hidden tab gets no frames; resume from the same time, not a jump.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (playing) sound?.stop();
+      return;
+    }
+    if (playing) syncOrigin();
+  });
+
+  // The waveform comes from the rendered mix; do it once the page is idle.
+  if (sound && ui.wave) {
+    const wave = ui.wave;
+    const idle = window.requestIdleCallback ?? ((fn: () => void) => window.setTimeout(fn, 200));
+    let buffer: AudioBuffer | null = null;
+    let waveRaf = 0;
+    const redraw = () => {
+      if (!buffer || waveRaf) return;
+      waveRaf = requestAnimationFrame(() => {
+        waveRaf = 0;
+        if (buffer) drawWave(wave, buffer, config.duration);
+      });
+    };
+    idle(() => {
+      void sound.render().then((mix) => {
+        buffer = mix;
+        redraw();
+      });
+    });
+    new ResizeObserver(redraw).observe(wave);
+  }
+
+  const reloaded =
+    (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)
+      ?.type === 'reload';
+  const saved = reloaded ? loadSession(scene) : null;
+
+  if (reduce.matches) {
+    showStill();
+  } else if (saved) {
+    if (saved.slow) toggleSlow();
+    time = 0;
+    rebuild();
+    seekTo(saved.time);
+    if (saved.playing) setPlaying(true);
+    else paint();
+  } else {
+    playFromStart();
+  }
 }
