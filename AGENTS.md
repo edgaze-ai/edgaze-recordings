@@ -21,6 +21,9 @@ at true pixel size, previewed in a browser, and screen-recorded.
 - `src/styles/launch.css` - the default look: light ground, huge black type,
   colour wipes, category fields. Dark (`data-tone="dark"`) is opt-in.
 - `src/assets/music/` - licensed tracks (gitignored); beat maps stay in git.
+- `src/lib/editor.ts` + `src/styles/editor.css` - the dark editor dock (harness
+  only, hidden by `body.rec`). `src/lib/hot.ts` coalesces reloads during edits
+  and never reloads the export page. Dashboard: `src/dashboard.ts`.
 - `vite.config.ts` reads scene folders at config time. Adding a scene needs no
   config change.
 
