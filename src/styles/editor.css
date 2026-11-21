@@ -1,0 +1,609 @@
+/*
+ * Editor dock. Harness chrome only: body.rec hides it, export mode never
+ * shows it, and nothing here may target .stage or anything inside it.
+ */
+
+html.ed:not(:has(body.rec)),
+html.ed body:not(.rec) {
+  background: var(--ed-ground);
+}
+
+html.ed body:not(.rec) .stage {
+  box-shadow:
+    0 0 0 1px var(--ed-line),
+    var(--ed-shadow);
+}
+
+.ed-dock {
+  --dock-pad: 16px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  color-scheme: dark;
+  background: var(--ed-panel);
+  border-top: 1px solid var(--ed-line);
+  color: var(--ed-text);
+  font-family: var(--ui);
+  font-size: 13px;
+  letter-spacing: -0.006em;
+  user-select: none;
+  contain: layout style;
+}
+
+.ed-dock .ico {
+  display: block;
+  flex: none;
+}
+
+/* ── toolbar ───────────────────────────────────────────────────────── */
+
+.ed-bar {
+  display: grid;
+  /* The right group never shrinks below its buttons; the title gives way. */
+  grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr);
+  align-items: center;
+  gap: 16px;
+  height: 52px;
+  padding: 0 calc(var(--dock-pad) - 6px);
+}
+
+.ed-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ed-right {
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.ed-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: 6px;
+  line-height: 1.25;
+}
+
+.ed-title strong {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-title span {
+  overflow: hidden;
+  color: var(--ed-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-btn,
+.ed-chip,
+.ed-export,
+.ed-play {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--ed-dim);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 120ms var(--ed-ease),
+    color 120ms var(--ed-ease),
+    opacity 120ms var(--ed-ease);
+}
+
+.ed-btn {
+  width: 32px;
+}
+
+.ed-btn:hover,
+.ed-chip:hover,
+.ed-export.ghost:hover {
+  background: var(--ed-hover);
+  color: var(--ed-text);
+}
+
+.ed-btn:active,
+.ed-chip:active {
+  background: var(--ed-press);
+}
+
+.ed-btn.on,
+.ed-chip[aria-pressed='true'] {
+  background: var(--ed-raised);
+  color: var(--ed-text);
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+}
+
+.ed-btn.off {
+  color: var(--ed-faint);
+}
+
+.ed-rec.on {
+  color: var(--ed-rec);
+}
+
+.ed-play {
+  width: 36px;
+  height: 36px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background: var(--ed-primary);
+  color: var(--ed-on-primary);
+}
+
+.ed-play:hover {
+  opacity: 0.88;
+}
+
+.ed-play:active {
+  transform: scale(0.96);
+}
+
+.ed-chip {
+  padding: 0 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ed-export {
+  padding: 0 12px 0 10px;
+  background: var(--ed-primary);
+  color: var(--ed-on-primary);
+  font-weight: 600;
+}
+
+.ed-export:hover {
+  opacity: 0.88;
+}
+
+.ed-export .ico {
+  width: 16px;
+  height: 16px;
+}
+
+.ed-export.ghost {
+  padding: 0 12px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+  color: var(--ed-text);
+}
+
+.ed-sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 6px;
+  background: var(--ed-line-hot);
+}
+
+.ed-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 196px;
+  margin-left: 12px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+#clock {
+  color: var(--ed-text);
+}
+
+.ed-total,
+.ed-where {
+  color: var(--ed-faint);
+}
+
+.ed-where:not(:empty)::before {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 10px;
+  margin-right: 8px;
+  background: var(--ed-line-hot);
+}
+
+/* Tooltips: CSS only, delayed so a pass across the bar stays quiet. */
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--ed-raised);
+  box-shadow:
+    0 0 0 1px var(--ed-line-hot),
+    var(--ed-shadow);
+  color: var(--ed-text);
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 120ms var(--ed-ease),
+    transform 120ms var(--ed-ease);
+}
+
+.ed-right [data-tip]::after {
+  right: 0;
+  left: auto;
+  transform: translate(0, 4px);
+}
+
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 450ms;
+}
+
+.ed-right [data-tip]:hover::after,
+.ed-right [data-tip]:focus-visible::after {
+  transform: translate(0, 0);
+}
+
+.ed-dock :focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 1px;
+}
+
+/* ── timeline ──────────────────────────────────────────────────────── */
+
+.ed-time {
+  position: relative;
+  /* Left gutter holds the lane names, like track headers. */
+  padding: 0 var(--dock-pad) 14px calc(var(--dock-pad) + 64px);
+  cursor: text;
+  touch-action: none;
+  outline: none;
+}
+
+.ed-lanes {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  contain: layout;
+}
+
+.ed-ruler {
+  position: relative;
+  height: 22px;
+  border-bottom: 1px solid var(--ed-line);
+}
+
+.ed-ruler i {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 4px;
+  background: var(--ed-ghost);
+  font-style: normal;
+}
+
+.ed-ruler i.major {
+  height: 8px;
+  background: var(--ed-faint);
+}
+
+.ed-ruler span {
+  position: absolute;
+  bottom: 9px;
+  left: 4px;
+  color: var(--ed-faint);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+.ed-lane {
+  position: relative;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--ed-ground);
+}
+
+.ed-sections i:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.ed-sections i:last-child {
+  border-right: 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.ed-sections i {
+  overflow: hidden;
+}
+
+.ed-lane i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  font-style: normal;
+}
+
+.ed-sections i {
+  border-right: 1px solid var(--ed-panel);
+  background: var(--ed-raised);
+}
+
+.ed-sections i[data-level='mid'] {
+  background: var(--ed-hover);
+}
+
+.ed-sections i[data-level='high'] {
+  background: var(--ed-press);
+}
+
+.ed-sections i[data-level='peak'] {
+  background: var(--ed-ghost);
+}
+
+.ed-sections span,
+.ed-bars span {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  color: var(--ed-faint);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.ed-bars i {
+  width: 1px;
+  background: var(--ed-ghost);
+}
+
+.ed-bars i.drop {
+  width: 2px;
+  background: var(--ed-drop);
+}
+
+.ed-bars i.drop span {
+  color: var(--ed-drop);
+}
+
+.ed-audio {
+  height: 40px;
+  color: var(--ed-wave);
+}
+
+.ed-wave {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ed-lane::before {
+  content: attr(data-lane);
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 12px);
+  color: var(--ed-faint);
+  font-size: 10.5px;
+  font-weight: 500;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.ed-past,
+.ed-head,
+.ed-hover {
+  position: absolute;
+  inset: 0;
+  font-style: normal;
+  pointer-events: none;
+}
+
+/* Played region: one composited layer scaled by --playhead. */
+.ed-past {
+  top: 23px;
+  background: var(--ed-line);
+  transform: scaleX(var(--playhead, 0));
+  transform-origin: left center;
+}
+
+.ed-head {
+  transform: translateX(calc(var(--playhead, 0) * 100%));
+  will-change: transform;
+}
+
+.ed-head > b {
+  position: absolute;
+  top: 0;
+  bottom: -6px;
+  left: 0;
+  width: 2px;
+  background: var(--ed-head);
+  transform: translateX(-50%);
+}
+
+.ed-head > b::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px 3px 6px 6px;
+  background: var(--ed-head);
+  transform: translateX(-50%);
+}
+
+.ed-hover {
+  transform: translateX(calc(var(--hover, 0) * 100%));
+}
+
+.ed-hover[hidden] {
+  display: none;
+}
+
+.ed-hover::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  bottom: -6px;
+  left: 0;
+  width: 1px;
+  background: var(--ed-line-hot);
+}
+
+.ed-hover-time {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: var(--ed-raised);
+  box-shadow: 0 0 0 1px var(--ed-line-hot);
+  color: var(--ed-text);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.ed-time:focus-visible .ed-ruler {
+  border-bottom-color: var(--ed-focus);
+}
+
+/* ── export progress and status ────────────────────────────────────── */
+
+.ed-dock .xfer {
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 12px);
+  left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 300px;
+  padding: 12px 14px;
+  border-radius: var(--ed-radius);
+  background: var(--ed-raised);
+  box-shadow:
+    0 0 0 1px var(--ed-line-hot),
+    var(--ed-shadow);
+}
+
+.ed-dock .xfer[hidden] {
+  display: none;
+}
+
+.ed-dock .xfer-meta {
+  justify-content: space-between;
+  color: var(--ed-dim);
+}
+
+.ed-dock .xfer-pct {
+  color: var(--ed-text);
+  font-family: var(--mono);
+}
+
+.ed-dock .xfer-rail {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ed-hover);
+  overflow: hidden;
+}
+
+.ed-dock .xfer-rail > i {
+  background: var(--ed-primary);
+  transition: transform 160ms linear;
+}
+
+.ed-status {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--ed-raised);
+  box-shadow:
+    0 0 0 1px var(--ed-line-hot),
+    var(--ed-shadow);
+  color: var(--ed-text);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ed-status:empty {
+  display: none;
+}
+
+body.busy
+  .ed-dock
+  :is(#play, #replay, #slow, #to-start, #to-end, #frame-back, #frame-next, .ed-export),
+body.busy .ed-dock .ed-time {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@media (max-width: 1180px) {
+  .ed-where,
+  .ed-title span {
+    display: none;
+  }
+
+  .ed-clock {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .ed-total,
+  .ed-title,
+  .ed-sep,
+  #to-end,
+  #to-start {
+    display: none;
+  }
+
+  .ed-time {
+    padding-left: var(--dock-pad);
+  }
+
+  .ed-lane::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-dock *,
+  .ed-dock *::after {
+    transition: none !important;
+  }
+}
