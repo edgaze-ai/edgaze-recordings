@@ -128,42 +128,11 @@ a {
     0 0 42px color-mix(in srgb, var(--pink) 16%, transparent);
 }
 
-.chrome {
-  position: fixed;
-  right: 28px;
-  bottom: 22px;
-  left: 28px;
-  z-index: 20;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 8px 22px;
-  user-select: none;
-}
-
-.chrome a,
-.chrome button,
-.chrome .clock {
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-
-.chrome .clock {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-  cursor: default;
-}
-
-.chrome a:hover,
-.chrome button:hover,
-.chrome button.on {
-  color: var(--ink);
-}
-
+/*
+ * The editor dock (.chrome) is styled in editor.css, loaded by the editor.
+ * These legacy rail rules stay unscoped on purpose: scene 006 has its own
+ * .rail inside the film and was authored with them applied.
+ */
 .rail {
   position: relative;
   flex: 1 1 220px;
@@ -240,22 +209,6 @@ a {
 
 .rail:focus-visible .rail-track {
   background: color-mix(in srgb, var(--ink) 18%, transparent);
-}
-
-.chrome .status {
-  position: absolute;
-  right: 0;
-  bottom: 44px;
-  left: 0;
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-}
-
-.chrome .status:empty,
-.chrome:has(.xfer:not([hidden])) .status {
-  display: none;
 }
 
 .xfer {
@@ -1083,21 +1036,6 @@ body.rec .chrome {
   margin-top: 4px;
   color: var(--node-hint);
   font-size: 12px;
-}
-
-/* Dashboard chrome lives in dashboard.css so scene work stays isolated. */
-
-body.busy .chrome button[id^='export'],
-body.busy .chrome #play,
-body.busy .chrome #replay,
-body.busy .chrome #slow {
-  pointer-events: none;
-  color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
-}
-
-body.busy .chrome .rail {
-  pointer-events: none;
-  opacity: 0.4;
 }
 
 @media (prefers-reduced-motion: reduce) {
