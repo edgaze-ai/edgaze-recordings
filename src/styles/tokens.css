@@ -139,14 +139,14 @@
   --rest-green-bright: #6ee7b7;
   --rest-rose: #fda4af;
   --rest-sky: #7dd3fc;
-  --rest-ekme-page: #f7f4ed;
-  --rest-ekme-panel: #fffdf8;
-  --rest-ekme-ink: #1f2925;
-  --rest-ekme-copy: #66706b;
-  --rest-ekme-line: #dedfd9;
-  --rest-ekme-green: #326b57;
-  --rest-ekme-green-soft: #dcebe2;
-  --rest-ekme-warm: #d9a96a;
+  --rest-acme-page: #f7f4ed;
+  --rest-acme-panel: #fffdf8;
+  --rest-acme-ink: #1f2925;
+  --rest-acme-copy: #66706b;
+  --rest-acme-line: #dedfd9;
+  --rest-acme-green: #326b57;
+  --rest-acme-green-soft: #dcebe2;
+  --rest-acme-warm: #d9a96a;
 
   /* Shiki dark-plus — the theme DeveloperCodeBlock renders every docs and
      console snippet with. Traced token colours, so a hand-built code panel
@@ -207,10 +207,152 @@
   --publish-cta-ink: #171717;
   --phone-side: #9a968e;
 
+  /* outcome pricing — the 3D world reads its materials and lights from here,
+     so a WebGL colour is still a token. The cold steel is the node port line
+     lifted into metal; nothing warm is allowed in the stream. */
+  --pr-steel: #8a94a1;
+  --pr-steel-rim: #9db6d4;
+  --pr-key-cool: #e6edf5;
+  --pr-key-warm: #fff3e2;
+  --pr-rim-warm: #f0e2c8;
+  --pr-dark-metal: #1b1c1f;
+  --pr-machined: #c3c8cf;
+  --pr-sandbox: #eef1f4;
+  --pr-etch: #cfd4db;
+  /* White type with the app accent passing through it once per card. The
+     strip is multiplied over white-on-black type, so white stays white,
+     black stays black, and only the letters take the colour. */
+  --pr-flow: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 16%,
+    #78e9ff 28%,
+    #b68cff 38%,
+    #ff6db2 48%,
+    #ffffff 60%,
+    #ffffff 72%,
+    #b68cff 84%,
+    #ffffff 94%,
+    #ffffff 100%
+  );
+
+  /* 009 nodes — premiumNodeVisualRegistry.ts: icon and port colour by
+     category, and statusRingColor for running and success. */
+  --pn-icon-io: #8ec0ff;
+  --pn-icon-ai: #b8acd4;
+  --pn-icon-utility: #7eb8b6;
+  --pn-icon-logic: #d4b978;
+  --pn-icon-output: #6eb89a;
+  --pn-port-io: #4f8cff;
+  --pn-port-ai: #9484b8;
+  --pn-port-utility: #569691;
+  --pn-port-logic: #c4a054;
+  --pn-port-output: #59a888;
+  --pn-running: #5b8fd4;
+  --pn-success: #5d9168;
+
+  /* 009 UI — CustomerWorkflowRunModal (productDemoStyle) and
+     FundingCheckoutModal, Tailwind utilities resolved to literals. */
+  --rm-shell: #090a0e;
+  --co-shell: #0a0a0a;
+  --tw-cyan-400: #22d3ee;
+  --tw-cyan-300: #67e8f9;
+  --tw-pink-500: #ec4899;
+  --tw-neutral-400: #a3a3a3;
+  --tw-red-400: #f87171;
+  --tw-rose-400: #fb7185;
+  --tw-rose-300: #fda4af;
+  --accent-a: #78e9ff;
+  --accent-c: #ff6db2;
+
+  /* launch — the default look from 010 on. Light ground, black display type,
+     colour arrives in full-frame wipes and category fields, never as glow. */
+  --ground: #fafaf7;
+  --ground-deep: #f0efea;
+  --ink-display: #0a0a0a;
+  /* the app accent, deepened so a gradient word holds up on a light ground */
+  --accent-deep: linear-gradient(90deg, #00b8e0 0%, #7d5cff 52%, #ff3d8e 100%);
+  --ink-soft: #6b6b66;
+  --ink-hair: rgba(10, 10, 10, 0.08);
+  --card-face: #ffffff;
+  --card-line: rgba(10, 10, 10, 0.07);
+  --card-shadow:
+    0 2px 6px rgba(10, 10, 10, 0.05), 0 12px 32px rgba(10, 10, 10, 0.08),
+    0 40px 90px rgba(10, 10, 10, 0.1);
+  --display:
+    'Inter Tight', 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont,
+    'Helvetica Neue', Arial, sans-serif;
+
+  /* category fields — two tones each; a field is a gradient between them so
+     no screen is ever one flat colour. */
+  --cat-marketing: #ff4fa0;
+  --cat-marketing-2: #ff9a5b;
+  --cat-sales: #ffb02e;
+  --cat-sales-2: #ff6a4d;
+  --cat-engineering: #3d6bff;
+  --cat-engineering-2: #22d3ee;
+  --cat-research: #9b6bff;
+  --cat-research-2: #ff7ad9;
+  --cat-content: #ff5a36;
+  --cat-content-2: #ffcf3f;
+  --cat-finance: #14c47a;
+  --cat-finance-2: #c3f23f;
+  --cat-support: #22c8e5;
+  --cat-support-2: #7c8cff;
+  --cat-design: #ffd23f;
+  --cat-design-2: #ff8f3f;
+  --cat-legal: #5fd4c0;
+  --cat-legal-2: #b9a6ff;
+  --cat-ops: #6c4dff;
+  --cat-ops-2: #ff5fd2;
+  --cat-people: #ff7a4f;
+  --cat-people-2: #ffd166;
+  --cat-education: #2fd59c;
+  --cat-education-2: #5ee7ff;
+  --cat-product: #ff3d6e;
+  --cat-product-2: #ff9b71;
+  --cat-data: #3f9bff;
+  --cat-data-2: #7cf2c0;
+  /* mesh light for the white screens */
+  --mesh-a: #7fe3ff;
+  --mesh-b: #c6a8ff;
+  --mesh-c: #ffa8d6;
+  --mesh-d: #ffe08a;
+
+  /* platform marks — official brand colours, used only on their own logos */
+  --brand-linkedin: #0a66c2;
+  --brand-x: #000000;
+  /* Edgaze's verified-creator badge (VerifiedCreatorBadge in the app). */
+  --verified-a: #22d3ee;
+  --verified-b: #67e8f9;
+  --verified-c: #f472b6;
+  /* Screening verdicts (014): include, exclude, check. */
+  --decide-include: #12a36a;
+  --decide-exclude: #e5484d;
+  --decide-check: #e8930c;
+  /* Illustrated people (014). */
+  --skin-a: #f3c9a6;
+  --skin-a-2: #e2a985;
+  --hair-a: #2b201b;
+  --blush: #ff9fb4;
+  --brand-instagram: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+
+  /* the red of an unread notification, used only on platform badges */
+  --notify: #ff3b30;
+
   /* motion */
   --expo: cubic-bezier(0.16, 1, 0.3, 1);
   --quint: cubic-bezier(0.22, 1, 0.36, 1);
   --travel: cubic-bezier(0.5, 0, 0.5, 1);
+  /* expo-in: a lens accelerating through a letter. Only for zoomThrough. */
+  --accel: cubic-bezier(0.7, 0, 0.84, 0);
 
   /* preview only, never affects export */
   --zoom: 0.5;
