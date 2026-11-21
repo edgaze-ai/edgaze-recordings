@@ -12,7 +12,11 @@ recordings/*
 !recordings/INDEX.md
 
 # Dropped footage. Photos and SVG slots stay in git.
-src/assets/**/*.{mp4,mov,webm,gif}
+# Git has no brace expansion, so each extension gets its own line.
+src/assets/**/*.mp4
+src/assets/**/*.mov
+src/assets/**/*.webm
+src/assets/**/*.gif
 
 # Licensed music tracks stay on the machine that holds the licence.
 src/assets/music/*
