@@ -1,404 +1,797 @@
 /* Edgaze Animator — platform chrome only. Scenes never import this file. */
 
+html.ed,
 body.dash {
   min-height: 100vh;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ed-ground);
+  color: var(--ed-text);
+  color-scheme: dark;
 }
 
-body.dash .shell {
-  width: min(1180px, calc(100% - 80px));
-  margin: 0 auto;
-  padding: 56px 0 120px;
-}
-
-body.dash .mast {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  padding-bottom: 36px;
-  border-bottom: 1px solid var(--hair);
-}
-
-body.dash .wordmark {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: -0.038em;
-  line-height: 1;
-}
-
-body.dash .lede {
-  max-width: 42ch;
-  margin: 10px 0 0;
-  color: var(--quiet);
+body.dash {
+  padding: 0 32px 96px;
   font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.011em;
-  line-height: 1.45;
+  letter-spacing: -0.006em;
 }
 
-body.dash .summary {
+body.dash ::selection {
+  background: var(--ed-press);
+}
+
+body.dash h1,
+body.dash h2,
+body.dash p {
   margin: 0;
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-  text-align: right;
-  white-space: nowrap;
 }
 
-body.dash .workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
-  align-items: start;
-  gap: 56px;
-  margin-top: 48px;
+body.dash .quiet {
+  color: var(--ed-faint);
 }
 
-body.dash .workspace:not(:has(.review:not([hidden]))) {
-  grid-template-columns: 1fr;
-}
-
-body.dash .workspace .board {
-  margin-top: 0;
-}
-
-body.dash .review {
-  min-width: 0;
-  cursor: pointer;
-}
-
-body.dash .review[hidden] {
-  display: none;
-}
-
-body.dash .review-stage {
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--black);
-  box-shadow:
-    0 2px 8px color-mix(in srgb, var(--ink) 6%, transparent),
-    0 16px 36px color-mix(in srgb, var(--ink) 8%, transparent),
-    0 40px 72px color-mix(in srgb, var(--ink) 10%, transparent);
-}
-
-body.dash .review video {
+body.dash .ico {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: var(--black);
+  flex: none;
 }
 
-body.dash .review-meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: 16px;
+body.dash :focus-visible {
+  outline: 2px solid var(--ed-focus);
+  outline-offset: 2px;
 }
 
-body.dash .review-meta p {
-  margin: 0;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.011em;
-  text-overflow: ellipsis;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
-body.dash .review:hover #review-name {
-  color: transparent;
-  background: var(--brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
+/* ── top bar ───────────────────────────────────────────────────────── */
 
-body.dash .review-meta .quiet {
-  flex-shrink: 0;
-  color: var(--quiet);
-}
-
-body.dash .board {
-  margin-top: 56px;
-}
-
-body.dash .board-head {
+body.dash .top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 18px;
+  max-width: 1360px;
+  height: 64px;
+  margin: 0 auto 8px;
+  background: var(--ed-ground);
+  border-bottom: 1px solid var(--ed-line);
 }
 
-body.dash .board-head h2 {
-  margin: 0;
+body.dash .dash-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+body.dash .dash-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--accent);
+}
+
+body.dash h1 {
   font-size: 15px;
   font-weight: 600;
-  letter-spacing: -0.022em;
-}
-
-body.dash .board-head p,
-body.dash .board-head button {
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
   letter-spacing: -0.01em;
 }
 
-body.dash .board-head button:hover {
-  color: var(--ink);
+body.dash .stats {
+  display: flex;
+  gap: 24px;
+  margin: 0;
 }
 
-body.dash table {
-  width: 100%;
-  border-collapse: collapse;
+body.dash .stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
 }
 
-body.dash th,
-body.dash td {
-  padding: 14px 20px 14px 0;
-  text-align: left;
-  vertical-align: baseline;
+body.dash .stats dt {
+  order: 2;
+  color: var(--ed-faint);
+  font-size: 13px;
 }
 
-body.dash th {
-  color: var(--quiet);
-  font-size: 12px;
+body.dash .stats dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+body.dash .stats .live dd {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ed-dim);
   font-weight: 500;
-  letter-spacing: 0.01em;
 }
 
-body.dash tbody tr {
-  border-top: 1px solid var(--hair);
+body.dash .stats .live dd::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ed-ok);
 }
 
-body.dash tbody tr:hover {
-  background: var(--wash);
+body.dash .stats .live.off dd::before {
+  background: var(--ed-faint);
 }
 
-body.dash tbody tr.is-on {
-  background: var(--wash);
-  box-shadow: inset 2px 0 0 var(--ink);
+/* ── layout ────────────────────────────────────────────────────────── */
+
+body.dash .layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  align-items: start;
+  gap: 24px;
+  max-width: 1360px;
+  margin: 24px auto 0;
 }
 
-body.dash th:last-child,
-body.dash td:last-child {
-  padding-right: 0;
-  text-align: right;
+body.dash .side {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-body.dash .name {
-  overflow: hidden;
-  color: var(--ink);
-  font-size: 15px;
+body.dash .panel {
+  border-radius: 14px;
+  background: var(--ed-panel);
+  box-shadow: inset 0 0 0 1px var(--ed-line);
+}
+
+body.dash .panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 10px 12px 10px 20px;
+}
+
+body.dash h2 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body.dash .tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.dash .search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 8px 0 10px;
+  border-radius: 9px;
+  background: var(--ed-ground);
+  box-shadow: inset 0 0 0 1px var(--ed-line);
+  color: var(--ed-faint);
+}
+
+body.dash .search:focus-within {
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+}
+
+body.dash .search .ico {
+  width: 16px;
+  height: 16px;
+}
+
+body.dash .search input {
+  width: 180px;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--ed-text);
+  font: inherit;
+  font-size: 13px;
+}
+
+body.dash .search input::placeholder {
+  color: var(--ed-faint);
+}
+
+body.dash kbd {
+  padding: 1px 6px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+  color: var(--ed-faint);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.dash .seg {
+  display: flex;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--ed-ground);
+  box-shadow: inset 0 0 0 1px var(--ed-line);
+}
+
+body.dash .seg button {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--ed-faint);
+  font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-body.dash a.name:hover,
-body.dash button.name:hover {
-  color: transparent;
-  background: var(--brand);
-  -webkit-background-clip: text;
-  background-clip: text;
+body.dash .seg button:hover {
+  color: var(--ed-text);
 }
 
-body.dash .num {
-  margin-right: 12px;
-  color: var(--quiet);
+body.dash .seg button[aria-pressed='true'] {
+  background: var(--ed-raised);
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+  color: var(--ed-text);
+}
+
+/* ── scene list ────────────────────────────────────────────────────── */
+
+body.dash ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.dash .scene-list {
+  padding: 0 8px 8px;
+}
+
+body.dash .scene {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 8px 8px 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 120ms var(--ed-ease);
+}
+
+body.dash .scene:hover {
+  background: var(--ed-raised);
+}
+
+body.dash .scene[aria-selected='true'] {
+  background: var(--ed-raised);
+  box-shadow: inset 0 0 0 1px var(--ed-line-hot);
+}
+
+/* A frame glyph in the scene's aspect, so 16:9 and 9:16 read at a glance. */
+body.dash .frame {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--ed-ground);
+  box-shadow: inset 0 0 0 1px var(--ed-line);
+}
+
+body.dash .frame i {
+  display: block;
+  width: 26px;
+  height: 15px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1.5px var(--ed-dim);
+}
+
+body.dash .frame.tall i {
+  width: 14px;
+  height: 25px;
+}
+
+body.dash .scene-text {
+  min-width: 0;
+}
+
+body.dash .scene-name {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  font-weight: 500;
+}
+
+body.dash .scene-name .num {
+  color: var(--ed-faint);
   font-family: var(--mono);
   font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0;
 }
 
-body.dash .meta {
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
+body.dash .scene-name .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash .scene-meta {
+  margin-top: 3px;
+  overflow: hidden;
+  color: var(--ed-faint);
+  font-size: 12.5px;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 body.dash .acts {
   display: flex;
-  flex-shrink: 0;
-  justify-content: flex-end;
-  gap: 16px;
+  align-items: center;
+  gap: 4px;
 }
 
-body.dash .acts a,
-body.dash .acts button {
-  color: var(--quiet);
+body.dash .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--ed-dim);
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 120ms var(--ed-ease),
+    color 120ms var(--ed-ease),
+    opacity 120ms var(--ed-ease);
 }
 
-body.dash .acts a:hover,
-body.dash .acts button:hover {
-  color: var(--ink);
+body.dash .btn:hover {
+  background: var(--ed-hover);
+  color: var(--ed-text);
 }
 
-body.dash .acts button.is-warn:hover {
-  color: var(--pink);
+body.dash .btn.primary {
+  background: var(--ed-primary);
+  color: var(--ed-on-primary);
+  font-weight: 600;
 }
 
-body.dash .empty td {
-  color: var(--quiet);
+body.dash .btn.primary:hover {
+  opacity: 0.88;
+}
+
+body.dash .btn.icon {
+  width: 32px;
+  padding: 0;
+}
+
+body.dash .btn.warn {
+  background: var(--ed-rec);
+  color: var(--ed-primary);
+}
+
+body.dash .scene .acts .btn:not(.primary) {
+  opacity: 0;
+}
+
+body.dash .scene:hover .acts .btn,
+body.dash .scene[aria-selected='true'] .acts .btn,
+body.dash .scene:focus-within .acts .btn {
+  opacity: 1;
+}
+
+body.dash .empty {
+  padding: 28px 20px;
+  color: var(--ed-faint);
   font-size: 13px;
-  font-weight: 500;
-}
-
-body.dash .empty:hover {
-  background: none;
-}
-
-body.dash .note {
-  margin: 64px 0 0;
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-body.dash .status {
-  position: fixed;
-  right: 0;
-  bottom: 28px;
-  left: 0;
-  z-index: 10;
-  margin: 0;
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
   text-align: center;
 }
 
-body.dash .status:empty {
+/* ── review player ─────────────────────────────────────────────────── */
+
+body.dash .review-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: calc(100% - 24px);
+  aspect-ratio: 16 / 10;
+  margin: 0 12px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--black);
+}
+
+body.dash .review-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+body.dash .review-stage video:not([src]) {
   display: none;
 }
+
+body.dash .review-empty {
+  position: absolute;
+  color: var(--ed-faint);
+  font-size: 13px;
+}
+
+body.dash .review-stage:has(video[src]) .review-empty {
+  display: none;
+}
+
+body.dash .review-play {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--ed-primary);
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 160ms var(--ed-ease),
+    transform 160ms var(--ed-ease);
+}
+
+body.dash .review-play::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 14px solid var(--ed-on-primary);
+  transform: translate(-50%, -50%);
+}
+
+body.dash .review-stage:has(video[src]):hover .review-play {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body.dash .review-meta {
+  padding: 14px 20px 18px;
+}
+
+body.dash #review-name {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash #review-info {
+  margin-top: 4px;
+  font-size: 12.5px;
+}
+
+/* ── recordings ────────────────────────────────────────────────────── */
+
+body.dash .clips-panel {
+  max-height: calc(100vh - 560px);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+body.dash .clip-list {
+  flex: 1;
+  padding: 0 8px 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+body.dash .clip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 8px;
+}
+
+body.dash .clip:hover {
+  background: var(--ed-raised);
+}
+
+body.dash .clip-name {
+  min-width: 0;
+  text-align: left;
+}
+
+body.dash .clip-name b {
+  display: block;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash .clip-name span {
+  display: block;
+  margin-top: 2px;
+  color: var(--ed-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+body.dash .clip .acts .btn {
+  opacity: 0;
+}
+
+body.dash .clip:hover .acts .btn,
+body.dash .clip:focus-within .acts .btn,
+body.dash .clip .acts .btn.warn {
+  opacity: 1;
+}
+
+body.dash .link {
+  color: var(--ed-dim);
+  font-size: 13px;
+}
+
+body.dash .link:hover {
+  color: var(--ed-text);
+}
+
+/* ── assets ────────────────────────────────────────────────────────── */
+
+body.dash .assets-panel {
+  max-width: 1360px;
+  margin: 24px auto 0;
+}
+
+body.dash .assets-panel summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+body.dash .assets-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+body.dash .assets-panel summary::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  border-right: 1.5px solid var(--ed-faint);
+  border-bottom: 1.5px solid var(--ed-faint);
+  transform: rotate(45deg);
+  transition: transform 160ms var(--ed-ease);
+}
+
+body.dash .assets-panel[open] summary::after {
+  transform: rotate(225deg);
+}
+
+body.dash .asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px;
+  padding: 0 12px 12px;
+}
+
+body.dash .asset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--ed-ground);
+  font-size: 12.5px;
+}
+
+body.dash .asset b {
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.dash .asset span {
+  color: var(--ed-faint);
+  white-space: nowrap;
+}
+
+body.dash .asset[data-state='empty'] span {
+  color: var(--ed-warn);
+}
+
+body.dash .note {
+  padding: 0 20px 18px;
+  font-size: 12.5px;
+}
+
+/* ── progress, toast, viewer ───────────────────────────────────────── */
 
 body.dash .xfer {
   position: fixed;
-  right: 0;
-  bottom: 56px;
-  left: 0;
-  z-index: 11;
+  right: 24px;
+  bottom: 24px;
+  left: auto;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 320px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--ed-raised);
+  box-shadow:
+    0 0 0 1px var(--ed-line-hot),
+    var(--ed-shadow);
 }
 
-body.dash:has(#xfer:not([hidden])) .status {
+body.dash .xfer[hidden] {
   display: none;
 }
 
-body.dash.busy .acts button[data-export] {
-  pointer-events: none;
-  color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
+body.dash .xfer-meta {
+  justify-content: space-between;
+  color: var(--ed-dim);
+}
+
+body.dash .xfer-pct {
+  color: var(--ed-text);
+  font-family: var(--mono);
+}
+
+body.dash .xfer-rail {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ed-hover);
+  overflow: hidden;
+}
+
+body.dash .xfer-rail > i {
+  background: var(--ed-primary);
+  transition: transform 160ms linear;
+}
+
+body.dash .toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 30;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--ed-raised);
+  box-shadow:
+    0 0 0 1px var(--ed-line-hot),
+    var(--ed-shadow);
+  font-size: 13px;
+  font-weight: 500;
+  transform: translateX(-50%);
+}
+
+body.dash .toast:empty {
+  display: none;
 }
 
 #viewer {
   position: fixed;
   inset: 0;
   z-index: 40;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  padding: 48px;
-  background: var(--paper);
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  background: color-mix(in srgb, var(--ed-ground) 88%, transparent);
+  backdrop-filter: blur(6px);
 }
 
 #viewer[hidden] {
   display: none;
 }
 
-#player {
-  width: min(calc(100vw - 96px), calc((100vh - 148px) * 16 / 9));
-  height: auto;
-  background: var(--black);
-  box-shadow:
-    0 2px 8px color-mix(in srgb, var(--ink) 6%, transparent),
-    0 16px 36px color-mix(in srgb, var(--ink) 8%, transparent),
-    0 40px 72px color-mix(in srgb, var(--ink) 10%, transparent);
+#viewer .viewer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(1280px, 100%);
+  max-height: 100%;
 }
 
 #viewer-bar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  width: min(calc(100vw - 96px), calc((100vh - 148px) * 16 / 9));
-  gap: 24px;
+  gap: 16px;
 }
 
 #viewer-name {
   overflow: hidden;
-  margin: 0;
+  color: var(--ed-dim);
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.011em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 #viewer-close {
-  flex-shrink: 0;
-  color: var(--quiet);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--ed-dim);
 }
 
 #viewer-close:hover {
-  color: var(--ink);
+  background: var(--ed-hover);
+  color: var(--ed-text);
 }
 
-body.dash.busy .acts button {
+#player {
+  width: 100%;
+  max-height: calc(100vh - 140px);
+  border-radius: 12px;
+  background: var(--black);
+}
+
+body.busy .scene .acts [data-export] {
+  opacity: 0.35;
   pointer-events: none;
-  color: color-mix(in srgb, var(--quiet) 40%, var(--paper));
 }
 
-@media (max-width: 1100px) {
-  body.dash .workspace {
-    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
-    gap: 40px;
+@media (max-width: 1080px) {
+  body.dash .layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  body.dash .hide-narrow {
+  body.dash .side {
+    position: static;
+  }
+
+  body.dash .clips-panel {
+    max-height: none;
+  }
+}
+
+@media (max-width: 720px) {
+  body.dash {
+    padding: 0 16px 80px;
+  }
+
+  body.dash .stats div:not(.live),
+  body.dash .search kbd {
     display: none;
   }
-}
 
-@media (max-width: 760px) {
-  body.dash .shell {
-    width: calc(100% - 40px);
-    padding-top: 36px;
+  body.dash .panel-head {
+    flex-wrap: wrap;
   }
 
-  body.dash .mast {
-    flex-direction: column;
-    align-items: flex-start;
+  body.dash .search input {
+    width: 120px;
   }
 
-  body.dash .summary {
-    text-align: left;
-    white-space: normal;
-  }
-
-  body.dash .workspace {
-    grid-template-columns: 1fr;
-  }
-
-  body.dash .review-stage {
-    max-width: 400px;
+  body.dash .scene .acts .btn:not(.primary) {
+    display: none;
   }
 }
