@@ -1,0 +1,389 @@
+/* 010 — Daily Workflow Spotlight launch film. */
+
+.stage[data-scene='010'] .screen {
+  overflow: hidden;
+  flex-direction: column;
+  background: var(--ground);
+  opacity: 0;
+}
+
+/* Intro */
+.kin.hero {
+  font-size: 300px;
+  letter-spacing: -0.06em;
+}
+
+.zoom {
+  position: relative;
+}
+
+.zoom .kin {
+  position: relative;
+  z-index: 1;
+}
+
+.kin.title {
+  position: relative;
+}
+
+.caret {
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  display: block;
+  width: 0.055em;
+  height: 0.86em;
+  border-radius: 0.03em;
+  background: var(--ink-display);
+}
+
+/* Lockups — always one line */
+.lk {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.lk .kin {
+  text-align: left;
+}
+
+.kin.title {
+  font-size: 116px;
+  letter-spacing: -0.05em;
+}
+
+.kin.end {
+  font-size: 92px;
+  letter-spacing: -0.045em;
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 150px;
+  height: 166px;
+}
+
+.lk.end .logo {
+  width: 118px;
+  height: 131px;
+}
+
+.logo > i,
+.logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Category screens: copy on one side, illustration on the other */
+.copy {
+  position: absolute;
+  top: 50%;
+  width: 900px;
+  margin-top: -150px;
+}
+
+.copy[data-side='left'] {
+  left: 130px;
+}
+
+.copy[data-side='right'] {
+  right: 60px;
+}
+
+.copy .kin {
+  font-size: 168px;
+  letter-spacing: -0.055em;
+  text-align: left;
+  transform-origin: 0% 60%;
+}
+
+.desc {
+  margin: 34px 0 0 6px;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  transform-origin: 0% 50%;
+}
+
+.il {
+  position: absolute;
+  top: 110px;
+  width: 860px;
+  height: 860px;
+}
+
+.il[data-side='right'] {
+  right: 30px;
+}
+
+.il[data-side='left'] {
+  left: 30px;
+}
+
+.il svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.il .pc {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 2px 3px color-mix(in srgb, var(--ink-display) 10%, transparent))
+    drop-shadow(0 10px 18px color-mix(in srgb, var(--ink-display) 12%, transparent))
+    drop-shadow(0 26px 40px color-mix(in srgb, var(--ink-display) 12%, transparent));
+}
+
+.il .p {
+  fill: var(--card-face);
+}
+
+.il .k {
+  fill: var(--ink-display);
+}
+
+.il .s {
+  fill: color-mix(in srgb, var(--ink-display) 12%, transparent);
+}
+
+.il .t {
+  fill: color-mix(in srgb, var(--c2) 45%, var(--white));
+}
+
+.il .d {
+  fill: color-mix(in srgb, var(--c) 78%, var(--ink-display));
+}
+
+.il .c {
+  fill: var(--c2);
+}
+
+.il .w {
+  fill: var(--white);
+}
+
+.il .wf {
+  fill: color-mix(in srgb, var(--white) 40%, transparent);
+}
+
+.il .lens {
+  fill: color-mix(in srgb, var(--c2) 45%, transparent);
+  stroke: var(--ink-display);
+  stroke-width: 28;
+}
+
+.il .sk,
+.il .skw,
+.il .skc {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.il .sk {
+  stroke: var(--ink-display);
+  stroke-width: 8;
+}
+
+.il .sk.fat {
+  stroke-width: 14;
+}
+
+.il .sk.thin {
+  stroke-width: 7;
+}
+
+.il .sk.soft {
+  stroke: color-mix(in srgb, var(--ink-display) 25%, transparent);
+}
+
+.il .skw {
+  stroke: var(--white);
+  stroke-width: 7;
+}
+
+.il .skw.soft {
+  stroke-width: 10;
+  opacity: 0.8;
+}
+
+.il .skc {
+  stroke: var(--c2);
+  stroke-width: 14;
+}
+
+.il text {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.il .kt {
+  fill: var(--ink-display);
+}
+
+.il .wt {
+  fill: var(--white);
+}
+
+/* Montage */
+.mt {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+}
+
+.mt h2 {
+  margin: 0;
+  color: var(--ink-display);
+  font-family: var(--display);
+  font-size: 250px;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* One workflow. Every single day. */
+.kin.stack {
+  font-size: 150px;
+  line-height: 1.02;
+}
+
+.kin.stack .w {
+  display: inline-block;
+}
+
+/* Where */
+.where {
+  display: flex;
+  align-items: flex-start;
+  gap: 150px;
+}
+
+.plat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.kicker {
+  margin: 0 0 76px;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.badge {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  height: 64px;
+  padding: 0 18px;
+  border: 5px solid var(--ground);
+  border-radius: 999px;
+  background: var(--notify);
+  color: var(--white);
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 700;
+  opacity: 0;
+}
+
+/* The end ripple sits behind the lockup but above the river, unclipped:
+   the rings are circles already and reach the frame corners. (Not .burst —
+   stage.css owns that name for 6px sparks.) */
+.ripple {
+  z-index: 0;
+  overflow: visible;
+  border-radius: 0;
+}
+
+[data-screen='end'] > .lk,
+[data-screen='end'] > .url,
+[data-screen='end'] > .confetti {
+  position: relative;
+  z-index: 1;
+}
+
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 230px;
+  height: 230px;
+  border-radius: 56px;
+  box-shadow:
+    0 3px 8px color-mix(in srgb, var(--ink-display) 12%, transparent),
+    0 16px 34px color-mix(in srgb, var(--ink-display) 14%, transparent),
+    0 40px 80px color-mix(in srgb, var(--ink-display) 14%, transparent);
+}
+
+.tile svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--white);
+}
+
+.tile[data-brand='linkedin'] {
+  background: var(--brand-linkedin);
+}
+
+.tile[data-brand='x'] {
+  background: var(--brand-x);
+}
+
+.tile[data-brand='instagram'] {
+  background: var(--brand-instagram);
+}
+
+.plat figcaption {
+  margin-top: 40px;
+  font-size: 60px;
+  letter-spacing: -0.04em;
+}
+
+/* End card */
+.url {
+  margin: 60px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.confetti {
+  display: flex;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.confetti i {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c), var(--c2));
+  opacity: 0;
+}
+
+/* Burst rings carry weight: thin rings vanish at this radius. */
+.ripple .ring {
+  border-width: 14px;
+}
