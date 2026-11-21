@@ -1,6 +1,16 @@
 import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
-import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
+import {
+  mkdir,
+  mkdtemp,
+  readdir,
+  readFile,
+  rm,
+  stat,
+  unlink,
+  writeFile,
+} from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 
@@ -206,8 +216,16 @@ function parseSceneSource(id, source) {
   const named = source.match(/const DURATION\s*=\s*(\d+)/);
   const mount = source.match(/mountStage\(\s*\{[\s\S]*?\bduration:\s*(\d+|DURATION)/);
   const duration = Number(named?.[1] ?? (mount?.[1] && mount[1] !== 'DURATION' ? mount[1] : 0));
-  const width = Number(source.match(/width:\s*(\d+)/)?.[1] ?? 1920);
-  const height = Number(source.match(/height:\s*(\d+)/)?.[1] ?? 1080);
+  // mountStage's width/height may be literals or top-level constants
+  // (`width: W` with `const W = 1080`); portrait scenes use the latter.
+  const constant = (name) => source.match(new RegExp(`const ${name}\\s*=\\s*(\\d+)`))?.[1];
+  const dimension = (key, fallback) => {
+    const raw = source.match(new RegExp(`\\b${key}:\\s*(\\d+|[A-Za-z_$][\\w$]*)`))?.[1];
+    const value = Number(/^\d+$/.test(raw ?? '') ? raw : constant(raw));
+    return value > 0 ? value : fallback;
+  };
+  const width = dimension('width', 1920);
+  const height = dimension('height', 1080);
   const [number, ...rest] = id.split('-');
   return {
     id,
@@ -231,12 +249,18 @@ function idleExportStatus() {
   };
 }
 
+/**
+ * Why: the request body is already read by the time an export starts, so
+ * the request's own 'close' has fired and will not fire again. The response
+ * socket closing is the only reliable sign the client went away (a stopped
+ * curl, a closed tab, a server restart).
+ */
 function abortSignal(req, res) {
   const controller = new AbortController();
   const cancel = () => {
     if (!res.writableEnded) controller.abort();
   };
-  req.on('close', cancel);
+  res.on('close', cancel);
   req.on('aborted', cancel);
   return controller.signal;
 }
@@ -293,12 +317,21 @@ async function exportScene({
     const live = await armPage(page, url);
     const ms = live?.duration || duration;
 
+    // The scene's score is rendered offline inside the page, so the export
+    // hears exactly what the preview played.
+    report({ phase: 'arm', percent: 1, label: 'Rendering soundtrack' });
+    const audio = await renderAudio(page);
+
     const stage = page.locator('.stage');
     const frames = Math.max(1, Math.round((ms / 1000) * EXPORT_FPS));
     const outWidth = width * EXPORT_SCALE;
     const outHeight = height * EXPORT_SCALE;
     report({ phase: 'capture', percent: 2, frame: 0, frames, label: 'Capturing' });
-    const encode = startEncode(dest, format);
+    const encode = startEncode(dest, format, audio?.file, ms / 1000);
+    // ffmpeg can fail while frames are still being captured; without this the
+    // rejection is unhandled until we reach `await encode.done` and it takes
+    // the whole dev server down.
+    encode.done.catch(() => undefined);
     try {
       for (let i = 0; i < frames; i += 1) {
         const time = (i * 1000) / EXPORT_FPS;
@@ -311,6 +344,7 @@ async function exportScene({
           height,
           outWidth,
           outHeight,
+          format,
         });
         await writeFrame(encode.child, frame);
         report({
@@ -328,6 +362,8 @@ async function exportScene({
       encode.child.kill();
       await unlink(dest).catch(() => undefined);
       throw error;
+    } finally {
+      if (audio) await rm(audio.dir, { recursive: true, force: true });
     }
     await context.close();
   } finally {
@@ -396,12 +432,31 @@ async function armPage(page, url) {
   return live;
 }
 
-async function grabFrame({ page, stage, time, url, width, height, outWidth, outHeight }) {
+async function renderAudio(page) {
+  const b64 = await page.evaluate(() => window.__edgazeAudio?.() ?? null);
+  if (!b64) return null;
+  const dir = await mkdtemp(join(tmpdir(), 'edgaze-audio-'));
+  const file = join(dir, 'score.wav');
+  await writeFile(file, Buffer.from(b64, 'base64'));
+  return { dir, file };
+}
+
+async function grabFrame({
+  page,
+  stage,
+  time,
+  url,
+  width,
+  height,
+  outWidth,
+  outHeight,
+  format,
+}) {
   let lastError;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
       await seekPage(page, time);
-      return await captureFrame(page, stage, width, height, outWidth, outHeight);
+      return await captureFrame(page, stage, width, height, outWidth, outHeight, format);
     } catch (error) {
       lastError = error;
       if (isContextLost(error)) {
@@ -416,8 +471,10 @@ async function grabFrame({ page, stage, time, url, width, height, outWidth, outH
 }
 
 async function seekPage(page, time) {
-  await page.evaluate((ms) => {
+  await page.evaluate(async (ms) => {
     window.__edgazeSeek?.(ms);
+    // Footage seeks are async; wait until every video shows its exact frame.
+    await window.__edgazeSettle?.();
     document.body.getBoundingClientRect();
     return new Promise((resolve) => {
       requestAnimationFrame(() => requestAnimationFrame(resolve));
@@ -429,10 +486,14 @@ function isContextLost(error) {
   return /context was destroyed|Target closed|has been closed/i.test(String(error));
 }
 
-async function captureFrame(page, stage, width, height, outWidth, outHeight) {
+/**
+ * Why: the MP4 is a delivery file and JPEG q96 frames are visually lossless
+ * under H.264. The MOV is the editing master, so its frames stay PNG and
+ * nothing is lost before ProRes.
+ */
+async function captureFrame(page, stage, width, height, outWidth, outHeight, format) {
   const shot = {
-    type: 'jpeg',
-    quality: 94,
+    ...(format === 'mov' ? { type: 'png' } : { type: 'jpeg', quality: 96 }),
     scale: 'device',
     caret: 'hide',
     animations: 'allow',
@@ -477,48 +538,91 @@ function imageSize(buf) {
 }
 
 /**
- * Why: 4K 60 has ~10× the samples of the old 1080p ~25fps capture. CRF plus a
- * VBV cap keeps the file near the old size; dark UI compresses well under it.
+ * Why: every export is 2× the stage at 60fps (3840×2160, or 2160×3840 for
+ * vertical Reels scenes). Light grounds and full-frame
+ * colour wipes are the hardest case for H.264 — flat fields band and fast
+ * wipes smear at low bitrates — so the MP4 runs near-transparent (CRF 16,
+ * 45 Mbps cap). It is tagged BT.709 so whites stay white on LinkedIn, X and
+ * Instagram instead of drifting grey. The MOV is a ProRes 422 HQ master for
+ * the edit suite. Audio is the scene's score: AAC 320k in MP4, PCM in MOV.
  */
-function startEncode(output, format) {
+function startEncode(output, format, audioFile, seconds) {
   const args = [
     '-y',
     '-f',
     'image2pipe',
     '-framerate',
     String(EXPORT_FPS),
-    '-c:v',
-    'mjpeg',
+    ...(format === 'mov' ? [] : ['-c:v', 'mjpeg']),
     '-i',
     'pipe:0',
-    '-c:v',
-    'libx264',
-    '-preset',
-    'medium',
-    '-threads',
-    '0',
-    '-profile:v',
-    'high',
-    '-level',
-    '5.2',
-    '-crf',
-    '22',
-    '-maxrate',
-    '8M',
-    '-bufsize',
-    '16M',
-    '-vf',
-    'scale=in_range=jpeg:out_range=mpeg,format=yuv420p',
+  ];
+  if (audioFile) args.push('-i', audioFile);
+  args.push('-map', '0:v:0');
+  if (audioFile) args.push('-map', '1:a:0');
+
+  if (format === 'mov') {
+    args.push(
+      '-c:v',
+      'prores_ks',
+      '-profile:v',
+      '3',
+      '-vendor',
+      'apl0',
+      '-pix_fmt',
+      'yuv422p10le',
+      '-vf',
+      'scale=out_color_matrix=bt709:out_range=tv,format=yuv422p10le',
+    );
+  } else {
+    args.push(
+      '-c:v',
+      'libx264',
+      '-preset',
+      'slow',
+      '-threads',
+      '0',
+      '-profile:v',
+      'high',
+      '-level',
+      '5.2',
+      '-crf',
+      '16',
+      '-maxrate',
+      '45M',
+      '-bufsize',
+      '90M',
+      '-vf',
+      'scale=in_range=jpeg:out_range=tv:out_color_matrix=bt709,format=yuv420p',
+      '-g',
+      String(EXPORT_FPS),
+      '-x264-params',
+      'aq-mode=3',
+    );
+  }
+  args.push(
+    '-colorspace',
+    'bt709',
+    '-color_primaries',
+    'bt709',
+    '-color_trc',
+    'bt709',
     '-color_range',
     'tv',
     '-r',
     String(EXPORT_FPS),
-    '-g',
-    String(EXPORT_FPS),
-    '-x264-params',
-    'aq-mode=3',
-    '-an',
-  ];
+  );
+  if (audioFile) {
+    args.push(
+      ...(format === 'mov'
+        ? ['-c:a', 'pcm_s16le']
+        : ['-c:a', 'aac', '-b:a', '320k', '-ar', '48000']),
+      '-t',
+      seconds.toFixed(3),
+    );
+  } else {
+    args.push('-an');
+  }
   if (format === 'mp4') args.push('-movflags', '+faststart');
   args.push(output);
 
