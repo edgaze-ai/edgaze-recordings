@@ -1,6 +1,10 @@
 import { fillAssets } from './assets';
+import { type MusicSpec, Soundtrack } from './audio';
+import { type BeatMap } from './beatgrid';
 import { applyExportProgress, requestExport, type ExportProgress } from './export';
+import { settled } from './footage';
 import { prepare } from './reveal';
+import { type Score } from './score';
 import { type ClipFormat, formatClock } from './scene-meta';
 import { Timeline } from './timeline';
 
@@ -19,12 +23,30 @@ export function mountStage(config: {
   duration: number;
   build: (tl: Timeline, stage: HTMLElement) => void;
   still?: (stage: HTMLElement) => void;
+  /**
+   * The soundtrack, written in the same absolute ms as `build`. Rendered
+   * offline, played in sync in preview, and muxed into every export.
+   */
+  score?: (s: Score) => void;
+  /** Tempo the score's beat helpers use. Default 120 (500ms beat). */
+  bpm?: number;
+  /** Optional licensed track from src/assets/music; mutes synth music. */
+  music?: MusicSpec;
+  /**
+   * The beat map the storyboard is cut to. Bars and drops are drawn on the
+   * editor rail so a late cut is visible, not just audible.
+   */
+  beats?: BeatMap;
 }): void {
   const stage = document.querySelector<HTMLElement>('.stage');
   if (!stage) throw new Error('Missing .stage');
 
   const chrome = document.querySelector<HTMLElement>('.chrome');
-  if (chrome) ensureEditor(chrome, config.duration);
+  const sound = config.score
+    ? new Soundtrack(config.score, config.bpm ?? 120, config.duration, config.music)
+    : null;
+  if (chrome) ensureEditor(chrome, config.duration, Boolean(sound));
+  if (config.beats) markBeats(config.beats, config.duration);
 
   const playBtn = document.querySelector('#play');
   const replay = document.querySelector('#replay');
@@ -152,6 +174,12 @@ export function mountStage(config: {
   const syncOrigin = (now = performance.now()) => {
     origin = now - time / rate;
     loopHold = 0;
+    // Audio follows the playhead; at 0.25× it stays quiet rather than
+    // pitch down and drift.
+    if (sound) {
+      if (playing && rate === 1 && time < config.duration) sound.play(time);
+      else sound.stop();
+    }
   };
 
   const tick = (now: number) => {
@@ -172,6 +200,7 @@ export function mountStage(config: {
       time = 0;
       paint();
       origin = now;
+      if (sound && rate === 1) sound.play(0);
       return;
     }
     loopHold = 0;
@@ -197,6 +226,7 @@ export function mountStage(config: {
       startClock();
     } else {
       stopClock();
+      sound?.stop();
     }
     paint();
   };
@@ -212,6 +242,7 @@ export function mountStage(config: {
 
   const showStill = () => {
     stopClock();
+    sound?.stop();
     playing = false;
     tl?.clear();
     stage.innerHTML = snapshot;
@@ -248,6 +279,7 @@ export function mountStage(config: {
   const runExport = async (format: ClipFormat) => {
     if (exporting) return;
     exporting = true;
+    sound?.stop();
     const wasPlaying = playing;
     setPlaying(false);
     stopClock();
@@ -318,6 +350,28 @@ export function mountStage(config: {
     slow.classList.toggle('on', rate !== 1);
     syncOrigin();
   });
+
+  const soundBtn = document.querySelector('#sound');
+  soundBtn?.addEventListener('click', () => {
+    if (!sound) return;
+    sound.muted = !sound.muted;
+    soundBtn.classList.toggle('on', !sound.muted);
+    soundBtn.textContent = sound.muted ? 'Muted' : 'Sound';
+    syncOrigin();
+  });
+
+  if (sound) {
+    // Browsers hold audio until the first gesture. Re-cue from the playhead
+    // on that gesture so sound joins in sync instead of from zero.
+    const unlock = () => {
+      window.removeEventListener('pointerdown', unlock, true);
+      window.removeEventListener('keydown', unlock, true);
+      sound.unlock();
+      if (playing && rate === 1) sound.play(time);
+    };
+    window.addEventListener('pointerdown', unlock, true);
+    window.addEventListener('keydown', unlock, true);
+  }
 
   rec?.addEventListener('click', () => {
     setRecording(!recording);
@@ -429,7 +483,10 @@ export function mountStage(config: {
   window.__edgazeSeek = (ms: number) => {
     seekTo(ms);
   };
+  window.__edgazeSettle = settled;
   window.__edgazeTime = () => time;
+  window.__edgazeBeats = config.beats;
+  window.__edgazeAudio = () => (sound ? sound.wavBase64() : Promise.resolve(null));
   window.__edgazeStart = () =>
     playOnce().then(() => {
       window.__edgazeDone = true;
@@ -443,7 +500,17 @@ export function mountStage(config: {
   else playFromStart();
 }
 
-function ensureEditor(chrome: HTMLElement, duration: number): void {
+function ensureEditor(chrome: HTMLElement, duration: number, hasSound: boolean): void {
+  if (hasSound && !document.querySelector('#sound')) {
+    const btn = document.createElement('button');
+    btn.id = 'sound';
+    btn.type = 'button';
+    btn.className = 'on';
+    btn.textContent = 'Sound';
+    const rec = document.querySelector('#rec');
+    chrome.insertBefore(btn, rec ?? null);
+  }
+
   if (!document.querySelector('#play')) {
     const play = document.createElement('button');
     play.id = 'play';
@@ -489,4 +556,20 @@ function ensureEditor(chrome: HTMLElement, duration: number): void {
       '<div class="xfer-rail"><i id="xfer-fill"></i></div>';
     chrome.append(xfer);
   }
+}
+
+/** Bar lines and drops on the rail, positioned once — never animated. */
+function markBeats(map: BeatMap, duration: number): void {
+  const rail = document.querySelector('#rail');
+  if (!(rail instanceof HTMLElement) || duration <= 0) return;
+  rail.querySelectorAll('.rail-bar').forEach((el) => el.remove());
+  map.downbeats.forEach((t, i) => {
+    if (t > duration) return;
+    const tick = document.createElement('i');
+    tick.className = 'rail-bar';
+    if (map.drops.includes(t)) tick.classList.add('drop');
+    tick.style.left = `${(t / duration) * 100}%`;
+    tick.title = `bar ${i + 1} · ${Math.round(t)}ms`;
+    rail.prepend(tick);
+  });
 }

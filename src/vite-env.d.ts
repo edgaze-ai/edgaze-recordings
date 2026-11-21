@@ -6,7 +6,10 @@ interface Window {
   __edgazeStart?: () => Promise<void>;
   __edgazeArm?: () => void;
   __edgazeSeek?: (ms: number) => void;
+  __edgazeSettle?: () => Promise<void>;
   __edgazeTime?: () => number;
+  __edgazeBeats?: import('./lib/beatgrid').BeatMap;
+  __edgazeAudio?: () => Promise<string | null>;
 }
 
 interface CaptureController {
