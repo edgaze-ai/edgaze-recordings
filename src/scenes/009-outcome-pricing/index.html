@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>009 — Outcome-based pricing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/tokens.css" />
+    <link rel="stylesheet" href="../../styles/stage.css" />
+    <link rel="stylesheet" href="../../styles/scene-009.css" />
+  </head>
+  <body>
+    <div class="stage" data-scene="009" data-tone="dark">
+      <div class="camera">
+        <!--
+          Cards. One line each, white type with the accent passing through it.
+          The five frames that matter carry the aurora: black above, the brand
+          light flowing along the bottom edge.
+        -->
+        <section class="screen card" data-screen="c1">
+          <div class="aurora" data-aurora data-low>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="type">
+            <h1>Introducing outcome-based pricing.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c2">
+          <div class="type">
+            <h1>You were paying for effort.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c3">
+          <div class="aurora" data-aurora>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="type">
+            <h1>Edgaze charges for the finished run.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c4">
+          <div class="type">
+            <h1>Every workflow starts with a free demo run.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c5">
+          <div class="type">
+            <h1>Your accounts are never touched.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c6">
+          <div class="type">
+            <h1>Failed runs are not charged.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c7">
+          <div class="type">
+            <h1>One price, locked to the version you ran.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="c8">
+          <div class="aurora" data-aurora>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="type">
+            <h1>Not by the token. By the result.</h1>
+            <i class="flow"><b></b></i>
+          </div>
+        </section>
+        <section class="screen card" data-screen="closing">
+          <!-- The Edgaze mark (edgaze-prod public/brand/edgaze-mark.png, the same
+               file as photos/edgaze-mark) with the name in plain white. -->
+          <div class="endmark" data-endmark>
+            <div class="endmark-logo" data-asset="photos/edgaze-mark"><i></i></div>
+            <h1 class="endmark-word">Edgaze</h1>
+          </div>
+        </section>
+
+        <!--
+          The one 3D world. Six illustrations are stations in a single space;
+          the canvas is drawn from scene time on every seek.
+        -->
+        <section class="screen" data-screen="world">
+          <!-- Gate beat only: the brand light, very soft, behind the 3D. -->
+          <div class="aurora" data-aurora data-soft>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="world-host" data-world></div>
+
+          <!--
+            18.9 — the charge, as the finished node clears the gate. The shell
+            is the premium run modal's; the tile is the wallet CTA's gradient
+            (FundingCheckoutModal, Wallet strokeWidth 2.25); the copy is the
+            result surface's own: "Run completed" and chargeChip.
+          -->
+          <div class="toast" data-toast>
+            <span class="toast-tile">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"
+                />
+                <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+              </svg>
+            </span>
+            <span class="toast-copy">
+              <b>Run completed</b>
+              <span class="toast-chip">
+                <span class="toast-chip-label">Charged</span>
+                <span class="toast-chip-amount" data-charge>$2.49</span>
+              </span>
+            </span>
+          </div>
+        </section>
+
+        <!--
+          33.8 — a failed run. The premium result header in failure mode
+          (statusIcon rose, workflow title), the diagnosis for a provider
+          outage from run-failure-diagnosis.ts, and the product's own struck
+          price + Free, from the free-demo copy in ReadyStateSurface.
+        -->
+        <section class="screen" data-screen="failed">
+          <div class="aurora" data-aurora>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="rig" data-rig="failed">
+            <div class="fm">
+              <div class="fm-head">
+                <span class="fm-status">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                  </svg>
+                </span>
+                <span class="fm-title">Company Intelligence Pack</span>
+                <span class="fm-price">
+                  <span class="fm-was">$2.49/run<i class="fm-strike" data-strike></i></span>
+                  <span class="fm-free-mask"><span class="fm-free" data-free>Free</span></span>
+                </span>
+              </div>
+              <div class="fm-sub">A provider had a temporary problem</div>
+              <div class="fm-body">
+                <p>
+                  An external service a step depends on returned a server-side error. The
+                  request was well-formed; the other side failed to serve it.
+                </p>
+                <p class="fm-next">Run again in a moment.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+          22.3 — the run modal in demo state. CustomerWorkflowRunModal with
+          productDemoStyle, freeDemoCopy, showDemoPrefillUx, and the
+          ReadyStateSurface it renders (flat + fieldIdentity + hideSetupTitle).
+          The workflow is edgaze/company-intel; inputs are the tutorial's.
+        -->
+        <section class="screen" data-screen="demo">
+          <div class="aurora" data-aurora>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="rig" data-rig="demo">
+            <div class="rm">
+              <div class="rm-head">
+                <div class="rm-title">Company Intelligence Pack</div>
+                <span class="rm-close">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </span>
+              </div>
+              <div class="rm-body">
+                <div class="rs-top">
+                  <h2>Try the live workflow</h2>
+                  <p>Try a free demo run to experience the workflow on us.</p>
+                  <div class="rs-price"><span>Free</span></div>
+                </div>
+                <div class="rs-fields">
+                  <div class="rs-field">
+                    <label>Company name<span class="req">*</span></label>
+                    <div class="rs-input">Example Corp</div>
+                  </div>
+                  <div class="rs-field">
+                    <label>Website URL<span class="req">*</span></label>
+                    <div class="rs-input">https://example.com</div>
+                  </div>
+                  <div class="rs-field">
+                    <label>Research goal</label>
+                    <div class="rs-input">Prepare for a first sales discovery call</div>
+                  </div>
+                </div>
+                <div class="rs-actions">
+                  <span class="rs-run">
+                    <i class="rs-run-fill"></i>
+                    <span class="rs-run-label">
+                      Run workflow free
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </span>
+                  </span>
+                  <span class="rs-clear">Change the example inputs.</span>
+                  <p class="rs-disclose">
+                    <span>Prefills are AI-generated. Please double-check responses.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--
+          43.0 — FundingCheckoutModal, options step, desktop grid. perRunPriceUsd
+          is company-intel's 2.49 (homepage-curation.ts). bundleTotalUsd gives
+          12.45 and 24.90; both clear the 500¢ bundle minimum, so all three
+          cards render and the grid is three columns.
+        -->
+        <section class="screen" data-screen="checkout">
+          <div class="aurora" data-aurora>
+            <i data-blob="cyan" data-tilt="-14"></i>
+            <i data-blob="blue" data-tilt="9"></i>
+            <i data-blob="violet" data-tilt="-5"></i>
+            <i data-blob="pink" data-tilt="16"></i>
+            <b class="aurora-veil"></b>
+            <b class="aurora-grain"></b>
+          </div>
+          <div class="rig" data-rig="checkout">
+            <div class="co">
+              <div class="co-head">
+                <div>
+                  <h2>Choose how to pay</h2>
+                  <p>This workflow costs approximately $2.49 per run.</p>
+                </div>
+                <span class="co-close">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </span>
+              </div>
+              <div class="co-body">
+                <div class="co-grid">
+                  <div class="co-card">
+                    <div class="co-illus">
+                      <svg viewBox="0 0 120 72" aria-hidden="true">
+                        <defs>
+                          <linearGradient id="b5-edge" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" class="st-a55" />
+                            <stop offset="100%" class="st-c40" />
+                          </linearGradient>
+                        </defs>
+                        <rect class="tray-5" x="18" y="24" width="84" height="28" rx="8" />
+                        <g class="credit" data-pulse="5" data-i="0">
+                          <rect class="cr-5" x="26" y="30" width="11" height="16" rx="3" />
+                          <path
+                            class="zap"
+                            transform="translate(27.5 34) scale(0.3333)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="5" data-i="1">
+                          <rect class="cr-5" x="41" y="30" width="11" height="16" rx="3" />
+                          <path
+                            class="zap"
+                            transform="translate(42.5 34) scale(0.3333)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="5" data-i="2">
+                          <rect class="cr-5" x="56" y="30" width="11" height="16" rx="3" />
+                          <path
+                            class="zap"
+                            transform="translate(57.5 34) scale(0.3333)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="5" data-i="3">
+                          <rect class="cr-5" x="71" y="30" width="11" height="16" rx="3" />
+                          <path
+                            class="zap"
+                            transform="translate(72.5 34) scale(0.3333)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="5" data-i="4">
+                          <rect class="cr-5 last" x="86" y="30" width="11" height="16" rx="3" />
+                          <path
+                            class="zap"
+                            transform="translate(87.5 34) scale(0.3333)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="co-foot">
+                      <span class="co-title">5 runs for this workflow</span>
+                      <div class="co-price">$12.45 total</div>
+                      <p class="co-detail">5 prepaid runs · ~$2.49/run</p>
+                      <p class="co-note">Failed runs aren't deducted.</p>
+                      <div class="co-cta">Buy 5 runs — $12.45</div>
+                    </div>
+                  </div>
+
+                  <div class="co-card" data-featured>
+                    <div class="co-illus">
+                      <svg viewBox="0 0 120 72" aria-hidden="true">
+                        <defs>
+                          <linearGradient id="b10-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" class="st-a22" />
+                            <stop offset="55%" class="st-b16" />
+                            <stop offset="100%" class="st-c18" />
+                          </linearGradient>
+                          <linearGradient id="b10-edge" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" class="st-a50" />
+                            <stop offset="100%" class="st-c40" />
+                          </linearGradient>
+                        </defs>
+                        <rect class="tray-10" x="20" y="14" width="80" height="46" rx="10" />
+                        <g class="credit" data-pulse="10" data-i="0">
+                          <rect class="cr-10" x="28" y="22" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(29.5 24.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="1">
+                          <rect class="cr-10" x="41.5" y="22" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(43 24.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="2">
+                          <rect class="cr-10" x="55" y="22" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(56.5 24.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="3">
+                          <rect class="cr-10" x="68.5" y="22" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(70 24.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="4">
+                          <rect class="cr-10" x="82" y="22" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(83.5 24.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="5">
+                          <rect class="cr-10" x="28" y="38" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(29.5 40.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="6">
+                          <rect class="cr-10" x="41.5" y="38" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(43 40.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="7">
+                          <rect class="cr-10" x="55" y="38" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(56.5 40.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="8">
+                          <rect class="cr-10" x="68.5" y="38" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(70 40.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                        <g class="credit" data-pulse="10" data-i="9">
+                          <rect class="cr-10" x="82" y="38" width="10" height="12" rx="2.5" />
+                          <path
+                            class="zap"
+                            transform="translate(83.5 40.5) scale(0.29167)"
+                            d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="co-foot">
+                      <span class="co-title">10 runs for this workflow</span>
+                      <div class="co-price">$24.90 total</div>
+                      <p class="co-detail">10 prepaid runs · ~$2.49/run</p>
+                      <p class="co-note">Failed runs aren't deducted.</p>
+                      <div class="co-cta">Buy 10 runs — $24.90</div>
+                    </div>
+                  </div>
+
+                  <div class="co-card">
+                    <div class="co-illus">
+                      <svg viewBox="0 0 120 72" aria-hidden="true">
+                        <defs>
+                          <linearGradient id="w-edge" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" class="st-a45" />
+                            <stop offset="54%" class="st-b35" />
+                            <stop offset="100%" class="st-c40" />
+                          </linearGradient>
+                        </defs>
+                        <rect class="w-body" x="26" y="18" width="68" height="40" rx="9" />
+                        <rect class="w-edge" x="26" y="18" width="68" height="40" rx="9" />
+                        <rect class="w-chip" x="34" y="26" width="12" height="9" rx="2" />
+                        <rect class="w-bar1" x="34" y="42" width="28" height="3.5" rx="1.75" />
+                        <rect class="w-bar2" x="34" y="49" width="18" height="2.5" rx="1.25" />
+                        <g class="w-plus">
+                          <circle cx="78" cy="38" r="8" />
+                          <path d="M75 38h6M78 35v6" />
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="co-foot">
+                      <span class="co-title">Edgaze Wallet</span>
+                      <div class="co-price">Add $10 or more</div>
+                      <p class="co-detail">
+                        Use your balance across any Edgaze workflow. Each run deducts its price
+                        from your wallet.
+                      </p>
+                      <div class="co-cta">Add $10 to wallet</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="chrome">
+      <a href="/">Clips</a>
+      <button id="play" type="button">Pause</button>
+      <button id="replay" type="button">Replay</button>
+      <button id="slow" type="button">0.25×</button>
+      <span id="clock" class="clock">0:00.0</span>
+      <div
+        id="rail"
+        class="rail"
+        role="slider"
+        tabindex="0"
+        aria-label="Timeline"
+        aria-valuemin="0"
+        aria-valuemax="0"
+        aria-valuenow="0"
+      >
+        <i class="rail-track"></i>
+        <i class="rail-fill"></i>
+        <i class="rail-head-wrap"><b></b></i>
+      </div>
+      <button id="rec" type="button">Record</button>
+      <button id="export-mp4" type="button">MP4</button>
+      <button id="export-mov" type="button">MOV</button>
+      <div id="xfer" class="xfer" hidden>
+        <div class="xfer-meta">
+          <span id="xfer-label"></span>
+          <span id="xfer-pct" class="xfer-pct"></span>
+        </div>
+        <div class="xfer-rail"><i id="xfer-fill"></i></div>
+      </div>
+      <span id="status" class="status"></span>
+    </div>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>
