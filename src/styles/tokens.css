@@ -357,3 +357,34 @@
   /* preview only, never affects export */
   --zoom: 0.5;
 }
+
+/*
+ * Harness chrome: the editor dock and the dashboard. Never seen in a film.
+ * Neutral greys, one white primary, colour only where it carries meaning.
+ */
+:root {
+  --ed-ground: #0b0b0b;
+  --ed-panel: #141414;
+  --ed-raised: #1c1c1c;
+  --ed-hover: #262626;
+  --ed-press: #2f2f2f;
+  --ed-line: rgba(255, 255, 255, 0.07);
+  --ed-line-hot: rgba(255, 255, 255, 0.14);
+  --ed-text: #ececec;
+  --ed-dim: #a1a1a1;
+  --ed-faint: #6b6b6b;
+  --ed-ghost: #3d3d3d;
+  --ed-primary: #ffffff;
+  --ed-on-primary: #0b0b0b;
+  --ed-head: #ffffff;
+  --ed-drop: #f653c8;
+  --ed-wave: rgba(255, 255, 255, 0.22);
+  --ed-wave-past: rgba(255, 255, 255, 0.55);
+  --ed-rec: #ef4444;
+  --ed-ok: #10a37f;
+  --ed-warn: #f59e0b;
+  --ed-focus: rgba(255, 255, 255, 0.32);
+  --ed-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --ed-radius: 10px;
+  --ed-ease: cubic-bezier(0.2, 0, 0, 1);
+}
