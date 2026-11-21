@@ -1,14 +1,17 @@
 import '../../styles/scene-008.css';
 import {
+  aura,
   bloom,
   breathe,
   cameraPush,
   countUp,
+  drawPath,
   drift,
   ease,
   edgePulse,
   emit,
   frame,
+  ghostTrail,
   hardCut,
   land,
   motes,
@@ -31,7 +34,7 @@ const DURATION = 48000;
 const CUT = {
   space: 2_200,
   card2: 8_000,
-  primitives: 9_800,
+  audience: 9_800,
   card3: 13_500,
   lifecycle: 15_000,
   card4: 22_000,
@@ -39,7 +42,7 @@ const CUT = {
   card5: 27_000,
   keys: 28_300,
   card6: 31_500,
-  ekme: 33_000,
+  acme: 33_000,
   card7: 41_000,
   closing: 42_500,
   address: 46_000,
@@ -52,10 +55,10 @@ const CUT = {
  * than the terminal at +170 and the camera parallaxes across them.
  */
 const PANEL: Record<string, Pose3> = {
-  market: { x: -644, y: 24, z: -150, ry: 25, rx: -1 },
-  terminal: { x: 20, y: -18, z: 175, ry: -3 },
-  mcp: { x: 656, y: 34, z: -130, ry: -23, rx: -1 },
-  ekme: { x: 300, y: 424, z: -660, ry: 6, rx: -8 },
+  market: { x: -620, y: 24, z: -150, ry: 25, rx: -1 },
+  terminal: { x: 0, y: -18, z: 175, ry: -3 },
+  mcp: { x: 616, y: 34, z: -130, ry: -23, rx: -1 },
+  acme: { x: 300, y: 424, z: -660, ry: 6, rx: -8 },
 };
 
 /** Where a panel comes from: behind the camera plane, and invisible. */
@@ -65,8 +68,8 @@ function approach(rest: Pose3): Pose3 {
 
 /** Camera marks for the two passes through the space. */
 const RIG = {
-  openA: { x: 20, y: 16, z: -170, ry: 4.2, rx: 1.1 },
-  openB: { x: -30, y: -20, z: 20, ry: -3.6, rx: -0.6 },
+  openA: { x: 20, y: 16, z: -60, ry: 4.2, rx: 1.1 },
+  openB: { x: -26, y: -20, z: 160, ry: -3.6, rx: -0.6 },
   /* The second pass is a pull back, not a push: z runs away from the panels,
      so the arrangement ends wider and fuller than it ever was on the way in. */
   closeA: { x: 14, y: 22, z: -230, ry: 3.6, rx: 1.2 },
@@ -75,13 +78,18 @@ const RIG = {
 
 /** Framing marks on the docs rig, in its own 1280-wide page pixels. */
 const SHOT = {
-  docsWide: { x: 750, y: 415, s: 1.36 },
-  docsDrift: { x: 764, y: 408, s: 1.44 },
-  docsHooks: { x: 1_020, y: 412, s: 2 },
-  ekmeWide: { x: 640, y: 380, s: 1.5 },
-  ekmeSettle: { x: 640, y: 378, s: 1.51 },
-  // 1.53 leaves the credit clear of the edge after the scene-wide 1.032 push crops it.
-  ekmePush: { x: 640, y: 400, s: 1.53 },
+  /* The fan beat: in tight on the workflow, then a sweep right that arrives
+     wide enough to hold all three audiences as they land. */
+  fanSource: { x: 460, y: 540, s: 1.56 },
+  fanHold: { x: 492, y: 540, s: 1.5 },
+  fanMid: { x: 980, y: 486, s: 1.3 },
+  fanWide: { x: 1_010, y: 540, s: 1.16 },
+  /* All three stay at or under 1.4535, the scale at which a 1280x720 rig
+     still fits the frame whole after the scene-wide 1.032 camera push. The
+     whole of acme.app is visible for the entire beat. */
+  acmeWide: { x: 640, y: 360, s: 1.4 },
+  acmeSettle: { x: 640, y: 360, s: 1.412 },
+  acmePush: { x: 640, y: 357, s: 1.45 },
 } satisfies Record<string, Frame>;
 
 function screen(stage: HTMLElement, name: string): HTMLElement {
@@ -218,7 +226,7 @@ mountStage({
     const card1 = screen(stage, 'card-1');
     const space = screen(stage, 'space');
     const card2 = screen(stage, 'card-2');
-    const primitives = screen(stage, 'primitives');
+    const audience = screen(stage, 'audience');
     const card3 = screen(stage, 'card-3');
     const life = screen(stage, 'lifecycle');
     const card4 = screen(stage, 'card-4');
@@ -226,7 +234,7 @@ mountStage({
     const card5 = screen(stage, 'card-5');
     const keys = screen(stage, 'keys');
     const card6 = screen(stage, 'card-6');
-    const ekme = screen(stage, 'ekme');
+    const acme = screen(stage, 'acme');
     const card7 = screen(stage, 'card-7');
     const closing = screen(stage, 'closing');
 
@@ -239,7 +247,7 @@ mountStage({
     const market = item(space, '[data-panel="market"]');
     const terminal = item(space, '[data-panel="terminal"]');
     const mcp = item(space, '[data-panel="mcp"]');
-    const ekmePanel = item(space, '[data-panel="ekme"]');
+    const acmePanel = item(space, '[data-panel="acme"]');
 
     // One continuous drift for the whole beat. travel is the long even move
     // that keeps a shot alive; expo would break off the mark and then sit.
@@ -330,64 +338,160 @@ mountStage({
 
     // -------------------------------------------------------- 8.0 — card
     hardCut(tl, space, card2, CUT.card2);
-    cardIn(tl, card2, CUT.card2, CUT.primitives - CUT.card2);
+    cardIn(tl, card2, CUT.card2, CUT.audience - CUT.card2);
 
-    // ----------------------------------------- 9.8 — the three primitives
-    hardCut(tl, card2, primitives, CUT.primitives);
-    const docs = item(primitives, '[data-rig="docs"]');
-    frame(tl, docs, {
-      at: CUT.primitives,
-      duration: 1_500,
-      from: SHOT.docsWide,
-      to: SHOT.docsDrift,
-      easing: ease.linear,
+    // ------------------------------- 9.8 — one workflow, three audiences
+    // The wires are painted by the pulse that rides them: drawPath and
+    // ghostTrail share an `at` and a `duration`, so each audience is reached
+    // rather than revealed. A second, quieter wave keeps the wires alive
+    // through the hold instead of leaving three static curves on screen.
+    hardCut(tl, card2, audience, CUT.audience);
+
+    const tile = item(audience, '[data-source-tile]');
+    land(tl, tile, { at: CUT.audience + 60, duration: 820, from: 1.12 });
+    aura(tl, item(audience, '[data-source-aura]'), {
+      at: CUT.audience + 120,
+      duration: 1_400,
+      peak: 0.5,
+      from: 0.7,
+      to: 1.5,
     });
-    frame(tl, docs, {
-      at: CUT.primitives + 1_500,
-      duration: CUT.card3 - CUT.primitives - 1_500,
-      from: SHOT.docsDrift,
-      to: SHOT.docsHooks,
-      easing: ease.travel,
+    popIn(tl, all(audience, '[data-sg]'), {
+      at: CUT.audience + 320,
+      step: 90,
+      duration: 520,
+      base: 0.5,
+    });
+    all(audience, '.sg-wire').forEach((wire, i) => {
+      tl.add(wire, [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
+        delay: CUT.audience + 420 + i * 90,
+        duration: 420,
+        easing: ease.expo,
+        fill: 'forwards',
+      });
     });
 
-    // Icon first, then the card body settles behind it — the order the eye
-    // reads a concept card in, rather than the whole tile arriving at once.
-    const concepts = all(primitives, '[data-concept]');
-    concepts.forEach((card, i) => {
-      const at = CUT.primitives + 140 + i * 250;
-      land(tl, item(card, '[data-concept-icon]'), { at, duration: 620, from: 0.6 });
+    // Each arm fires as the camera sweeps onto it, so a wire is painted by a
+    // pulse the frame is already following rather than off to one side.
+    const ARM = [
+      { name: 'buyers', at: CUT.audience + 1_020 },
+      { name: 'developers', at: CUT.audience + 1_260 },
+      { name: 'agents', at: CUT.audience + 1_500 },
+    ] as const;
+
+    for (const arm of ARM) {
+      const wire = audience.querySelector<SVGPathElement>(`[data-wire="${arm.name}"]`);
+      if (!wire) throw new Error(`Missing wire ${arm.name}`);
+      const d = wire.getAttribute('d') ?? '';
+      const travelFor = 760;
+
+      drawPath(tl, wire, { at: arm.at, duration: travelFor });
+      ghostTrail(tl, {
+        host: item(audience, `[data-trail="${arm.name}-a"]`),
+        d,
+        at: arm.at,
+        duration: travelFor,
+        size: 16,
+      });
+      // The second pass is smaller and slower: a wire that keeps carrying,
+      // not a second arrival.
+      ghostTrail(tl, {
+        host: item(audience, `[data-trail="${arm.name}-b"]`),
+        d,
+        at: arm.at + 1_450,
+        duration: 1_000,
+        size: 11,
+        count: 7,
+      });
+
+      const dest = item(audience, `[data-dest="${arm.name}"]`);
+      const arrive = arm.at + travelFor - 90;
+      // Glyph first, card body settling in behind it.
+      land(tl, item(dest, '[data-glyph]'), { at: arrive, duration: 640, from: 0.54 });
       tl.add(
-        card,
+        item(dest, '[data-dest-body]'),
         [
-          { transform: 'translate3d(0, 16px, 0)', opacity: 0 },
-          { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+          { transform: 'translate3d(-26px, 0, 0) scale(0.97)', opacity: 0 },
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
         ],
-        { delay: at + 120, duration: 780, easing: ease.expo, fill: 'forwards' },
+        { delay: arrive + 110, duration: 820, easing: ease.expo, fill: 'forwards' },
+      );
+      bloom(tl, item(dest, '.dest-bloom'), { at: arrive, duration: 900 });
+      breathe(tl, item(dest, '.dest-bloom'), {
+        at: arrive + 780,
+        duration: CUT.card3 - arrive - 780,
+        from: 1,
+        mid: 1.1,
+        to: 1.05,
+        peak: 0.44,
+        rest: 0.36,
+        fadeFrom: 0.42,
+        dx: 22,
+        dy: -12,
+      });
+    }
+
+    // Idle life in the glyphs, so three cards holding for two seconds are
+    // not three stickers.
+    blink(tl, item(audience, '[data-glyph-caret]'), CUT.audience + 2_050, CUT.card3);
+    all(audience, '[data-glyph-orbit]').forEach((ring, i) => {
+      const base = i === 0 ? 'rotateX(68deg)' : 'rotateX(68deg) rotateY(58deg)';
+      tl.add(ring, [{ opacity: 0 }, { opacity: 0.75 }], {
+        delay: CUT.audience + 2_200 + i * 120,
+        duration: 620,
+        easing: ease.expo,
+        fill: 'forwards',
+      });
+      tl.add(
+        ring,
+        [
+          { transform: `${base} rotate(0deg)` },
+          { transform: `${base} rotate(${i === 0 ? 210 : -180}deg)` },
+        ],
+        {
+          delay: CUT.audience + 2_200,
+          duration: CUT.card3 - CUT.audience - 2_200,
+          easing: ease.linear,
+          fill: 'forwards',
+        },
       );
     });
-    popIn(tl, all(primitives, '[data-endpoint]'), {
-      at: CUT.primitives + 1_020,
-      step: 88,
-      duration: 640,
-      base: 0.97,
+
+    // The beat's camera. In on the workflow first, then one continuous sweep
+    // right that widens as it goes, so the three audiences are already in
+    // frame by the time their wires reach them.
+    const fan = item(audience, '.fan');
+    frame(tl, fan, {
+      at: CUT.audience,
+      duration: 750,
+      from: SHOT.fanSource,
+      to: SHOT.fanHold,
+      easing: ease.travel,
     });
-    lift(tl, item(primitives, '[data-spot="webhooks"]'), CUT.primitives + 1_620, 2_180, 0.92);
-    emit(tl, item(primitives, '[data-spark="webhooks"]'), {
-      at: CUT.primitives + 1_820,
-      count: 8,
-      duration: 640,
-      radius: 84,
+    frame(tl, fan, {
+      at: CUT.audience + 750,
+      duration: 1_150,
+      from: SHOT.fanHold,
+      to: SHOT.fanMid,
+      easing: ease.travel,
     });
-    motes(tl, item(primitives, '[data-dust="primitives"]'), {
-      at: CUT.primitives,
-      duration: CUT.card3 - CUT.primitives,
-      count: 16,
+    frame(tl, fan, {
+      at: CUT.audience + 1_900,
+      duration: CUT.card3 - CUT.audience - 1_900,
+      from: SHOT.fanMid,
+      to: SHOT.fanWide,
+      easing: ease.travel,
+    });
+    motes(tl, item(audience, '[data-dust="audience"]'), {
+      at: CUT.audience,
+      duration: CUT.card3 - CUT.audience,
+      count: 18,
       seed: 3_307,
-      rise: 190,
+      rise: 210,
     });
 
     // ------------------------------------------------------- 13.5 — card
-    hardCut(tl, primitives, card3, CUT.card3);
+    hardCut(tl, audience, card3, CUT.card3);
     cardIn(tl, card3, CUT.card3, CUT.lifecycle - CUT.card3);
 
     // ------------------------------------------- 15.0 — the run lifecycle
@@ -636,89 +740,106 @@ mountStage({
 
     // ------------------------------------------------------- 31.5 — card
     hardCut(tl, keys, card6, CUT.card6);
-    cardIn(tl, card6, CUT.card6, CUT.ekme - CUT.card6);
+    cardIn(tl, card6, CUT.card6, CUT.acme - CUT.card6);
 
-    // ------------------------------------------------------- 33.0 — Ekme
-    // Hard cut into light. Eight seconds, one long settle, and the Edgaze
-    // credit is the smallest type in the film.
-    hardCut(tl, card6, ekme, CUT.ekme);
-    const ekmeRig = item(ekme, '[data-rig="ekme"]');
-    frame(tl, ekmeRig, {
-      at: CUT.ekme,
-      duration: 1_100,
-      from: SHOT.ekmeWide,
-      to: SHOT.ekmeSettle,
+    // ---------------------------------------------------- 33.0 — acme.app
+    // Hard cut into light. Eight seconds, and the slowest motion in the
+    // film: two long travel moves and nothing that snaps. The whole app
+    // stays in frame throughout, so the push is scale only, never a crop.
+    hardCut(tl, card6, acme, CUT.acme);
+    const acmeRig = item(acme, '[data-rig="acme"]');
+    frame(tl, acmeRig, {
+      at: CUT.acme,
+      duration: 1_600,
+      from: SHOT.acmeWide,
+      to: SHOT.acmeSettle,
       easing: ease.travel,
     });
-    frame(tl, ekmeRig, {
-      at: CUT.ekme + 1_100,
-      duration: CUT.card7 - CUT.ekme - 1_100,
-      from: SHOT.ekmeSettle,
-      to: SHOT.ekmePush,
+    frame(tl, acmeRig, {
+      at: CUT.acme + 1_600,
+      duration: CUT.card7 - CUT.acme - 1_600,
+      from: SHOT.acmeSettle,
+      to: SHOT.acmePush,
       easing: ease.travel,
     });
 
-    const ekmeCaret = item(ekme, '[data-ekme-caret]');
-    typeOut(tl, item(ekme, '[data-ekme-url]'), {
-      at: CUT.ekme + 500,
+    const acmeCaret = item(acme, '[data-acme-caret]');
+    typeOut(tl, item(acme, '[data-acme-url]'), {
+      at: CUT.acme + 560,
       text: 'https://example.com',
-      step: 46,
+      step: 48,
     });
-    blink(tl, ekmeCaret, CUT.ekme + 440, CUT.ekme + 1_760);
+    blink(tl, acmeCaret, CUT.acme + 500, CUT.acme + 1_960);
     tl.add(
-      item(ekme, '[data-ekme-credit]'),
+      item(acme, '[data-acme-credit]'),
       [
         { transform: 'translate3d(0, 6px, 0)', opacity: 0 },
         { transform: 'translate3d(0, 0, 0)', opacity: 1 },
       ],
-      { delay: CUT.ekme + 1_500, duration: 700, easing: ease.expo, fill: 'forwards' },
+      { delay: CUT.acme + 1_620, duration: 860, easing: ease.expo, fill: 'forwards' },
     );
 
-    press(tl, item(ekme, '[data-ekme-go]'), { at: CUT.ekme + 1_820 });
-    pressBurst(tl, item(ekme, '[data-ekme-press]'), {
-      at: CUT.ekme + 1_860,
+    press(tl, item(acme, '[data-acme-go]'), { at: CUT.acme + 1_960 });
+    pressBurst(tl, item(acme, '[data-acme-press]'), {
+      at: CUT.acme + 2_000,
       count: 8,
       gap: 22,
     });
 
-    // Ekme's own progress language: a thin sage bar, no Edgaze anywhere.
-    land(tl, item(ekme, '[data-ekme-progress]'), {
-      at: CUT.ekme + 2_020,
-      duration: 520,
+    // acme.app's own progress language: a thin sage bar, no Edgaze anywhere.
+    land(tl, item(acme, '[data-acme-progress]'), {
+      at: CUT.acme + 2_180,
+      duration: 640,
       from: 0.99,
     });
     tl.add(
-      item(ekme, '[data-ekme-bar]'),
+      item(acme, '[data-acme-bar]'),
       [
         { transform: 'scaleX(0.04)' },
-        { transform: 'scaleX(0.52)', offset: 0.44 },
+        { transform: 'scaleX(0.48)', offset: 0.42 },
         { transform: 'scaleX(1)' },
       ],
-      { delay: CUT.ekme + 2_080, duration: 2_600, easing: ease.travel, fill: 'forwards' },
+      { delay: CUT.acme + 2_240, duration: 3_100, easing: ease.travel, fill: 'forwards' },
     );
     const steps: Array<[number, string]> = [
-      [CUT.ekme + 2_080, 'Reading the page'],
-      [CUT.ekme + 3_000, 'Separating source from inference'],
-      [CUT.ekme + 3_940, 'Writing the brief'],
+      [CUT.acme + 2_240, 'Reading example.com'],
+      [CUT.acme + 3_300, 'Separating source from inference'],
+      [CUT.acme + 4_400, 'Writing the brief'],
     ];
     for (const [at, text] of steps) {
       tl.at(at, () => {
-        item(ekme, '[data-ekme-step]').textContent = text;
+        item(acme, '[data-acme-step]').textContent = text;
       });
     }
-    tl.add(item(ekme, '[data-ekme-progress]'), [{ opacity: 1 }, { opacity: 0 }], {
-      delay: CUT.ekme + 4_820,
-      duration: 420,
+    tl.add(item(acme, '[data-acme-progress]'), [{ opacity: 1 }, { opacity: 0 }], {
+      delay: CUT.acme + 5_400,
+      duration: 560,
       easing: ease.expo,
       fill: 'forwards',
     });
 
-    land(tl, item(ekme, '[data-ekme-brief]'), {
-      at: CUT.ekme + 3_060,
-      duration: 820,
-      from: 0.985,
+    // The brief builds: the sheet, then what it read, then what it concluded.
+    land(tl, item(acme, '[data-acme-brief]'), {
+      at: CUT.acme + 2_900,
+      duration: 980,
+      from: 0.988,
     });
-    all(ekme, '[data-brief-part]').forEach((part, i) => {
+    all(acme, '[data-shot]').forEach((shot, i) => {
+      tl.add(
+        shot,
+        [
+          { transform: 'translate3d(0, 10px, 0) scale(0.985)', opacity: 0 },
+          { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
+        ],
+        {
+          delay: CUT.acme + 3_260 + i * 190,
+          duration: 900,
+          easing: ease.expo,
+          fill: 'forwards',
+        },
+      );
+    });
+    all(acme, '[data-brief-part]').forEach((part, i) => {
       tl.add(
         part,
         [
@@ -726,25 +847,39 @@ mountStage({
           { transform: 'translate3d(0, 0, 0)', opacity: 1 },
         ],
         {
-          delay: CUT.ekme + 3_340 + i * 340,
-          duration: 720,
+          delay: CUT.acme + 3_860 + i * 400,
+          duration: 940,
           easing: ease.expo,
           fill: 'forwards',
         },
       );
     });
-    land(tl, item(ekme, '[data-brief-state]'), {
-      at: CUT.ekme + 5_200,
-      duration: 620,
-      from: 1.14,
+    // The scores fill after the section they sit in has settled.
+    all(acme, '.meter > b').forEach((bar, i) => {
+      tl.add(bar, [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
+        delay: CUT.acme + 5_700 + i * 150,
+        duration: 900,
+        easing: ease.travel,
+        fill: 'forwards',
+      });
+    });
+    land(tl, item(acme, '[data-brief-sources]'), {
+      at: CUT.acme + 6_300,
+      duration: 820,
+      from: 0.995,
+    });
+    land(tl, item(acme, '[data-brief-state]'), {
+      at: CUT.acme + 6_700,
+      duration: 760,
+      from: 1.1,
     });
 
     // ------------------------------------------------------- 41.0 — card
-    hardCut(tl, ekme, card7, CUT.card7);
+    hardCut(tl, acme, card7, CUT.card7);
     cardIn(tl, card7, CUT.card7, CUT.closing - CUT.card7);
 
     // ------------------------------- 42.5 — back into the space, wider
-    // Same geometry, same lights, pulled further back, and Ekme is in the
+    // Same geometry, same lights, pulled further back, and Acme is in the
     // depth now. The three panels finish inside 400ms of each other.
     hardCut(tl, card7, space, CUT.closing);
     for (const panel of [market, terminal, mcp]) panelHold(tl, panel, CUT.closing);
@@ -777,7 +912,7 @@ mountStage({
         dy: -14,
       });
     }
-    panelIn(tl, ekmePanel, CUT.closing + 260, 2_800);
+    panelIn(tl, acmePanel, CUT.closing + 260, 2_800);
 
     const finish: Array<[HTMLElement, number]> = [
       [item(market, '.try-pill'), CUT.closing + 1_180],

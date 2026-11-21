@@ -16,11 +16,13 @@
     <link rel="stylesheet" href="../../styles/scene-008.css" />
   </head>
   <body>
-    <div class="stage" data-scene="008">
+    <div class="stage" data-scene="008" data-tone="dark">
       <div class="camera">
         <!-- 0.0 — the claim -->
         <section class="screen card" data-screen="card-1">
-          <h1>Edgaze has a REST API.</h1>
+          <h1 data-glow="Edgaze has a REST API.">
+            Edgaze has a <span class="grad">REST API</span>.
+          </h1>
         </section>
 
         <!--
@@ -42,10 +44,10 @@
                 which flattens the preserve-3d subtree and drops the browser
                 back to paint order, so DOM order has to agree with depth or
                 the far MCP panel draws over the near terminal. Order here is
-                ascending z: ekme -660, market -150, mcp -130, terminal +175.
+                ascending z: acme -660, market -150, mcp -130, terminal +175.
               -->
-              <!-- fourth surface, second pass only: Ekme, small and light -->
-              <article class="panel" data-panel="ekme">
+              <!-- fourth surface, second pass only: Acme, small and light -->
+              <article class="panel" data-panel="acme">
                 <i class="panel-bloom"></i>
                 <div class="slab">
                   <i class="slab-back"></i>
@@ -53,8 +55,8 @@
                   <i class="slab-edge l"></i><i class="slab-edge r"></i>
                 </div>
                 <div class="panel-face">
-                  <div class="ui" data-ui="ekme-mini">
-                    <div class="mini-side"><i class="mini-mark"></i><b>ekme</b></div>
+                  <div class="ui" data-ui="acme-mini">
+                    <div class="mini-side"><i class="mini-mark"></i><b>acme.app</b></div>
                     <div class="mini-main">
                       <b>Company intelligence brief</b>
                       <span>example.com</span>
@@ -77,10 +79,112 @@
                   <div class="ui" data-ui="listing">
                     <div class="listing-card">
                       <div class="listing-thumb">
-                        <div class="thumb-bed">
-                          <div class="thumb-word">COMPANY INTELLIGENCE BRIEF</div>
-                          <i class="thumb-inset"></i>
-                          <i class="thumb-edge left"></i><i class="thumb-edge right"></i>
+                        <div class="thumb-art">
+                          <svg viewBox="0 0 300 169" aria-hidden="true">
+                            <defs>
+                              <linearGradient id="ti-edge" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" class="ti-cyan" />
+                                <stop offset="54%" class="ti-violet" />
+                                <stop offset="100%" class="ti-pink" />
+                              </linearGradient>
+                              <radialGradient id="ti-glow-a">
+                                <stop offset="0%" class="ti-cyan-soft" />
+                                <stop offset="100%" class="ti-none" />
+                              </radialGradient>
+                              <radialGradient id="ti-glow-b">
+                                <stop offset="0%" class="ti-pink-soft" />
+                                <stop offset="100%" class="ti-none" />
+                              </radialGradient>
+                            </defs>
+                            <ellipse
+                              cx="196"
+                              cy="62"
+                              rx="126"
+                              ry="104"
+                              fill="url(#ti-glow-a)"
+                            />
+                            <ellipse cx="74" cy="132" rx="112" ry="92" fill="url(#ti-glow-b)" />
+
+                            <path class="ti-wire" d="M58 57 C 100 57, 112 72, 150 72" />
+                            <path class="ti-wire" d="M58 85 C 100 85, 112 85, 150 85" />
+                            <path class="ti-wire" d="M58 113 C 100 113, 112 99, 150 99" />
+
+                            <rect class="ti-node" x="34" y="47" width="20" height="20" rx="6" />
+                            <rect class="ti-node" x="34" y="75" width="20" height="20" rx="6" />
+                            <rect
+                              class="ti-node"
+                              x="34"
+                              y="103"
+                              width="20"
+                              height="20"
+                              rx="6"
+                            />
+
+                            <rect
+                              class="ti-sheet"
+                              x="150"
+                              y="32"
+                              width="116"
+                              height="106"
+                              rx="10"
+                            />
+                            <rect
+                              class="ti-head"
+                              x="163"
+                              y="46"
+                              width="58"
+                              height="7"
+                              rx="3.5"
+                            />
+                            <rect
+                              class="ti-line"
+                              x="163"
+                              y="62"
+                              width="90"
+                              height="5"
+                              rx="2.5"
+                            />
+                            <rect
+                              class="ti-line"
+                              x="163"
+                              y="73"
+                              width="66"
+                              height="5"
+                              rx="2.5"
+                            />
+                            <rect
+                              class="ti-bar a"
+                              x="163"
+                              y="100"
+                              width="14"
+                              height="24"
+                              rx="3"
+                            />
+                            <rect
+                              class="ti-bar b"
+                              x="185"
+                              y="90"
+                              width="14"
+                              height="34"
+                              rx="3"
+                            />
+                            <rect
+                              class="ti-bar c"
+                              x="207"
+                              y="108"
+                              width="14"
+                              height="16"
+                              rx="3"
+                            />
+                            <rect
+                              class="ti-bar d"
+                              x="229"
+                              y="96"
+                              width="14"
+                              height="28"
+                              rx="3"
+                            />
+                          </svg>
                         </div>
                         <i class="thumb-scrim"></i>
                       </div>
@@ -121,6 +225,7 @@
                           <i class="press-host" data-market-press></i>
                           <i class="cursor" data-market-cursor></i>
                         </div>
+                        <div class="listing-fill"></div>
                         <div class="listing-code">/company-intel</div>
                       </div>
                     </div>
@@ -179,10 +284,7 @@
                     <div class="term-bar"><i></i><i></i><i></i><b>bash</b></div>
                     <pre
                       class="term-body"
-                    ><code><span class="sh">$</span> <span class="term-cmd" data-term-cmd>curl --fail-with-body --silent --show-error -X POST <span class="st">'https://api.edgaze.ai/v1/runs'</span> \
-  -H <span class="st">"Authorization: Bearer $EDGAZE_API_KEY"</span> \
-  -H <span class="st">'Content-Type: application/json'</span> \
-  --data <span class="st">'{"workflow":"550e8400-e29b-41d4-a716-446655440000","inputs":{"Company name":"Example Corp","Website URL":"https://example.com","Research goal":"Prepare for a first sales discovery call"}}'</span></span><i class="caret" data-term-caret></i></code></pre>
+                    ><code data-term-cmd><b class="term-line">curl --fail-with-body --silent --show-error -X POST <span class="st">'https://api.edgaze.ai/v1/runs'</span> \</b><b class="term-line">  -H <span class="st">"Authorization: Bearer $EDGAZE_API_KEY"</span> \</b><b class="term-line">  -H <span class="st">'Content-Type: application/json'</span> \</b><b class="term-line">  --data <span class="st">'{"workflow":"550e8400-e29b-41d4-a716-446655440000","inputs":{"Company name":"Example Corp","Website URL":"https://example.com"}}'</span><i class="caret" data-term-caret></i></b></code></pre>
                     <div class="term-out" data-term-out>
                       <span class="st">HTTP/2</span> <b>202</b>
                       <span class="dim">accepted · 7c9e6679-7425-40de-944b-e07fc1f90ae7</span>
@@ -199,136 +301,158 @@
 
         <!-- 8.0 -->
         <section class="screen card" data-screen="card-2">
-          <h1>One workflow. Three kinds of customer.</h1>
+          <h1 data-glow="One workflow. Three kinds of customer.">
+            One workflow. <span class="grad">Three kinds of customer</span>.
+          </h1>
         </section>
 
-        <!-- 9.8 — the real /docs/api overview: base URL, three primitives, reference -->
-        <section class="screen ui-screen" data-screen="primitives">
-          <div class="rig" data-rig="docs">
-            <div class="docs-page">
-              <div class="docs-col">
-                <div class="docs-block">
-                  <h2>Base URL</h2>
-                  <p>
-                    Pin this origin in your SDK or HTTP client. All paths below are relative to
-                    it.
-                  </p>
-                  <pre
-                    class="docs-code"
-                  ><code><span class="st">https://api.edgaze.ai/v1</span></code></pre>
+        <!--
+          9.8 — the payoff for the card before it. One published workflow on
+          the left, three wires painting out to the three audiences, each
+          carrying the accent of the surface it came from in the 2.2 beat:
+          buyers blue, developers amber, agents green. Every name here is a
+          real Edgaze surface — the marketplace, api.edgaze.ai/v1, and
+          mcp.edgaze.ai with its edgaze_run tool.
+        -->
+        <section class="screen audience" data-screen="audience">
+          <div class="fan">
+            <svg class="fan-wires" viewBox="0 0 1920 1080" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient
+                  id="fan-buyers"
+                  x1="616"
+                  y1="540"
+                  x2="1150"
+                  y2="250"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0%" class="stop-src" />
+                  <stop offset="100%" class="stop-blue" />
+                </linearGradient>
+                <linearGradient
+                  id="fan-developers"
+                  x1="616"
+                  y1="540"
+                  x2="1150"
+                  y2="540"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0%" class="stop-src" />
+                  <stop offset="100%" class="stop-amber" />
+                </linearGradient>
+                <linearGradient
+                  id="fan-agents"
+                  x1="616"
+                  y1="540"
+                  x2="1150"
+                  y2="830"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0%" class="stop-src" />
+                  <stop offset="100%" class="stop-green" />
+                </linearGradient>
+              </defs>
+              <path
+                class="fan-wire"
+                data-wire="buyers"
+                stroke="url(#fan-buyers)"
+                d="M 616 540 C 800 540, 900 250, 1150 250"
+              />
+              <path
+                class="fan-wire"
+                data-wire="developers"
+                stroke="url(#fan-developers)"
+                d="M 616 540 C 820 540, 950 540, 1150 540"
+              />
+              <path
+                class="fan-wire"
+                data-wire="agents"
+                stroke="url(#fan-agents)"
+                d="M 616 540 C 800 540, 900 830, 1150 830"
+              />
+            </svg>
+            <div class="trail-host" data-trail="buyers-a"></div>
+            <div class="trail-host" data-trail="developers-a"></div>
+            <div class="trail-host" data-trail="agents-a"></div>
+            <div class="trail-host" data-trail="buyers-b"></div>
+            <div class="trail-host" data-trail="developers-b"></div>
+            <div class="trail-host" data-trail="agents-b"></div>
+
+            <div class="source">
+              <i class="source-aura" data-source-aura></i>
+              <div class="source-tile" data-source-tile>
+                <div class="source-graph">
+                  <i class="sg-node blue" data-sg></i><i class="sg-wire"></i
+                  ><i class="sg-node violet" data-sg></i><i class="sg-wire"></i
+                  ><i class="sg-node green" data-sg></i>
                 </div>
-                <div class="docs-block">
-                  <h2>How it works</h2>
-                  <p>Three primitives. Most integrations only need these.</p>
-                  <div class="concepts">
-                    <article class="concept" data-concept="keys">
-                      <i class="concept-icon" data-concept-icon>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <circle cx="7.5" cy="15.5" r="4.5" />
-                          <path d="m21 3-9.6 9.6M16 6.5 19.5 10M13 9.5l3.5 3.5" />
-                        </svg>
-                      </i>
-                      <b>API keys</b>
-                      <p>
-                        Scoped secrets with optional spend caps. One header on every request.
-                      </p>
-                      <span class="concept-link">Read more →</span>
-                    </article>
-                    <article class="concept" data-concept="runs">
-                      <i class="concept-icon" data-concept-icon>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M13 2 3.5 13.5H11l-1 8.5L20.5 10H13z" />
-                        </svg>
-                      </i>
-                      <b>Runs</b>
-                      <p>
-                        Async execution. POST to start, GET to poll, events for step progress.
-                      </p>
-                      <span class="concept-link">Read more →</span>
-                    </article>
-                    <article class="concept" data-concept="webhooks">
-                      <i class="concept-icon" data-concept-icon>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path
-                            d="M9.7 7.6a3.4 3.4 0 1 1 5 3.3l2.6 4.4M14.9 20a3.4 3.4 0 1 1 1.2-5.6M6.6 11.4A3.4 3.4 0 1 0 9 20h5"
-                          />
-                        </svg>
-                      </i>
-                      <b>Webhooks</b>
-                      <p>Signed callbacks on completion. Skip the poll loop in production.</p>
-                      <span class="concept-link">Read more →</span>
-                    </article>
-                  </div>
-                </div>
-                <div class="docs-block">
-                  <h2>Reference</h2>
-                  <p>
-                    Guides for auth, billing, and webhooks. Endpoint pages include a playground
-                    and copy-paste snippets.
-                  </p>
-                  <ul class="endpoints">
-                    <li data-endpoint>
-                      <span class="mb get">GET</span>
-                      <div>
-                        <b>List Workflows</b>
-                        <p>Discover workflows your key can access</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                    <li data-endpoint>
-                      <span class="mb get">GET</span>
-                      <div>
-                        <b>Get Workflow</b>
-                        <p>Full schema, pricing, and example request</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                    <li data-endpoint>
-                      <span class="mb post">POST</span>
-                      <div>
-                        <b>Create Run</b>
-                        <p>Start an async workflow run</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                    <li data-endpoint>
-                      <span class="mb get">GET</span>
-                      <div>
-                        <b>Get Run</b>
-                        <p>Poll status, outputs, and charge</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                    <li data-endpoint>
-                      <span class="mb get">GET</span>
-                      <div>
-                        <b>List Run Events</b>
-                        <p>Ordered step-level events</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                    <li data-endpoint>
-                      <span class="mb post">POST</span>
-                      <div>
-                        <b>Cancel Run</b>
-                        <p>Stop an in-flight run</p>
-                      </div>
-                      <i class="chev-r"></i>
-                    </li>
-                  </ul>
-                </div>
+                <b>Company Intelligence Brief</b>
+                <span>/company-intel</span>
               </div>
             </div>
-            <div class="spot" data-spot="webhooks"></div>
-            <div class="spark" data-spark="webhooks"></div>
+
+            <article class="dest" data-dest="buyers">
+              <i class="dest-bloom"></i>
+              <div class="dest-body" data-dest-body>
+                <i class="glyph" data-glyph>
+                  <svg viewBox="0 0 72 72" aria-hidden="true">
+                    <circle cx="46" cy="27" r="8" />
+                    <path d="M33 51c0-7.2 5.8-12 13-12s13 4.8 13 12" />
+                    <circle cx="26" cy="27" r="8" />
+                    <path d="M13 51c0-7.2 5.8-12 13-12s13 4.8 13 12" />
+                  </svg>
+                </i>
+                <div class="dest-text">
+                  <b>Buyers</b>
+                  <span>Marketplace</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="dest" data-dest="developers">
+              <i class="dest-bloom"></i>
+              <div class="dest-body" data-dest-body>
+                <i class="glyph" data-glyph>
+                  <svg viewBox="0 0 72 72" aria-hidden="true">
+                    <rect x="8" y="15" width="56" height="42" rx="7" />
+                    <path d="M21 31l6.5 6.5L21 44" />
+                    <path d="M35 44h13" />
+                  </svg>
+                  <i class="glyph-caret" data-glyph-caret></i>
+                </i>
+                <div class="dest-text">
+                  <b>Developers</b>
+                  <span>api.edgaze.ai/v1</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="dest" data-dest="agents">
+              <i class="dest-bloom"></i>
+              <div class="dest-body" data-dest-body>
+                <i class="glyph" data-glyph>
+                  <svg viewBox="0 0 72 72" aria-hidden="true">
+                    <path d="M36 9l23.5 13.5v27L36 63 12.5 49.5v-27z" />
+                    <circle cx="36" cy="36" r="6.5" />
+                  </svg>
+                  <i class="glyph-orbit a" data-glyph-orbit></i>
+                  <i class="glyph-orbit b" data-glyph-orbit></i>
+                </i>
+                <div class="dest-text">
+                  <b>Agents</b>
+                  <span>mcp.edgaze.ai</span>
+                </div>
+              </div>
+            </article>
           </div>
-          <div class="dust" data-dust="primitives"></div>
+          <div class="dust" data-dust="audience"></div>
           <div class="vignette"></div>
         </section>
 
-        <!-- 13.5 -->
         <section class="screen card" data-screen="card-3">
-          <h1>Start a run. Get the result.</h1>
+          <h1 data-glow="Start a run. Get the result.">
+            Start a run. <span class="grad">Get the result</span>.
+          </h1>
         </section>
 
         <!-- 15.0 — the lifecycle. One shot, no cuts. -->
@@ -417,7 +541,9 @@
 
         <!-- 22.0 -->
         <section class="screen card" data-screen="card-4">
-          <h1>Same run. Same price. Same engine.</h1>
+          <h1 data-glow="Same run. Same price. Same engine.">
+            Same run. Same price. <span class="grad">Same engine</span>.
+          </h1>
         </section>
 
         <!-- 23.5 — billing parity, both halves real UI -->
@@ -467,7 +593,9 @@
 
         <!-- 27.0 -->
         <section class="screen card" data-screen="card-5">
-          <h1>Spend caps enforced before the run starts.</h1>
+          <h1 data-glow="Spend caps enforced before the run starts.">
+            Spend caps enforced <span class="grad">before the run starts</span>.
+          </h1>
         </section>
 
         <!-- 28.3 — the real developer console key modal -->
@@ -547,82 +675,182 @@
 
         <!-- 31.5 -->
         <section class="screen card" data-screen="card-6">
-          <h1>Someone else's product.</h1>
+          <h1 data-glow="Their product. Your workflow inside it.">
+            Their product. <span class="grad">Your workflow inside it</span>.
+          </h1>
         </section>
 
-        <!-- 33.0 — Ekme. Light mode, warm, entirely its own design language. -->
-        <section class="screen ekme-screen" data-screen="ekme">
-          <div class="rig" data-rig="ekme">
-            <div class="ekme">
-              <aside class="ekme-side">
-                <div class="ekme-brand"><i></i><b>ekme</b></div>
+        <!--
+          33.0 — acme.app. The only light frame in the film, and the only one
+          that is not Edgaze. Its own type, its own sage accent, its own
+          progress language. The brief it renders is the output shape of the
+          Company Intelligence tutorial workflow: the five section headings
+          come from that workflow's own prompt. Example Corp is the docs'
+          placeholder company, so its content is illustrative by definition.
+
+          The page thumbnails and the signal bars are drawn, not photographs.
+          Drop real files into src/assets/photos and they can take their place.
+        -->
+        <section class="screen acme-screen" data-screen="acme">
+          <div class="rig" data-rig="acme">
+            <div class="acme">
+              <aside class="acme-side">
+                <div class="acme-brand">
+                  <i></i><b>acme<span>.app</span></b>
+                </div>
                 <nav>
-                  <span class="on">Research</span><span>Companies</span><span>Saved briefs</span
-                  ><span>Settings</span>
+                  <span class="on">Research</span><span>Companies</span><span>Saved</span>
                 </nav>
-                <div class="ekme-who"><i>AK</i><span>Fieldwork workspace</span></div>
+                <div class="acme-who"><i>AK</i><span>Fieldwork</span></div>
               </aside>
-              <main class="ekme-main">
-                <header class="ekme-head">
-                  <h1>New research brief</h1>
-                  <p>Paste a company page. We read it and write up what is actually there.</p>
-                </header>
-                <div class="ekme-query">
-                  <div class="ekme-input">
-                    <i class="link"></i><span data-ekme-url></span
-                    ><i class="caret" data-ekme-caret></i>
+              <main class="acme-main">
+                <div class="acme-query">
+                  <div class="acme-input">
+                    <i class="link"></i><span data-acme-url></span
+                    ><i class="caret" data-acme-caret></i>
                   </div>
-                  <span class="ekme-go" data-ekme-go>Research</span>
-                  <i class="press-host" data-ekme-press></i>
+                  <span class="acme-go" data-acme-go>Research</span>
+                  <i class="press-host" data-acme-press></i>
                 </div>
-                <div class="ekme-credit" data-ekme-credit>Powered by Edgaze</div>
-                <div class="ekme-progress" data-ekme-progress>
-                  <i class="bar"><b data-ekme-bar></b></i>
-                  <span data-ekme-step>Reading the page</span>
+                <div class="acme-credit" data-acme-credit>Powered by Edgaze</div>
+                <div class="acme-progress" data-acme-progress>
+                  <i class="bar"><b data-acme-bar></b></i>
+                  <span data-acme-step>Reading the page</span>
                 </div>
-                <article class="ekme-brief" data-ekme-brief>
-                  <header>
-                    <div>
-                      <span>example.com</span>
-                      <h2>Company intelligence brief</h2>
+
+                <article class="acme-brief" data-acme-brief>
+                  <header class="brief-top">
+                    <div class="brief-id">
+                      <i class="brief-favicon">E</i>
+                      <div>
+                        <h2>Example Corp</h2>
+                        <span>example.com · Company intelligence brief</span>
+                      </div>
                     </div>
                     <b data-brief-state>Complete</b>
                   </header>
-                  <section data-brief-part>
-                    <h3>Company summary</h3>
-                    <p>
-                      Example Corp publishes one page at example.com. The retrieved page is a
-                      reserved-domain notice, not a product or marketing site.
-                    </p>
-                  </section>
-                  <section data-brief-part>
-                    <h3>Products and target customers</h3>
-                    <p>
-                      The source names no products, pricing, or customer segments. Nothing on
-                      the page supports a segment claim.
-                    </p>
-                  </section>
-                  <section data-brief-part>
-                    <h3>Likely business priorities</h3>
-                    <p>
-                      Not evidenced by this source. Inference only, and weak: retrieve the live
-                      company page before relying on it.
-                    </p>
-                  </section>
-                  <section data-brief-part>
-                    <h3>Three evidence-backed sales hypotheses</h3>
-                    <p>
-                      None are supported. The retrieved page carries no commercial signal to
-                      build a hypothesis on.
-                    </p>
-                  </section>
-                  <section data-brief-part>
-                    <h3>Open questions and verification risks</h3>
-                    <p>
-                      Confirm the correct domain, then run again. Treat every inference above as
-                      unverified against a primary source.
-                    </p>
-                  </section>
+
+                  <div class="brief-shots" data-brief-shots>
+                    <figure class="shot-tile" data-shot>
+                      <i class="page">
+                        <b class="chrome-bar"><u></u><u></u><u></u></b>
+                        <b class="blk hero"></b>
+                        <b class="blk line w1"></b>
+                        <b class="blk line w2"></b>
+                        <b class="blk cta"></b>
+                        <b class="blk card c1"></b>
+                        <b class="blk card c2"></b>
+                      </i>
+                      <figcaption>Homepage</figcaption>
+                    </figure>
+                    <figure class="shot-tile" data-shot>
+                      <i class="page">
+                        <b class="chrome-bar"><u></u><u></u><u></u></b>
+                        <b class="blk title"></b>
+                        <b class="blk plan p1"></b>
+                        <b class="blk plan p2 on"></b>
+                        <b class="blk plan p3"></b>
+                      </i>
+                      <figcaption>Pricing</figcaption>
+                    </figure>
+                    <figure class="shot-tile" data-shot>
+                      <i class="page">
+                        <b class="chrome-bar"><u></u><u></u><u></u></b>
+                        <b class="blk rail"></b>
+                        <b class="blk title docs"></b>
+                        <b class="blk line d1"></b>
+                        <b class="blk line d2"></b>
+                        <b class="blk code"></b>
+                      </i>
+                      <figcaption>Docs</figcaption>
+                    </figure>
+                  </div>
+                  <div class="brief-grid">
+                    <div class="brief-col">
+                      <section data-brief-part>
+                        <h3>Company summary</h3>
+                        <p>
+                          Example Corp sells a hosted integration platform to mid-market
+                          operations teams. The site positions on time-to-first-integration and
+                          names no enterprise tier.
+                        </p>
+                        <div class="chips">
+                          <span>Integration platform</span><span>Mid-market</span
+                          ><span>Self-serve</span>
+                        </div>
+                      </section>
+                      <section data-brief-part>
+                        <h3>Products and target customers</h3>
+                        <ul>
+                          <li><i>Sourced</i>Three plans, all self-serve, no sales contact.</li>
+                          <li><i>Sourced</i>Docs assume an in-house developer.</li>
+                          <li><i>Inferred</i>Ops leads buy; engineering implements.</li>
+                        </ul>
+                      </section>
+                      <section data-brief-part>
+                        <h3>Likely business priorities</h3>
+                        <ul>
+                          <li><i>Inferred</i>Shorten onboarding to first working sync.</li>
+                          <li><i>Inferred</i>Move upmarket without a sales team.</li>
+                          <li><i>Sourced</i>Hiring two support engineers.</li>
+                        </ul>
+                      </section>
+                    </div>
+
+                    <div class="brief-col">
+                      <section data-brief-part>
+                        <h3>Three evidence-backed sales hypotheses</h3>
+                        <ol>
+                          <li>
+                            <em>01</em>
+                            <div>
+                              Self-serve funnel leaks at the credential step.
+                              <b class="conf high">High</b>
+                            </div>
+                          </li>
+                          <li>
+                            <em>02</em>
+                            <div>
+                              No enterprise tier caps deal size.
+                              <b class="conf med">Medium</b>
+                            </div>
+                          </li>
+                          <li>
+                            <em>03</em>
+                            <div>
+                              Support load is the constraint on growth.
+                              <b class="conf low">Low</b>
+                            </div>
+                          </li>
+                        </ol>
+                      </section>
+                      <section data-brief-part>
+                        <h3>Open questions and verification risks</h3>
+                        <div class="signal">
+                          <div class="signal-row">
+                            <span>Pricing</span><i class="meter"><b style="width: 84%"></b></i>
+                          </div>
+                          <div class="signal-row">
+                            <span>Customers</span
+                            ><i class="meter"><b style="width: 41%"></b></i>
+                          </div>
+                          <div class="signal-row">
+                            <span>Headcount</span
+                            ><i class="meter"><b style="width: 22%"></b></i>
+                          </div>
+                        </div>
+                        <p class="brief-note">
+                          Headcount and revenue are not on the site. Verify against a primary
+                          source before quoting.
+                        </p>
+                      </section>
+                    </div>
+                  </div>
+
+                  <footer class="brief-sources" data-brief-sources>
+                    <span>3 pages read</span><span>example.com/pricing</span
+                    ><span>example.com/docs</span><span>example.com/careers</span>
+                  </footer>
                 </article>
               </main>
             </div>
@@ -631,11 +859,13 @@
         </section>
 
         <!-- 41.0 -->
-        <section class="screen card" data-screen="card-7"><h1>Publish once.</h1></section>
+        <section class="screen card" data-screen="card-7">
+          <h1 data-glow="Publish once.">Publish <span class="grad">once</span>.</h1>
+        </section>
 
         <!-- 46.0 -->
         <section class="screen card" data-screen="closing">
-          <h1>edgaze.ai/developer</h1>
+          <h1 data-glow="edgaze.ai/developer">edgaze.ai<span class="grad">/developer</span></h1>
         </section>
       </div>
       <div class="grain"></div>
