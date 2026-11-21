@@ -4,6 +4,13 @@ Clips live on this machine only. Do not commit video.
 
 | File | Scene | Date | Bytes |
 | --- | --- | --- | --- |
+| 015-screening-spotlight-wide-20261121-091307.mp4 | 015-screening-spotlight-wide | 2026-11-21 09:18 | 99709261 |
+| natural-skin-retouch-run-20261119-1080p.mp4 | natural-skin-retouch-run-20261119-1080p.mp4 | 2026-11-19 15:38 | 925037 |
+| natural-skin-retouch-run-20261119.mp4 | natural-skin-retouch-run-20261119.mp4 | 2026-11-19 15:38 | 2675599 |
+| 009-outcome-pricing-20260923-131607.mp4 | 009-outcome-pricing | 2026-09-23 13:22 | 29987207 |
+| 009-outcome-pricing-20260923-115541-1080p.mp4 | 009-outcome-pricing-20260923-115541-1080p.mp4 | 2026-09-23 12:02 | 17510472 |
+| 009-outcome-pricing-20260923-115541.mp4 | 009-outcome-pricing | 2026-09-23 12:01 | 21403980 |
+| 008-rest-api-20260913-124615.mp4 | 008-rest-api | 2026-09-13 12:52 | 43347518 |
 | 007-docs-platform-20260828-150557.mp4 | 007-docs-platform | 2026-08-28 15:09 | 25719768 |
 | 007-docs-platform-20260828-143619.mp4 | 007-docs-platform | 2026-08-28 14:39 | 24671730 |
 | 007-docs-platform-20260828-143313.mp4 | 007-docs-platform | 2026-08-28 14:36 | 24691505 |
